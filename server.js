@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const dotenv = require('dotenv');
 const { Server } = require('socket.io');
+const message = require('./sockets/message');
 
 dotenv.config();
 
@@ -18,9 +19,7 @@ const ioOptions = {
 
 const io = new Server(server, ioOptions);
 
-io.on('connection', (socket) => {
-  console.log(`New connection. Id: ${socket.id}`);
-});
+message(io);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
