@@ -4,14 +4,14 @@ body {
 }
 
 h1 {
-  text-align: center;
-  padding: 10px;
   border: 2px solid black;
+  padding: 10px;
+  text-align: center;
 }
 
 section > h2 {
-  text-align: center;
   padding: 10px;
+  text-align: center;
 }
 
 section {
@@ -20,15 +20,15 @@ section {
 }
 
 aside {
-  width: 40%;
   border: 2px solid black;
+  width: 40%;
 }
 
 .form-message {
-  position: fixed;
   bottom: 0;
-  width: 100%;
   margin: auto;
+  position: fixed;
+  width: 100%;
 }
 
 .form-message > input {
