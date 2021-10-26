@@ -17,8 +17,8 @@
       </div>
       <div class="write-name">
         <form id="user">
-          <input type="text" name="userName" class="form" placeholder="Nome" id="user-name">
-          <button id="user-btn" type="submit">Enviar</button>
+          <input type="text" name="userName" class="form" placeholder="Nome" id="user-name" data-testid="nickname-box">
+          <button id="user-btn" type="submit" data-testid="nickname-button">Enviar</button>
         </form>
       </div>
       <div class="participants-list"></div>
@@ -28,8 +28,8 @@
       <div class="chat"></div>
       <div class="write">
         <form id="message">
-          <input type="text" name="message" id="messageInput" placeholder="Mensagem">
-          <button id="message-btn" type="submit">Enviar</button>
+          <input type="text" name="message" id="messageInput" placeholder="Mensagem" data-testid="message-box">
+          <button id="message-btn" type="submit" data-testid="send-button">Enviar</button>
         </form>
       </div>
     </div>
@@ -68,7 +68,7 @@
 
     const createMessage = (input) => {
       const clientMessage = document.createElement('p');
-      clientMessage.innerText = input
+      clientMessage.innerHTML = `<p data-testid = "message">${input}</p>`;
       chat.appendChild(clientMessage);
     }
 
