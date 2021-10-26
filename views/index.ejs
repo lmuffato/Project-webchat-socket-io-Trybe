@@ -7,6 +7,22 @@
   <title>WebChat</title>
 </head>
 <body>
-  
+  <form >
+    <input 
+      type="text"
+      name="message-box"
+      class="message-box"
+      data-testid="message-box"
+      placeholder="Digite a mensagem"
+    />
+    <button
+      type="submit"
+      name="send-button"
+      class="send-button"
+      data-testid="send-button"
+    />Enviar Mensagem
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
