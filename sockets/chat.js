@@ -6,6 +6,10 @@ module.exports = (io) => io.on('connection', (socket) => {
     console.log(`Mensagem ${message}`);
     io.emit('serverMessage', message);
   });
+  socket.on('ping', () => {
+    console.log('o Usuario emitiu um ping');
+    io.emit('serverMessage', 'Algum Usuario emitiu um ping');
+  });
 
   socket.on('disconnect', () => {
     socket.broadcast.emit('serverMessage', `Xiii! ${socket.id} acabou de se desconectar! :(`);

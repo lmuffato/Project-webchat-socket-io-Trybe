@@ -17,7 +17,7 @@ const io = require('socket.io')(http, {
 app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/index.html`);
+  res.sendFile(`${__dirname}/public/index.html`);
 });
 
 http.listen(3000, () => {
