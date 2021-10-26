@@ -26,12 +26,12 @@
 
       socket.emit('message', {
         chatMessage: msgInput.value,
-        nickName: 'abc',
+        nickname: 'abc',
       })
     });
 
     socket.on('message', (message) => {
-      console.log(`Mensagem recebida: ${message}`);
+      console.log(`${message}`);
     })
   </script>  
 </body>
