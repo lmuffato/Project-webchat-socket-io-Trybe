@@ -1,4 +1,3 @@
-// Faça seu código aqui
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -18,7 +17,7 @@ io.on('connection', (socket) => {
   });
   console.log(`Usuário conectado. ID: ${socket.id} `);
   socket.on('disconnect', () => {
-    console.log(`usuario ${socket.id} desconectado`)
+    console.log(`usuario ${socket.id} desconectado`);
   });
 });
 
