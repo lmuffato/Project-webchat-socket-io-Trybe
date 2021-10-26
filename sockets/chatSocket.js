@@ -9,8 +9,11 @@ module.exports = (io) => {
     // io.emit('updateUsernameList', newUsername);
     });
     socket.on('message', (message) => {
-      console.log(message);
-      io.emit('message', message);
+      const date = new Date();
+      const timestamp = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()
+      } ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      const newMessage = `${message.nickname}@${timestamp}: ${message.chatMessage}`;
+      io.emit('message', newMessage);
     });
   });  
 };

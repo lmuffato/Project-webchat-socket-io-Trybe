@@ -68,12 +68,12 @@
 
     const createMessage = (input) => {
       const clientMessage = document.createElement('p');
-      clientMessage.innerText = `${input.nickname}@${input.timestamp}: ${input.chatMessage}`
+      clientMessage.innerText = input
       chat.appendChild(clientMessage);
     }
 
-    socket.on('message', (receivedMessage) => {
-      createMessage(receivedMessage);
+    socket.on('message', (message) => {
+      createMessage(message);
     })
   </script>
 </body>
