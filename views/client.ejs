@@ -10,7 +10,7 @@
 <body>
   <input type="text" placeholder="Insira seu nickname"/>
   <button>Slavar</button>
-  <div name="nickname">
+  <div>
   </div>
 
   <form>
@@ -28,11 +28,20 @@
         userMessage.value = '';
         return false;
       });
-      
+
+      const createMessage = (message) => {
+        const messageUl = document.querySelector('#messages');
+        const li = document.createElement('li');
+        li.innerText = message;
+        messageUl.appendChild(li);
+      }
+
+      socket.on('serverMessage', ({message}) => createMessage(message));
+
     </script>
 
-  <div name="messages">
-    <ul>
+  <div>
+    <ul id="messages">
 
     </ul>
   </div>

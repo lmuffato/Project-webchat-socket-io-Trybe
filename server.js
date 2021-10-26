@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
   console.log(`Feita a conexão! Novo usuário conectado ${socket.id}`);
 
   socket.on('message', (msg) => {
-    console.log(msg);
+    io.emit('serverMessage', { message: msg });
   });
 });
 
