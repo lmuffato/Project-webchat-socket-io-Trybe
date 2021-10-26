@@ -1,25 +1,20 @@
-const moment = require('moment');
-const Model = require('../models/message');
+const Helpers = require('../utils/helpers');
 
 const allUsers = {};
 
 const webchat = (io) => {
   io.on('connection', async (socket) => {
-    socket.emit('allMessages', await Model.getAll());
+    socket.emit('allMessages', await Helpers.allMessages());
 
     allUsers[socket.id] = socket.id.substring(0, 16);
     io.emit('allUsers', Object.values(allUsers));
   
-    socket.on('nicknameChange', (data) => {
+    socket.on('nickname', (data) => {
       allUsers[socket.id] = data;
       io.emit('allUsers', Object.values(allUsers));
     });
   
-    socket.on('message', async ({ nickname, chatMessage }) => {
-      const timestamp = moment().format('DD-MM-yyyy HH:mm:ss A');
-      await Model.create({ message: chatMessage, nickname, timestamp });
-      io.emit('message', `${timestamp} - ${nickname}: ${chatMessage}`);
-    });
+    socket.on('message', async (data) => io.emit('message', await Helpers.generetorMessage(data)));
   
     socket.on('disconnect', () => {
       delete allUsers[socket.id];

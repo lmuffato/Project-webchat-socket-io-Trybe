@@ -36,7 +36,7 @@ btnNickName.addEventListener('click', (ev) => {
   ev.preventDefault();
   if (inputNick.value) {
     nickname = inputNick.value;
-    client.emit('nicknameChange', nickname);
+    client.emit('nickname', nickname);
     inputNick.value = '';
   }
 });
@@ -51,7 +51,8 @@ client.on('allUsers', (data) => {
 });
 
 client.on('allMessages', (data) => {
-  data.forEach(({ message, nickname: nick, timestamp }) => {
+  data.forEach((dataMessage) => {
+    const { message, nickname: nick, timestamp } = dataMessage;
     const formattedMsg = `${timestamp} - ${nick}: ${message}`;
     listMessages.appendChild(createListMessage(formattedMsg));
   });
