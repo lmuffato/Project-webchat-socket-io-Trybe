@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script> -->
+  <!-- <script src="/views/scripts.js"></script> -->
+  <script src="/socket.io/socket.io.js"></script>
+  <title>Web Chat</title>
+</head>
+<body>
+  <h1>Bem vindo ao nosso chat</h1>
+  <script>
+    const socket = io('http://localhost:3000'); 
+    // socket.customId = 'CLIENTE-x';
+
+    // socket.on('refreshCurrentVotes', (data) => {
+    //   console.log(socket.customId);
+    //   console.log(data);
+    // });
+  </script>
+</body>
+</html>
