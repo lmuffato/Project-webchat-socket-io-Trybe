@@ -36,10 +36,12 @@
   </main>
   <script>
     const socket = io('http://localhost:3000');
-
+    
     const userForm = document.getElementById('user');
     const message = document.getElementById('message');
+    const messageInput = document.getElementById('messageInput');
     const username = document.getElementById('username-name');
+    const chat = document.querySelector('.chat')
 
     const updateusername = (data) => {
       username.innerHTML = data;
@@ -58,10 +60,21 @@
       const message = {
         chatMessage: event.target[0].value,
         nickname: username.innerHTML,
-        timestamp: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+        timestamp: `${date.getDay()}-${date.getMonth()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
       }
       socket.emit('message', message);
+      messageInput.value = ''
     });
+
+    const createMessage = (input) => {
+      const clientMessage = document.createElement('p');
+      clientMessage.innerText = `${input.nickname}@${input.timestamp}: ${input.chatMessage}`
+      chat.appendChild(clientMessage);
+    }
+
+    socket.on('message', (receivedMessage) => {
+      createMessage(receivedMessage);
+    })
   </script>
 </body>
 </html>
