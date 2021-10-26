@@ -11,14 +11,68 @@
 </head>
 <body>
   <h1>Bem vindo ao nosso chat</h1>
+  <main>
+    <div class="participants">
+      <header>Participantes do grupo</header>
+      <div class="write-name">
+        <form id="user">
+          <input type="text" name="userName" class="form" placeholder="Nome">
+          <button id="btn" type="submit">Enviar</button>
+        </form>
+      </div>
+      <div class="participants-list"></div>
+    </div>
+    <div class="chat-frame">
+      <header>Conversa</header>
+      <div class="chat"></div>
+      <div class="write">
+        <form id="message">
+          <input type="text" name="message" id="messageInput" placeholder="Mensagem">
+          <button id="btn" type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </main>
   <script>
-    const socket = io('http://localhost:3000'); 
-    // socket.customId = 'CLIENTE-x';
+    const socket = io('http://localhost:3000');
 
-    // socket.on('refreshCurrentVotes', (data) => {
-    //   console.log(socket.customId);
-    //   console.log(data);
-    // });
+    const user = document.getElementById('user');
+    const message = document.getElementById('message');
+
+    user.onSubmit((event) => {
+      event.preventDefault();
+      console.log(event);
+    })
+
+    message.onSubmit((event) => {
+      event.preventDefault();
+      console.log(event);
+    })
+
+
+    // function renderMessage(message) {
+    // $('.messages')
+    // .append('<div class="message"><strong>' + message.author + '</strong>: ' + message.message + '</div>');
+    // } 
+
+  //   $('#chat').submit(function(event) {
+  //   event.preventDefault();
+  //   let author = $('input[name=userName]').val()
+  //   let message = $('input[name=message]').val()
+
+  //   if (author.length && message.length) {
+  //   let messageobject = {
+  //   author: author,
+  //   message: message,
+  //   };
+
+  // renderMessage(messageobject);
+
+  // socket.emit('sendMessage', messageobject);
+
+  //   socket.on('refreshData', (data) => {
+  //     console.log(data);
+  //   });
   </script>
 </body>
 </html>
