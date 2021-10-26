@@ -13,7 +13,11 @@ const io = require('socket.io')(server, {
   },
 });
 
+const allUsers = [];
+
 io.on('connection', (socket) => {
+  allUsers.push(socket.id.substring(0, 16));
+  io.emit('newUser', allUsers);
   socket.on('message', ({ chatMessage, nickname }) => {
     const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
     io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
