@@ -16,6 +16,7 @@ section > h2 {
 
 section {
   border: 2px solid black;
+  width: 60%;
 }
 
 aside {

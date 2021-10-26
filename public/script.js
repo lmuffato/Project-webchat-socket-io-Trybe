@@ -47,7 +47,10 @@ client.on('message', (data) => {
 
 client.on('allUsers', (data) => {
   listUsers.innerHTML = '';
-  data.forEach((user) => listUsers.append(createListUsers(user)));
+  if (!nickname) nickname = data[data.length - 1];
+  listUsers.appendChild(createListUsers(nickname));
+  const users = data.filter((user) => user !== nickname);
+  users.forEach((user) => listUsers.appendChild(createListUsers(user)));
 });
 
 client.on('allMessages', (data) => {
