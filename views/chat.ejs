@@ -7,6 +7,28 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <section>
+    <!-- mensagens vem aqui -->
+  </section>
+  <form>
+    <input
+      data-testid="message-box"
+      type="text"
+      name="message-box"
+      placeholder="Digite sua mensagem"
+      autocomplete="off"
+    />
+    <button type="submit" data-testid="send-button">
+      Enviar
+    </button>
+  </form>
+  <form>
+    <input data-testid="nickname-box" type="text" />
+    <button data-testid="nickname-button">
+      Salvar nickname
+    </button>
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
 </body>
 </html>

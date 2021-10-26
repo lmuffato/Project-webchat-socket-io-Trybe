@@ -2,9 +2,9 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(socket);
 
-    socket.on('clientMessage', async (message) => {
+    socket.on('message', async (data) => {
       // await model de chat,
-      io.emit('refreshChat', message);
+      io.emit('refreshChat', data.chatMessage); // enviar ao front mensagem já formatada
     });
   }); 
 };
