@@ -19,11 +19,14 @@ const ioOptions = {
 const io = new Server(server, ioOptions);
 
 io.on('connection', (socket) => {
-  console.log('New connection. Id: ' + socket.id);
+  console.log(`New connection. Id: ${socket.id}`);
 });
 
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 app.get('/test', (_req, res) => {
-  res.status(200).send('OK');
+  res.status(200).render('test-client');
 });
 
 server.listen(PORT, () => {
