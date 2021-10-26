@@ -16,7 +16,7 @@ const allMessages = async () => {
 
 const listUsers = async () => Object.values(allUsers);
 
-const disconnect = (socket, io) => {
+const disconnect = (socket, io) => { 
   delete allUsers[socket.id];
   io.emit('allUsers', listUsers());
 };
