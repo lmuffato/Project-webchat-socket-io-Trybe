@@ -41,12 +41,18 @@ btnNickName.addEventListener('click', (ev) => {
   }
 });
 
-client.on('message', (formattedMsg) => {
-  console.log(formattedMsg);
-  listMessages.append(createListMessage(formattedMsg));
+client.on('message', (data) => {
+  listMessages.append(createListMessage(data));
 });
 
-client.on('allUsers', (usersList) => {
+client.on('allUsers', (data) => {
   listUsers.innerHTML = '';
-  usersList.forEach((user) => listUsers.append(createListUsers(user)));
+  data.forEach((user) => listUsers.append(createListUsers(user)));
+});
+
+client.on('allMessages', (data) => {
+  data.forEach(({ message, nickname: nick, timestamp }) => {
+    const formattedMsg = `${timestamp} - ${nick}: ${message}`;
+    listMessages.appendChild(createListMessage(formattedMsg));
+  });
 });
