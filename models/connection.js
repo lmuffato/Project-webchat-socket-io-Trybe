@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-let schema = null;
+let schema = null; 
 
 async function connection() {
   if (schema) return Promise.resolve(schema);
