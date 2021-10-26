@@ -1,15 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const ioClient = require('socket.io-client');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 const server = require('http').createServer(app);
-
-// const chat = require('./models/Language');
 
 const io = require('socket.io')(server, {
   cors: {
@@ -18,6 +15,7 @@ const io = require('socket.io')(server, {
   },
 });
 
+const chatController = require('./controllers/chatController');
 const chatSocket = require('./sockets/chatSocket');
 
 chatSocket(io);
@@ -32,8 +30,6 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (_req, res) => {
-  res.status(200).render('interface', { ioClient });
-});
+app.get('/', chatController.renderPage);
 
 server.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

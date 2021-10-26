@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script> -->
-  <!-- <script src="/views/scripts.js"></script> -->
   <script src="/socket.io/socket.io.js"></script>
   <title>Web Chat</title>
 </head>
@@ -13,22 +11,25 @@
   <h1>Bem vindo ao nosso chat</h1>
   <main>
     <div class="participants">
-      <header>Participantes do grupo</header>
+      <header><h2>Participantes do grupo</h2></header>
+      <div>
+        <h3 id="username-name" data-testid="online-user"><%=username%></h3>
+      </div>
       <div class="write-name">
         <form id="user">
-          <input type="text" name="userName" class="form" placeholder="Nome">
-          <button id="btn" type="submit">Enviar</button>
+          <input type="text" name="userName" class="form" placeholder="Nome" id="user-name">
+          <button id="user-btn" type="submit">Enviar</button>
         </form>
       </div>
       <div class="participants-list"></div>
     </div>
     <div class="chat-frame">
-      <header>Conversa</header>
+      <header><h2>Conversa</h2></header>
       <div class="chat"></div>
       <div class="write">
         <form id="message">
           <input type="text" name="message" id="messageInput" placeholder="Mensagem">
-          <button id="btn" type="submit">Enviar</button>
+          <button id="message-btn" type="submit">Enviar</button>
         </form>
       </div>
     </div>
@@ -36,43 +37,31 @@
   <script>
     const socket = io('http://localhost:3000');
 
-    const user = document.getElementById('user');
+    const userForm = document.getElementById('user');
     const message = document.getElementById('message');
+    const username = document.getElementById('username-name');
 
-    user.onSubmit((event) => {
+    const updateusername = (data) => {
+      username.innerHTML = data;
+    }
+
+    userForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      console.log(event);
-    })
+      const newUsername = event.target[0].value;
+      socket.emit('updateUsername', newUsername);
+      updateusername(newUsername);
+    });
 
-    message.onSubmit((event) => {
+    message.addEventListener('submit', (event) => {
       event.preventDefault();
-      console.log(event);
-    })
-
-
-    // function renderMessage(message) {
-    // $('.messages')
-    // .append('<div class="message"><strong>' + message.author + '</strong>: ' + message.message + '</div>');
-    // } 
-
-  //   $('#chat').submit(function(event) {
-  //   event.preventDefault();
-  //   let author = $('input[name=userName]').val()
-  //   let message = $('input[name=message]').val()
-
-  //   if (author.length && message.length) {
-  //   let messageobject = {
-  //   author: author,
-  //   message: message,
-  //   };
-
-  // renderMessage(messageobject);
-
-  // socket.emit('sendMessage', messageobject);
-
-  //   socket.on('refreshData', (data) => {
-  //     console.log(data);
-  //   });
+      const date = new Date();
+      const message = {
+        chatMessage: event.target[0].value,
+        nickname: username.innerHTML,
+        timestamp: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+      }
+      socket.emit('message', message);
+    });
   </script>
 </body>
 </html>
