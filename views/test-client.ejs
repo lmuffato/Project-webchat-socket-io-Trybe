@@ -8,10 +8,22 @@
 </head>
 <body>
   <h2>Send messages</h2>
+  <form id="message-form" action="">
+    <input id="message-input" type="text">
+    <input type="submit">
+  </form>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
+    
+    const form = document.getElementById('message-form');
+
+    form.addEventListener('submit', (e) => {
+      const msgInput = document.getElementById('message-input');
+
+      socket.emit('message', msgInput.value)
+    });
   </script>  
 </body>
 </html>
