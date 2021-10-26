@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project WebChat</title>
+</head>
+<body>
+  <ul id="messages" data-testid="message"></ul>
+  <form action="">
+    <input id="messageInput" data-testid="message-box" autocomplete="off" /><button data-testid="send-button">Send</button>
+  <script src="/socket.io/socket.io.js"></script>
+  <script >
+    const socket = io();
+    const form = document.querySelector('form');
+    const inputMessage = document.querySelector('#messageInput');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      socket.emit('message', { chatMessage: inputMessage.value, nickname: 'Mathaus' });
+      inputMessage.value = '';
+      return false;
+    });
+
+    const createMessage = (message) => {
+      const messageUl = document.querySelector('#messages');
+      const li = document.createElement('li');
+      li.innerText = message;
+      messageUl.appendChild(li)
+    };
+
+    socket.on('message', (message) => createMessage(message))
+
+  </script>   
+</body>
+</html>
