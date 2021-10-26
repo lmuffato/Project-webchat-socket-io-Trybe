@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="socket.io/socket.io.js"></script>
+  <title>Whats App</title>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Whats App</h1>
+    </header>
+    <aside>
+      <form>
+        <input
+          type="text"
+          data-testid="nickname-box"
+          id="nickname"
+        />
+        <button
+          data-testid="nickname-button"
+          id="nickname-button"
+        >
+          Salvar
+        </button>
+      </form>
+      <ul id="content-list">
+      </ul>
+    </aside>
+    <section>
+      <ul id="content-messages">
+      </ul>
+    </section>
+    <form>
+      <input
+        type="text"
+        data-testid="message-box"
+        id="message"
+      />
+      <button
+        data-testid="send-button"
+        id="send-button"
+      >
+        Enviar
+      </button>
+    </form>
+  </main>
+
+  <script src="/script.js"></script>
+</body>
+</html> 

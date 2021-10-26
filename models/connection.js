@@ -1,24 +1,20 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-let schema = null;
+const { DB_URL, DB_NAME } = process.env;
 
-async function connection() {
-  if (schema) return Promise.resolve(schema);
-  return MongoClient
-    .connect(process.env.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then((conn) => conn.db(process.env.DB_NAME))
-    .then((dbSchema) => {
-      schema = dbSchema;
-      return schema;
-    })
-    .catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
-}
+const OPTIONS = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+let db = null;
+
+const connection = async () => {
+  if (db) return Promise.resolve(db);
+  const conn = await MongoClient.connect(DB_URL, OPTIONS);
+  db = conn.db(DB_NAME);
+  return db;
+};
 
 module.exports = connection;
