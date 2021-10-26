@@ -10,11 +10,31 @@
 <body>
   <input type="text" placeholder="Insira seu nickname"/>
   <button>Slavar</button>
-  <div>
+  <div name="nickname">
+  </div>
+
+  <form>
+    <input id="messageUser" type="text" placeholder="Digite uma nova mensagem aqui"/>
+    <button>Enviar</button>
+  </form>
     <script>
       const socket = io();
+      const formMessage = document.querySelector('form');
+      const userMessage = document.querySelector('#messageUser');
+      
+      formMessage.addEventListener('submit', (e) => {
+        e.preventDefault();
+        socket.emit('message', userMessage.value);
+        userMessage.value = '';
+        return false;
+      });
+      
     </script>
-    
+
+  <div name="messages">
+    <ul>
+
+    </ul>
   </div>
 </body>
 </html>
