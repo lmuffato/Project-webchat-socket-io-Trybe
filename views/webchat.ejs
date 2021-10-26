@@ -11,12 +11,19 @@
 
 <body>
   <h1>webchat</h1>
-  <input type="text" id="message">
-  <button id="send-btn">Enviar</button>
+  <label for="nickname"> Digite seu apelido!
+    <input type="text" id="nickname-box" data-testid="nickname-box"/>
+  </label>
+  <button id="nickname-button" data-testid="nickname-button">Enviar</button>
+
+
+  <ul id="users">
+  </ul>
+
+  <input data-testid="message-box" type="text" id="message">
+  <button data-testid="send-button" id="send-btn">Enviar</button>
 
   <ul id="list">
-    <li>oi</li>
-    <li>coe rapa</li>
   </ul>
 
 
