@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const webchatSocket = require('./sockets/webchat');
 require('dotenv').config();
 
 // criando serviço
@@ -15,6 +16,7 @@ const io = require('socket.io')(server, {
 });
 
 // call sockets
+webchatSocket(io);
 
 // usando middle
 
