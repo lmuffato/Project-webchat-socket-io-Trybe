@@ -1,6 +1,11 @@
+const moment = require('moment');
+
 const sentMessage = (nickname, chatMessage) => {
-  const date = new Date();
-  return `${date} - ${nickname}: ${chatMessage}`;
+  const date = moment().format('L');
+  const hours = moment().format('LTS');
+  const fixedDate = `${date} ${hours}`;
+  const formatedDate = fixedDate.replace(/\//g, '-'); 
+  return `${formatedDate} - ${nickname}: ${chatMessage}`;
 };
 
 module.exports = (io) =>
