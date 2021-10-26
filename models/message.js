@@ -6,6 +6,13 @@ const create = async (data) => {
   return { id: result.insertedId, ...data };
 };
 
+const getAll = async () => {
+  const db = await connection();
+  const messages = await db.collection('messages').find().toArray();
+  return messages;
+};
+
 module.exports = {
   create,
+  getAll,
 };
