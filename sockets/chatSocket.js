@@ -1,20 +1,16 @@
-const dataAtualFormatada = require('../util/formatData');
+const moment = require('moment');
 
 module.exports = (io) => io.on('connection', (socket) => {
-  const nickname = socket.id;
-
-  socket.emit('message',
-  `Seja bem vindo ao nosso chat público ${nickname}! Use essa página para conversar a vontade.`);
-
-  socket.broadcast.emit('message', `Usuário! ${nickname} acabou de se conectar :D`);
-
-  socket.on('message', ({ chatMessage }) => {
+  socket.on('message', ({ chatMessage, nickname }) => {
+    const dataAtual = moment().format('DD-MM-YYYY');
+    const horaAtual = moment().format('LTS');
      // 09-10-2020 2:35:09 PM - Joel: Olá meu caros amigos!
-    const message = `${dataAtualFormatada()} (pegarHora) - ${nickname}: ${chatMessage}`;
+
+    const message = `${dataAtual} ${horaAtual} - ${nickname}: ${chatMessage}`;
     io.emit('message', message);
   });
 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('message', `Usuário ${nickname} acabou de se desconectar! :(`);
+    socket.broadcast.emit('message', `Usuário ${socket.io} acabou de se desconectar! :(`);
   });
 });
