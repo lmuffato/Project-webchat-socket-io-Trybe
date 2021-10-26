@@ -24,7 +24,10 @@
 
       const msgInput = document.getElementById('message-input');
 
-      socket.emit('message', msgInput.value)
+      socket.emit('message', {
+        chatMessage: msgInput.value,
+        nickName: 'abc',
+      })
     });
 
     socket.on('message', (message) => {
