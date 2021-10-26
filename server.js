@@ -1,6 +1,6 @@
 const express = require('express');
+const path = require('path');
 const http = require('http');
-const webchatSocket = require('./sockets/webchat');
 require('dotenv').config();
 
 // criando serviço
@@ -16,16 +16,13 @@ const io = require('socket.io')(server, {
 });
 
 // call sockets
-webchatSocket(io);
+require('./sockets/webchat')(io);
 
 // usando middle
-
-// setando a view eng
-app.set('view engine', 'ejs');
-app.set('views', './views');
+app.use(express.static(path.join(__dirname, '/public')));
 
 // declarando rota
-app.get('/', (_req, res) => res.render('index'));
+app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '/index.html')));
 
 // criando conexão
 const { env: { PORT } } = process;
