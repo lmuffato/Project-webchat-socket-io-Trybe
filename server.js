@@ -1,24 +1,21 @@
 const http = require('http');
 const dotenv = require('dotenv');
-const { Server } = require('socket.io');
-const message = require('./sockets/message');
+const socketIO = require('socket.io');
 const app = require('./app');
 
 dotenv.config();
-
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3000;
-
-const ioOptions = {
+const io = socketIO(server, {
   cors: {
-    origin: `http://localhost:${PORT}`,
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
-};
+});
+const message = require('./sockets/message');
 
-const io = new Server(server, ioOptions);
 message(io);
 
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
