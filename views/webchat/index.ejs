@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+  <link rel="stylesheet" href="http://localhost:3000/assets/style.css">
+  <title>Chat Pv</title>
+</head>
+<body>
+  <h1>WebChat</h1>
+
+  <ul id='users'>
+  </ul>
+
+  <div>
+    <ul id="message">
+
+    </ul>
+    <input id="chatInput" type="text">
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <script>
+    const socket = io('http://localhost:3000');
+    socket.on('newUser', () => {
+      const li = document.createElement('li');
+      const liText = document.createTextNode(`New User - ${socket.id}`);
+      console.log(`New User - ${socket.id}`)
+      li.appendChild(liText);
+      document.getElementById('users').appendChild(li);
+    });
+
+    const sendBtn = document.getElementById('sendBtn');
+    sendBtn.addEventListener("click", function() {
+      const messageInput = document.getElementById('chatInput');
+      const message = messageInput.value;
+      console.log(message);
+      const nickName = `New User - ${socket.id}`
+      socket.emit('message',{message,nickName});
+});
+    socket.on('message', (message) => {
+      const li = document.createElement('li');
+      const liText = document.createTextNode(message);
+      li.appendChild(liText);
+      document.getElementById('message').appendChild(li);
+    })
+  </script>
+  <script src='http://localhost:3000/assets/client.js'></script>
+</body>
+</html> 
