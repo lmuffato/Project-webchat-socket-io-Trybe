@@ -1,0 +1,40 @@
+body {
+  background-color: #e2e2e2;
+  font-family: Poppins, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px;
+  border: 2px solid black;
+}
+
+section > h2 {
+  text-align: center;
+  padding: 10px;
+}
+
+section {
+  border: 2px solid black;
+}
+
+aside {
+  width: 40%;
+  border: 2px solid black;
+}
+
+.form-message {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: auto;
+}
+
+.form-message > input {
+  width: 90%;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}

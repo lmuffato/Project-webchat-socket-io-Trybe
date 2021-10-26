@@ -4,39 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="socket.io/socket.io.js"></script>
-  <title>Whats App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Bate Papo UOU</title>
 </head>
 <body>
   <main>
     <header>
-      <h1>Whats App</h1>
+      <h1>Bate Papo UOU</h1>
     </header>
-    <aside>
-      <form>
-        <input
-          type="text"
-          data-testid="nickname-box"
-          id="nickname"
-        />
-        <button
-          data-testid="nickname-button"
-          id="nickname-button"
-        >
-          Salvar
-        </button>
-      </form>
-      <ul id="content-list">
-      </ul>
-    </aside>
-    <section>
-      <ul id="content-messages">
-      </ul>
-    </section>
-    <form>
+    <div class="content">
+
+    
+      <aside>
+        <form>
+          <input
+            type="text"
+            data-testid="nickname-box"
+            id="nickname"
+            autocomplete="off"
+            placeholder="Digite um apelido!"
+          />
+          <button
+            data-testid="nickname-button"
+            id="nickname-button"
+          >
+            Salvar
+          </button>
+        </form>
+        <h2>Usuários conectados</h2>
+        <ul id="content-list">
+        </ul>
+      </aside>
+      <section>
+        <h2>Mensagens</h2>
+        <ul id="content-messages">
+        </ul>
+      </section>
+    </div>
+    <form class="form-message">
       <input
         type="text"
         data-testid="message-box"
         id="message"
+        placeholder="Messagem"
       />
       <button
         data-testid="send-button"
