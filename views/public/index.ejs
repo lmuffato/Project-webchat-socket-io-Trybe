@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Socket.io</title>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+<div class="title">
+  <h1>Trybe Chat</h1>
+  <img src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1-1.png" />
+</div>
+  <form id="chat">
+    <input type="text" name="username" id="username" placeholder="Digite seu usuário">
+    <div class="messages"></div>
+    <div class="btn">
+      <input type="text" name="message" id="message" placeholder="Digite sua mensagem"/>
+      <button type="submit">Enviar</button>
+    </div>
+  </form>
+
+  <script type="text/javascript">
+    let socket = io('http://localhost:3000');
+
+    const renderMessage = ({author, message}) => {
+      $('.messages').append(`<div class"message" style="background-color: white; margin-top: 5px; border-radius: 10px; padding: 5px 20px;"><strong>${author}</strong>: ${message}</div>`)
+    };
+
+    socket.on('previuosMessages', (message) => {
+      message.forEach((mess) => {
+        renderMessage(mess);
+      })
+    })
+
+    socket.on('recivedMessage', (message) => {
+      renderMessage(message)
+    });
+
+    $('#chat').submit(function(event) {
+      event.preventDefault();
+
+      let author = $('input[name=username').val()
+      let message = $('input[name=message').val()
+
+      if(author.length && message.length) {
+        let messageObject = {
+          author: author,
+          message: message,
+        };
+
+        renderMessage(messageObject)
+        socket.emit('sendMessage', messageObject)
+      }
+    })
+  </script>
+  
+</body>
+</html>
