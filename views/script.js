@@ -11,7 +11,6 @@ const saveNick = () => {
   if (nickInput.value) {
     sessionStorage.setItem('nickname', nickInput.value);
   }
-  nickInput.value = '';
 };
 
 const getNick = () => {
@@ -19,7 +18,14 @@ const getNick = () => {
   return nickname;
 };
 
-nickBtn.addEventListener('click', saveNick);
+nickBtn.addEventListener('click', () => {
+  saveNick();
+  console.log(nickInput.value);
+  if (nickInput.value) {
+    client.emit('setNick', nickInput.value);
+  }
+  nickInput.value = '';
+});
 
 const createMsg = (msg) => {
   const li = document.createElement('li');
@@ -55,3 +61,7 @@ client.on('getMessages', (messages) => {
   messages.forEach(({ timeStamp, nickname, chatMessage }) =>
     createMsg(`${timeStamp} - ${nickname}: ${chatMessage}`));
 });
+
+window.onbeforeunload = () => {
+  client.disconnect();
+};
