@@ -4,21 +4,21 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const socket = new Server(server);
 
-const APP_PORT = process.env.PORT || 3000;
-const SOCKET_PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => res.send('Hello World'));
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
-io.on('connection', () => {
+app.get('/', (req, res) => {
+  res.render('./index');
+});
+
+socket.on('connection', () => {
   console.log('a user connected');
 });
 
-app.listen(APP_PORT, () => {
-  console.log(`App is running at port ${APP_PORT}`);
-});
-
-server.listen(SOCKET_PORT, () => {
-  console.log(`Server is running at port ${SOCKET_PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server is running at port ${PORT}`);
 });
