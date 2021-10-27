@@ -9,6 +9,12 @@ module.exports = (io) => {
       io.emit('message', message);
     });
 
+    socket.emit('message', 'Seja bem vindo(a) ao chat!');
+
+    socket.broadcast.emit('serverMessage', {
+      message: `${socket.username} acabou de entrar`,
+    });
+
     socket.on('disconnect', () => {
       console.log(`${socket.username} saiu`);
     });

@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="./css/index.css" />
     <!-- <script
       src="https://cdn.socket.io/4.3.2/socket.io.min.js"
       integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
@@ -25,17 +25,14 @@
     <section class="main">
       <div class="side-bar"></div>
       <div class="chat-container">
-        <div class="chat-messages"></div>
+        <ul class="chat-messages" id="chat-messages"></ul>
         <form class="chat-message-form" action="">
-          <input type="text" />
+          <input type="text" id="input-message" />
           <button>Enviar</button>
         </form>
       </div>
     </section>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-    </script>
-    <script src="/public/js/chat.js"></script>
+    <script src="./js/chat.js"></script>
   </body>
 </html>
