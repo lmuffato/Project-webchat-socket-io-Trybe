@@ -86,11 +86,17 @@
       onlineUsers.forEach((user) => {
         user.remove();
       });
+      const currentUser = document.createElement('div');
+      currentUser.className = 'online-user';
+      currentUser.innerHTML = `<p data-testid="online-user">${usernameTag.innerHTML}</p>`;
+      participantList.appendChild(currentUser);
       userList.forEach((user) => {
-        const newUser = document.createElement('div');
-        newUser.className = 'online-user';
-        newUser.innerHTML = `<p data-testid="online-user">${user.nickname}</p>`;
-        participantList.appendChild(newUser);
+        if(user.nickname !== usernameTag.innerHTML) {
+          const newUser = document.createElement('div');
+          newUser.className = 'online-user';
+          newUser.innerHTML = `<p data-testid="online-user">${user.nickname}</p>`;
+          participantList.appendChild(newUser);
+        };
       });
     };
 
@@ -106,6 +112,10 @@
       sessionStorage.setItem('userId', userId.id);
       usernameTag.innerText = username;
       createUser(userList);
+    });
+
+    window.onload = (() => {
+      socket.emit('login');
     });
   </script>
 </body>

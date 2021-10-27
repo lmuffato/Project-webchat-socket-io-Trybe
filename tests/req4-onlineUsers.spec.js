@@ -30,6 +30,7 @@ describe('4 - Informe a todos os clientes quem está online no momento', () => {
   });
 
   afterEach(async (done) => {
+    await browser.close();
     done();
   });
 

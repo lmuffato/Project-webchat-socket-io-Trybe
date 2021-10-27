@@ -8,7 +8,6 @@ const login = (io, socket) => {
   const username = `usuarioAnonimo${random1}${random2}`;
   const userId = userModel.create({ nickname: username, socketId: socket.id });
   const userList = userModel.getAll();
-  console.log(userList);
   socket.emit('login', { userList, userId, username });
   io.emit('usernameList', userList);
 };
@@ -37,7 +36,9 @@ const end = (io, socketId) => {
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    login(io, socket);
+    socket.on('login', () => {
+      login(io, socket);
+    });
 
     socket.on('updateUsername', ({ userId, newUsername }) => {
       updateUsername(io, { userId, newUsername });
@@ -46,7 +47,6 @@ module.exports = (io) => {
     socket.on('message', async (message) => {
       await messageCreator(io, message);
     });
-
     socket.on('disconnect', () => {
       end(io, socket.id);
     });
