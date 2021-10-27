@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+  <title>Web Chat</title>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>Web Chat</h1>
+    </header>
+
+    <div>
+      <input type="text" placeholder="Insira seu nickname" data-testid="nickname-box" />
+      <button type="button" data-testid="nickname-button">
+        Salvar
+      </button>
+      <ul id='news'>
+        <% notifications.forEach((notification)=> { %>
+          <li>
+            <%= notification %>
+          </li>
+          <% }) %>
+      </ul>
+    </div>
+
+    <input data-testid="message-box" type="text" placeholder="Insira sua mensagem" />
+    <button data-testid="send-button" type="button">
+      enviar
+    </button>
+  </main>
+  <script>
+    const socket = io('http://localhost:3000');
+    socket.on('notification', (notification) => {
+      const li = document.createElement('li');
+      const liText = document.createTextNode(notification);
+      li.appendChild(liText);
+      document.getElementById('news').appendChild(li);
+    });
+  </script>
+</body>
+
+</html>
