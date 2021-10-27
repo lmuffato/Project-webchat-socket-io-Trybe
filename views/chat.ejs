@@ -4,31 +4,44 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <link href="styles/styles.css" rel="stylesheet" />
   <title>Document</title>
 </head>
 <body>
-  <section>
-    <!-- mensagens vem aqui -->
-  </section>
-  <form>
-    <input
-      data-testid="message-box"
-      type="text"
-      name="message-box"
-      placeholder="Digite sua mensagem"
-      autocomplete="off"
-    />
-    <button type="submit" data-testid="send-button">
-      Enviar
-    </button>
-  </form>
-  <form>
-    <input data-testid="nickname-box" type="text" />
-    <button data-testid="nickname-button">
-      Salvar nickname
-    </button>
-  </form>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/chat.js"></script>
+  <main class="container">
+    <section class="messages-list">
+      </section>
+      <div class="forms-container">
+        <form action=" " class="nickname-box-container">
+          <input
+            data-testid="nickname-box"
+            type="text"
+            class="nicknameInput"
+            placeholder="Digite seu nickname"
+            autocomplete="off"
+          />
+          <button data-testid="nickname-button">
+            Salvar nickname
+          </button>
+        </form>
+        <form action="" class="message-box-container">
+          <input
+            data-testid="message-box"
+            type="text"
+            name="message-box"
+            class="messageInput"
+            placeholder="Digite sua mensagem"
+            autocomplete="off"
+          />
+          <button type="button" class="send-button" data-testid="send-button">
+            Enviar
+          </button>
+        </form>
+
+      </div>
+
+  </main>
+    <script src="/js/chat.js"></script>
 </body>
 </html>

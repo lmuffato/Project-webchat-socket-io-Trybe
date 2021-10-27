@@ -4,32 +4,37 @@ const cors = require('cors');
 
 require('dotenv').config();
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 const http = require('http').createServer(app);
 
 const io = require('socket.io')(http, {
   cors: {
-    origin: '',
+    origin: `http://localhost:${PORT}`,
     methods: ['GET', 'POST'],
   },
 });
 
 require('./sockets/chatSocket')(io);
+// const chatService = require('./services/chatService');
 
-const corsSettings = {
-  origin: 'http://localhost:3000',
-};
+// const corsSettings = {
+//   origin: 'http://localhost:3000',
+// };
 
+app.use(cors());
+app.use(express.static(path.join(__dirname, '/public')));
 app.set('view engine', 'ejs');
 app.set('views', './views');
-app.use(cors(corsSettings));
-app.use(express.static(path.join(__dirname, '/public')));
 
-app.get('/', async (req, res) => {
-  const chat = '';
-});
+// const list = [];
 
-app.use('/', (_req, res) => res.render('chat.ejs'));
+// app.get('/', async (req, res) => {
+//   const chat = await chatService.getAllMessages();
+//   return res.status(200).json(chat);
+// });
 
-const PORT = process.env.PORT || 3000;
+app.get('/', (_req, res) => res.render('chat'));
+
 http.listen(PORT, () => console.log(`ouvindo na porta ${PORT}`));

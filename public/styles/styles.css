@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1200px;
+}
+
+.message-box-container {
+  align-items: space-evenly;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forms-container {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.messages-list {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  min-height: 80vh;
+  padding: 2rem 1rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: 15px Helvetica, Arial, sans-serif;
+}
+
+form {
+  bottom: 0;
+  display: flex;
+  margin: 0 auto;
+  width: 80vw;
+}
+
+.message-box-container input {
+  border: 0;
+  margin-right: 0.5%;
+  padding: 10px;
+  width: 100%;
+}
+
+.message-box-container button {
+  background: rgb(130, 224, 255);
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  width: 20%;
+}
+
+.nickname-box-container input {
+  border: 0;
+  margin-right: 0.2%;
+  padding: 10px;
+  width: 50%;
+}
+
+.nickname-box-container button {
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  width: 20%;
+}
+
+.messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messages li {
+  padding: 5px 10px;
+}
+
+.messages li:nth-child( odd ) {
+  background: #eee;
+}
+
+@media ( min-width : 900px ) {
+
+  .forms-container {
+    align-items: space-evenly;
+    display: flex;
+    flex: content;
+    gap: 1rem;
+  }
+
+  .messages-list {
+    min-height: 90vh;
+  }
+
+}
