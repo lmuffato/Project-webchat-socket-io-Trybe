@@ -14,6 +14,9 @@ const io = require('socket.io')(http, {
 });
 
 io.on('connection', (socket) => {
+  socket.on('webchat', (newMessage) => {
+    io.emit('webchat', newMessage);
+  });
   console.log(`ID: ${socket.id} entrou!`);
 });
 
@@ -23,15 +26,8 @@ app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/webchat', (_req, res) => {
+app.get('/', (_req, res) => {
   res.render('chat');
-});
-
-app.post('/webchat', (req, res) => {
-  const { newMessage } = req.body;
-  console.log(newMessage)
-  io.emit('webchat', newMessage);
-  res.status(201).json({ message: 'Success' });
 });
 
 http.listen(PORT, () => console.log(`API escutando na porta ${PORT}`));
