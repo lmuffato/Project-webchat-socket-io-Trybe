@@ -18,7 +18,7 @@ require('./sockets/message')(io);
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-app.get('/test', (_req, res) => {
+app.get('/', (_req, res) => {
   res.status(200).render('test-client');
 });
 
