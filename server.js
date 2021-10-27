@@ -28,13 +28,6 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// const list = [];
-
-// app.get('/', async (req, res) => {
-//   const chat = await chatService.getAllMessages();
-//   return res.status(200).json(chat);
-// });
-
 app.get('/', async (_req, res) => {
   const chat = await chatService.getAllMessages();
   res.render('chat', { chat });
