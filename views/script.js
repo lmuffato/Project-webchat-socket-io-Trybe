@@ -50,3 +50,8 @@ client.on('newUser', (allUsers) => {
   users.innerText = '';
   allUsers.forEach((id) => createNewUser(id));
 });
+
+client.on('getMessages', (messages) => {
+  messages.forEach(({ timeStamp, nickname, chatMessage }) =>
+    createMsg(`${timeStamp} - ${nickname}: ${chatMessage}`));
+});
