@@ -42,10 +42,12 @@
     const messageInput = document.getElementById('messageInput');
     const username = document.getElementById('username-name');
     const chat = document.querySelector('.chat')
+    const participantList = document.querySelector('.participants-list');
 
     const updateusername = (data) => {
       username.innerHTML = data;
     }
+    socket.emit('login', username.innerHTML);
 
     userForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -74,7 +76,17 @@
 
     socket.on('message', (message) => {
       createMessage(message);
-    })
+    });
+
+    const createUser = (user) => {
+      const newUser = document.createElement('p');
+      newUser.innerHTML = `<p>${user}</p>`;
+      participantList.appendChild(newUser);
+    }
+
+    socket.on('login', (user) => {
+      createUser(user);
+    });
   </script>
 </body>
 </html>

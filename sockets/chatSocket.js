@@ -8,6 +8,11 @@ module.exports = (io) => {
       console.log(newUsername);
     // io.emit('updateUsernameList', newUsername);
     });
+
+    socket.on('login', (username) => {
+    io.emit('login', username);
+    });
+    
     socket.on('message', (message) => {
       const date = new Date();
       const timestamp = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()
