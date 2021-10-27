@@ -9,7 +9,6 @@ const faker = require('faker');
 const puppeteer = require('puppeteer');
 const { MongoClient } = require('mongodb');
 const _ = require('lodash');
-
 const BASE_URL = 'http://localhost:3000/';
 
 function wait(time) {

@@ -9,3 +9,11 @@ exports.getAll = async () => {
 
   return messages;
 };
+
+exports.saveMessage = async ({ message, nickname, timestamp }) => {
+  const db = await connection();
+
+  await db.collection(COLLECTION).insertOne({ message, nickname, timestamp });
+
+  return true;
+};

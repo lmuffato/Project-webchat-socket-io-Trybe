@@ -17,7 +17,7 @@
   <ul id="messages-list">
     <% messages.forEach((message) => { %>
       <% const formattedMessage = `(${message.timestamp}) ${message.nickname}: ${message.message}`  %>
-      <li><%= formattedMessage %></li>
+      <li data-testid="message"><%= formattedMessage %></li>
     <% }); %>
   </ul>
   <form id="message-form" action="">
