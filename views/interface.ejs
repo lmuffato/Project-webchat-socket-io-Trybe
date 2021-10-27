@@ -43,16 +43,24 @@
     const username = document.getElementById('username-name');
     const chat = document.querySelector('.chat')
     const participantList = document.querySelector('.participants-list');
+    const userId = '<%- JSON.stringify(userID) %>';
+
+    const addIdLocalStorage = (data) => {
+      sessionStorage.setItem('userId', data);
+    }
+
+    addIdLocalStorage(userId);
+    socket.emit('login', username.innerHTML);
 
     const updateusername = (data) => {
       username.innerHTML = data;
     }
-    socket.emit('login', username.innerHTML);
 
     userForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const newUsername = event.target[0].value;
-      socket.emit('updateUsername', newUsername);
+      const updateUser = { newUsername, userId }
+      socket.emit('updateUsername', updateUser);
       updateusername(newUsername);
     });
 
@@ -78,15 +86,22 @@
       createMessage(message);
     });
 
-    const createUser = (user) => {
-      const newUser = document.createElement('p');
-      newUser.innerHTML = `<p>${user}</p>`;
-      participantList.appendChild(newUser);
+    const createUser = (userList) => {
+      if (userList && userList.length > 0){
+        userList.forEach((user) => {
+          const newUser = document.createElement('p');
+          newUser.innerHTML = `<p>${user.nickname}</p>`;
+          participantList.appendChild(newUser);
+        })
+      }
     }
 
-    socket.on('login', (user) => {
-      createUser(user);
+    socket.on('usernameList', (userList) => {
+      createUser(userList);
     });
+    window.onbeforeunload = () => {
+      socket.emit('end', userId);
+    };
   </script>
 </body>
 </html>
