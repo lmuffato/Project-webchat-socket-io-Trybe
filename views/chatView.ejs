@@ -11,42 +11,68 @@
 
 <body>
   <header>
-    <div>
-      <%= nickName %>
-    </div>
-    <button id="toggle-btn">Online</button>
+    <div data-testid="online-user" id="name"></div>
+    <form>
+      <input type="text" name="nickName" id="nckNm" data-testid="nickname-box">
+      <button type="button" id="newNckNm" data-testid="nickname-button">Atualizar</button>
+    </form>
   </header>
   <main>
     <div>
-      <ul>
-        <% messages.forEach((msg)=> { %>
-          <li>
-            <%= msg %>
-          </li>
-          <% }) %>
+      <ul id="msgs">
       </ul>
     </div>
   </main>
   <form>
-    <form>
-      <input type="text" name="nickName" id="nickName">
-      <a href="http://localhost:3000/chat">
-        <button type="submit" id="login">Enviar</button>
-      </a>
-    </form>
+    <input type="text" name="msg" id="msg" data-testid="message-box">
+    <button type="button" id="sendBtn" data-testid="send-button">Enviar</button>
   </form>
   <aside>
     <ul>
-      <% users.forEach((usr)=> { %>
-        <li>
-          <%= usr %>
-        </li>
-        <% }) %>
     </ul>
     <button id="exit-btn">Sair</button>
   </aside>
   <script>
     const socket = io();
+
+    // Elements
+    const nickNameParent = document.querySelector('#name');
+    const newNameBtn = document.querySelector('#newNckNm');
+    const nameInput = document.querySelector('#nckNm');
+    const msgList = document.querySelector('#msgs');
+    const msgText = document.querySelector('#msg');
+    const sendBtn = document.querySelector('#sendBtn');
+
+    // Helpers  e métodos
+    const createChildren = (parent, content, element) => {
+      content.map((item) => {
+        const node = document.createElement(element);
+        node.innerText = item;
+        return node;
+      }).forEach((child) => parent.appendChild(child));
+    };
+
+    // Escutadores do socket
+    socket.on('defaultNick', (defaultNick) => {
+      nickNameParent.innerText = defaultNick;
+      sessionStorage.setItem('nickname', defaultNick);
+    });
+
+    socket.on('message', (msg) => {
+      createChildren(msgList, [msg], 'li');
+    });
+
+    // Eventos do DOM
+    sendBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!msgText.value) return;
+      socket.emit('message', {
+        chatMessage: msgText.value,
+        nickname: sessionStorage.getItem('nickname'),
+      });
+      msgText.value = '';
+    });
+
   </script>
 </body>
 

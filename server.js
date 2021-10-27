@@ -15,12 +15,8 @@ require('./sockets/chatSocket')(io);
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-app.use(express.static(`${__dirname}/public`));
-
 app.get('/', (_req, res) => {
-  res.render('chatView', {
-    messages: ['teste1', 'teste2'], nickName: 'nick', users: ['usr1', 'usr2'],
-  });
+  res.render('chatView');
 });
 
 http.listen(3000, () => {
