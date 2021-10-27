@@ -10,6 +10,11 @@ module.exports = (io) => {
         console.log(message);// enviar ao front mensagem já formatada
     });
 
+    socket.on('generateNickname', async (data) => {
+      io.emit('generateNickname', data);
+      console.log(data);
+    });
+  
     // socket.on('refreshAllMessages', async () => {
     //   const allMessages = await chatService.getAllMessages();
     //   socket.emit('refreshAllMessages', allMessages);
