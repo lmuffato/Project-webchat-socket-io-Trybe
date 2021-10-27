@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Webchat</title>
+        <link rel="stylesheet" type="css" href="style.css" />
+    </head>
+    <body>
+        <div id="userDiv">
+            <h1 id='userName' data-testid="online-user"></h1>
+            <input id="inputName" type="text" data-testid="nickname-box" />
+            <button id="buttonName" data-testid="nickname-button">Novo nome</button>
+        </div>
+        <div id="messagesDiv">
+            <input id="input" type="text" data-testid="message-box">
+            <button id="button" data-testid="send-button">Enviar mensagem</button>
+            <ul id="messagesList">
+                <li id="original" data-testid="message"></li>
+            </ul>
+        </div>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'></script>
+        <script>
+            const li = document.querySelector('#original'); 
+            li.style.display = 'none';
+            const userName = document.querySelector('#userName');
+            const generateNickname = () => {
+                const alphabet = 'qwertyuiopasdfghjklzxcvbnm';
+                let newName = '';
+                while (newName.length < 16) {
+                    console.log(Math.round(Math.random() * alphabet.length))
+                    newName += alphabet[Math.round(Math.random() * alphabet.length)];
+                };
+                userName.innerHTML = newName;
+            };
+            generateNickname();
+            const socket = window.io();
+            const buttonName = document.querySelector('#buttonName');
+            const inputName = document.querySelector('#inputName');
+            buttonName.addEventListener('click', () => {
+                userName.innerHTML = inputName.value;
+                inputName.value = '';
+            })
+            const userDiv = document.querySelector('#userDiv');
+            const messagesDiv = document.querySelector('#messagesDiv');
+            const button = document.querySelector('#button');
+            const input = document.querySelector('#input')
+            button.addEventListener('click', () => {                
+                socket.emit('message', {
+                    nickname: userName.innerHTML,
+                    chatMessage: input.value,
+                });
+                input.value = '';
+            })
+            const insertLi = (message) => {
+                const ul = document.querySelector('#messagesList');
+                           
+                const clone = li.cloneNode(true);
+                clone.id = 'clone';                
+                clone.innerHTML = message;
+                clone.style.display = 'initial';
+                ul.appendChild(clone);
+            };
+            socket.on('message', (message) => {
+                insertLi(message)
+            });
+        </script>
+    </body>
+</html>
