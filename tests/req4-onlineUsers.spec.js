@@ -7,6 +7,8 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const puppeteer = require('puppeteer');
 
+// const connection = require('../models/connection');
+
 const BASE_URL = 'http://localhost:3000/';
 
 function dataTestid(name) {
@@ -30,7 +32,10 @@ describe('4 - Informe a todos os clientes quem está online no momento', () => {
   });
 
   afterEach(async (done) => {
-    await browser.close();
+    // await browser.close();
+    //   const collectionusers = await connection()// gambiarra para limpar as Mensagens junto
+    //   .then((db) => db.collection('onlineUsers'));// gambiarra para limpar as Mensagens junto
+    //   await collectionusers.deleteMany({}); // gambiarra para limpar as Mensagens junto
     done();
   });
 
