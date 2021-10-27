@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+</head>
+
+<body>
+  <div>
+    <input type="text" data-testid="nickname-box" id="nickname" placeholder="Insira seu nickname" />
+    <button data-testid="nickname-button" id="saveUserBtn">Salvar</button>
+    <div class="container">
+      <div class="online">
+        <ul id="onlineUsers">
+        </ul>
+      </div>
+      <div class="messages">
+        <ul id="msgs">
+        </ul>
+      </div>
+    </div>
+    <input type="text" data-testid="message-box" class="message" placeholder="Digite uma nova mensagem aqui" />
+    
+    <button data-testid="send-button" id="sendMsgBtn">Enviar</button>
+  </div>
+
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = window.io();
+
+    const messagesUl = document.querySelector('#msgs');
+    const sendButton = document.querySelector('#sendMsgBtn');
+
+    sendButton.addEventListener('click', () => {
+      const nickname = socket.id;
+      const chatMessage = document.querySelector('.message').value;
+      socket.emit('message', { chatMessage, nickname });
+    });
+
+    const createMsgList = (message) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-testid', 'message');
+      li.innerText = message;
+      messagesUl.appendChild(li);
+    };
+
+    socket.on('message', async (message) => {
+      createMsgList(message);
+    });
+
+  </script>
+</body>
+</html>
