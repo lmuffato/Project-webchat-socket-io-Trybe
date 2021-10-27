@@ -10,8 +10,8 @@
   <h2>Send messages</h2>
   <p>Nickname: <span id="nickname" data-testid="online-user"><%= randomNickname %></span></p>
   <form id="message-form" action="">
-    <input id="message-input" type="text">
-    <input type="submit">
+    <input id="message-input" type="text" data-testid="message-box">
+    <button type="submit" data-testid="send-button">Send</button>
   </form>
 
   <script src="/socket.io/socket.io.js"></script>

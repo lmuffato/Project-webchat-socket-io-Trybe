@@ -14,7 +14,7 @@ app.get('/', (_req, res) => {
     charset: 'alphanumeric',
   });
 
-  res.status(200).render('test-client', {
+  res.status(200).render('index', {
     randomNickname,
   });
 });
