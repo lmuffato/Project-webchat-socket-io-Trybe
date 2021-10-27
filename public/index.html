@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <div id="online-user" data-testid="online-user"></div>
+    <ul id="chat"></ul>
+    <form>
+      <input type=text id="nickname-box" data-testid="nickname-box">
+      <button type="submit" id="nickname-button" data-testid="nickname-button">Enviar</button>
+    </form>
+    <form>
+      <input type=text id="message-box" data-testid="message-box">
+      <button type="submit" id="send-button" data-testid="send-button">Enviar</button>
+    </form>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>
