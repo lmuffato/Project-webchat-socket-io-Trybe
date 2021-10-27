@@ -8,18 +8,23 @@ const nickInput = document.getElementById('nickInput');
 
 let nickname = '';
 
+const checkSpanUser = () => document.getElementById('user-span');
+const removeSpanUser = () => document.getElementById('user-span').remove();
+
 const addOnlineUser = (nick) => {
-  nickname = nick;
-  const spanElement = document.getElementById('user-span');
-  if (spanElement) {
-    spanElement.remove();
-  }
+  if (checkSpanUser()) removeSpanUser();
+
   const spanUser = document.getElementById('user');
   const newSpanElement = document.createElement('span');
   newSpanElement.id = 'user-span';
   newSpanElement.setAttribute('data-testid', 'online-user');
-  newSpanElement.textContent = nickname;
+  newSpanElement.textContent = nick;
   spanUser.appendChild(newSpanElement);
+};
+
+const firstUser = (user) => {
+  if (checkSpanUser()) return null;
+  addOnlineUser(user);
 };
 
 nickButton.addEventListener('click', () => {
@@ -45,4 +50,4 @@ form.addEventListener('submit', (e) => {
 });
 
 socket.on('message', addMessage);
-socket.on('connected', addOnlineUser);
+socket.on('connected', firstUser);
