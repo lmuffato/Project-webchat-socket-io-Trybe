@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="chat.css" />
-    <script src="/socket.io/socket.io.js"></script>
+    
     <title>webchat</title>
   </head>
   <body class="main">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="messages-container">
-        <div class="messages">
+        <div class="all-messages">
           <ul id="messages"></ul>
         </div>
       </div>
@@ -52,37 +52,37 @@
           <button
             id="send-button"
             data-testid="send-button"
-            type="submit"
-            onclick="sendMessage(event)"
+            type="button"
           >
             Send Message
           </button>
         </div>
       </div>
     </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      
+      const socket = io();
+      
+      const messageBoxList = document.getElementById('messages');
+      const sendMessageBtn = document.getElementById('send-button');
+      
+      const insertMessage = (message) => {
+        const li = document.createElement('li');
+        li.innerText = message;
+        li.setAttribute('data-testid', 'message');
+        messageBoxList.appendChild(li);
+      };
+      
+      sendMessageBtn.addEventListener('click', () => {
+        const nick = socket.id.substr(0, 15);
+        const msg = document.getElementById('message-box').value;
+        socket.emit('message', { msg, nick });
+        document.getElementById('message-box').value = '';
+      });
+      
+      socket.on('message', async (message) => insertMessage(message));
+      
+      </script>
   </body>
-  <script>
-
-    const sendMessage = () => {
-      const message = document.querySelector('#message-box').value;
-      socket.emit('message', message);
-      document.querySelector('#message-box').value = '';
-    };
-
-    const socket = io();
-    
-    socket.on('message', (message) => {
-      const li = document.createElement('li');
-      li.innerText = message;
-      document.querySelector('#messages').appendChild(li);
-    });
-
-    socket.on('login', (user) => {
-      console.log(user)
-      const li = document.createElement('li');
-      li.innerText = user;
-      document.querySelector('#users').appendChild(li);
-    });
-
-  </script>
 </html>
