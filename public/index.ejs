@@ -10,8 +10,11 @@
   </head>
   <body>
     <ul id="messages"></ul>
+    <li data-testid="message"></li>
+    <h2 id="nickname"><%= nickname %></h2>
     <form action="">
-      <input id="messageInput" autocomplete="off" /><button>Send</button>
+      <input id="messageInput" data-testid="message-box" autocomplete="off" />
+      <button data-testid="send-button">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src='./js/chatClient.js'></script>

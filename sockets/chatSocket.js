@@ -1,6 +1,8 @@
 const moment = require('moment');
+// const { getRandomName } = require('../middlewares/chat');
 
 module.exports = (io) => io.on('connection', (socket) => {
+  // socket.emit('nickname', getRandomName());
   socket.on('message', ({ chatMessage, nickname }) => {
     const dataAtual = moment().format('DD-MM-YYYY');
     const horaAtual = moment().format('LTS');
