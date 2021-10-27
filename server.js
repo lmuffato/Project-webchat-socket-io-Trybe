@@ -12,15 +12,17 @@ const io = require('socket.io')(http, {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
   } });
-
+  const { getAllMessages } = require('./models/chatModel');
+  
   app.use(cors());
 
   require('./sockets/chatSocket')(io);
 
 app.use(express.static(`${__dirname}/public`));
 
-app.get('/', (req, res) => {
-  res.status(200).render(`${__dirname}/public/index.ejs`);
+app.get('/', async (req, res) => {
+  const messages = await getAllMessages();
+  res.status(200).render(`${__dirname}/public/index.ejs`, { messages });
 });
 
 http.listen(3000, () => {

@@ -15,7 +15,9 @@
       <!-- <li id="nickName" data-testid="online-user"></li> -->
     </ul>
     <ul id="messages" class="messages">
-    <li data-testid="message"></li>
+      <% messages.forEach((info) => {%>
+        <li><%= info.message %></li>
+      <%})%>
     </ul>
     <form action="">
       <input id="messageInput" data-testid="message-box" autocomplete="off" />
