@@ -41,7 +41,7 @@ describe('1 - Crie um back-end para conexão simultânea de clientes e troca de 
     });
   });
 
-  it.skip('Será validado que toda mensagem que um cliente recebe contém as informações acerca de quem a enviou, data-hora do envio e o conteúdo da mensagem em si', async (done) => {
+  it('Será validado que toda mensagem que um cliente recebe contém as informações acerca de quem a enviou, data-hora do envio e o conteúdo da mensagem em si', async (done) => {
     const dateRegex = /\d{1,2}-\d{1,2}-\d{4}/gm;
     const timeRegex = /\d{1,2}:\d{1,2}(:\d{0,2})?/gm;
 
