@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+  <title>WoPhi</title>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>Terezinha Online!</h1>
+    </header>
+
+    <!-- <aside>
+      <form>
+        <input
+          data-testid="nickname-box"
+          type="text"
+          id="input-nickname"
+        />
+        <button
+          data-testid="nickname-button"
+          id="nickname-button"
+        >
+          Salvar
+        </button>
+      </form>
+
+      <h3>Pessoas onlines</h3>
+      <ul id="online-user"></ul>
+    </aside> -->
+
+    <section>
+      <div>
+        <h3>Mensagens</h3>
+        <ul id="board-message"></ul>
+      </div>
+
+      <form>
+        <input
+          type="tex"
+          data-testid="message-box"
+          id="input-message"
+        />
+        <button
+          data-testid="send-button"
+          id="send-button"
+        >
+          Enviar
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <script src="http://localhost:3000/assets/client.js"></script>
+</body>
+</html>
