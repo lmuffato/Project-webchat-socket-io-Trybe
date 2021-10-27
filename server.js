@@ -18,7 +18,7 @@ app.use('/', express.static('./public'));
 require('./sockets/chat')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile('./index.html');
+  res.sendFile('./public/index.html');
 });
 
 server.listen(PORT, () => console.log(`Webchat server running on port ${PORT}!`));
