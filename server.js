@@ -1,13 +1,15 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const moment = require('moment');
+const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const server = require('http').createServer(app);
-require('dotenv').config();
-const cors = require('cors');
-const moment = require('moment');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,7 +21,6 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`Feita a conexão! Novo usuário conectado ${socket.id}`);
   io.emit('nickname', socket.id.substring(0, 16));
 
   socket.on('nickname', (nick) => {
