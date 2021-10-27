@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+  <!-- <link rel="stylesheet" href="http://localhost:3000/public/chat.css"> -->
+  <!-- <link rel="stylesheet" href="./chat.css"> -->
+  <title>TryChat</title>
+</head>
+<body>
+  <h1 class="title">TryChat</h1>
+  <div class="c_webchat">
+    <input type="text" placeholder="Insira seu nickname" data-testid="nickname-box" class="webchat_nickname__input webchat__input"/>
+    <button type="button" data-testid="webchat_nickname__button" class="user__button webchat__button">Salvar</button>
+    <ul data-testid="online-user" class="webchat_user__box webchat_box"></ul>
+    <ul data-testid="message" class="webchat_message_box webchat_box"></ul>
+    <input type="text" placeholder="Digite uma nova mensagem aqui" data-testid="message-box" class="webchat_message__input webchat__input"/>
+    <button type="button" data-testid="send-button" class="webchat_message_buttonn webchat__button">Enviar</button>
+  </div>
+
+  <script>
+    const socket = io('http://localhost:3000');
+  </script>
+
+  <style type="text/css">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .title {
+      text-align: center;
+      margin-top: 10vh;
+    }
+
+    .c_webchat {
+      max-width: 1200px;
+      margin: 20px auto;
+      display: grid;
+      grid-gap: 10px;
+      grid-template:
+      "nickname_input nickname_button message_box message_box" 5vh
+      "user_box user_box message_box message_box" 20vh
+      "user_box user_box message_box message_box" 30vh
+      "message_input message_input message_input message_button" 8vh
+      / 30vh 10vh 50vh 10vh;
+    }
+    .webchat_nickname__input {
+      grid-area: nickname_input;
+    }
+
+    .webchat_nickname__button {
+      grid-area: nickname_button;
+    }
+
+    .webchat_user__box {
+      grid-area: user_box;
+    }
+
+    .webchat_message_box {
+      grid-area: message_box;
+    }
+
+    .webchat_message__input {
+      grid-area: message_input;
+    }
+
+    .webchat_message_button {
+      grid-area: message_button;
+    }
+
+    .webchat__button {
+      cursor: pointer;
+    }
+
+    .webchat__input {
+      padding: 10px;
+    }
+
+    .webchat_box {
+      border: 2px dotted black;
+    }
+  </style>
+  
+</body>
+</html>
