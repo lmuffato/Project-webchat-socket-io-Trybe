@@ -18,15 +18,20 @@ const io = require('socket.io')(http, {
 });
 
 const Controller = require('./controllers/ChatController');
+const Model = require('./models/ChatModel');
 
+const usuarios = [];
 io.on('connection', (socket) => {
   const initialId = socket.id.substring(0, 16);
   socket.emit('connection', initialId);
+  usuarios.push(initialId);
+  io.emit('usuarios', usuarios);
   socket.on('message', (data) => {
     const { chatMessage, nickname } = data;
     const now = new Date();
     const dateStringWithTime = moment(now).format('DD-MM-yyyy HH:mm:ss A');
     const newMessage = `${dateStringWithTime} - ${nickname}: ${chatMessage}`;
+    Model.insertMessage({ timestamp: dateStringWithTime, nickname, message: chatMessage });
     io.emit('message', newMessage);
   });
 });

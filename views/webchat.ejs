@@ -12,15 +12,26 @@
     <h1>WebChat</h1>
   </header>
   <br />
-  <input data-testid='nickname-box' id="nameBox" />
-  <button data-testid='nickname-button' id='changeNameBtn'>Change Name</button>
+  <form>
+    <input data-testid='nickname-box' id="nameBox" placeholder="Nickname" />
+    <button data-testid='nickname-button' id='changeNameBtn' type="button">Change Name</button>
+  </form>
   <ul id="messageList">
+    <% messages.forEach((msg) => { %>
+      <li><%= `${msg.timestamp} - ${msg.nickname}: ${msg.message}` %></li>
+    <% }) %>
   </ul>
-  <input data-testid='message-box' id='messageBox' />
-  <button data-testid='send-button' id='sendButton' >Enviar</button>
+  <form>
+    <input data-testid='message-box' id='messageBox' placeholder="Message"/>
+    <button data-testid='send-button' id='sendButton' type="button" >Enviar</button>
+  </form>
   <h3 id="myNickName" data-testid="online-user"></h3>
+  <h2>Online Friends:</h2>
+  <ul id="onlineContainer">
+  </ul>
 </body>
 </html>
+
 <script>
   const client = window.io();
 
@@ -43,17 +54,33 @@
   });
 
   client.on('connection', (clientId) => {
-    document.querySelector('#myNickName').innerText = clientId;
+    if (sessionStorage.getItem('webChatNickname')) {
+      document.querySelector('#myNickName').innerText = sessionStorage
+        .getItem('webChatNickname');
+    } else {
+      document.querySelector('#myNickName').innerText = clientId;
+    }
   });
+
+  // client.on('usuarios', (usuarios) => {
+  //   usuarios.forEach((usuario) => {
+  //     const li = document.createElement('li');
+  //     li.innerText = usuario;
+  //     document.querySelector('#onlineContainer').appendChild(li);
+  //   });
+  // });
 
   document.querySelector('#changeNameBtn').addEventListener('click', () => {
     newName = document.querySelector('#nameBox').value;
     document.querySelector('#myNickName').innerText = newName;
+    sessionStorage.setItem('webChatNickname', newName);
+    document.querySelector('#nameBox').value = '';
   });
 
   document.querySelector('#sendButton').addEventListener('click', () => {
     const msg = document.querySelector('#messageBox').value;
     const myClient = document.querySelector('#myNickName').innerText;
     client.emit('message', { chatMessage: msg, nickname: myClient });
+    document.querySelector('#messageBox').value = '';
   });
 </script>
