@@ -11,10 +11,15 @@ const io = require('socket.io')(server, {
     },
 });
 const normalizeMessage = require('./services/normalizeMessage');
+const { getMessages, insertMessage } = require('./controllers');
 
-io.on('connection', (socket) => {
-    socket.on('message', (message) => {        
-        io.emit('message', normalizeMessage(message));
+io.on('connection', async (socket) => {
+    const pastMessages = await getMessages();
+    io.emit('pastMessages', pastMessages);
+    socket.on('message', async (message) => {        
+        const newMessage = normalizeMessage(message);
+        await insertMessage(newMessage);
+        io.emit('message', newMessage);
     });
 });
 

@@ -13,21 +13,17 @@
         <div id="messagesDiv">
             <input id="input" type="text" data-testid="message-box">
             <button id="button" data-testid="send-button">Enviar mensagem</button>
-            <ul id="messagesList">
-                <li id="original" data-testid="message"></li>
+            <ul id="messagesList">                
             </ul>
         </div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'></script>
-        <script>
-            const li = document.querySelector('#original'); 
-            li.style.display = 'none';
+        <script>            
             const userName = document.querySelector('#userName');
             const generateNickname = () => {
                 const alphabet = 'qwertyuiopasdfghjklzxcvbnm';
                 let newName = '';
-                while (newName.length < 16) {
-                    console.log(Math.round(Math.random() * alphabet.length))
-                    newName += alphabet[Math.round(Math.random() * alphabet.length)];
+                while (newName.length < 16) {                    
+                    newName += alphabet[Math.round(Math.random() * alphabet.length) - 1];
                 };
                 userName.innerHTML = newName;
             };
@@ -51,14 +47,15 @@
                 input.value = '';
             })
             const insertLi = (message) => {
-                const ul = document.querySelector('#messagesList');
-                           
-                const clone = li.cloneNode(true);
-                clone.id = 'clone';                
-                clone.innerHTML = message;
-                clone.style.display = 'initial';
-                ul.appendChild(clone);
+                const ul = document.querySelector('#messagesList');                           
+                const li = document.createElement('li');
+                li.setAttribute('data-testid', 'message');
+                li.innerHTML = message;
+                ul.appendChild(li);
             };
+            socket.on('pastMessages', (messages) => {
+                messages.forEach((message) => insertLi(message.message))
+            });
             socket.on('message', (message) => {
                 insertLi(message)
             });
