@@ -9,14 +9,16 @@ const io = require('socket.io')(http, {
     methods: ['GET', 'POST'],
   },
 });
+const Chat = require('./models/chatModels');
 
 require('./sockets/chatSocket')(io);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-app.get('/', (_req, res) => {
-  res.render('chatView');
+app.get('/', async (_req, res) => {
+  const history = await Chat.getMsg();
+  res.render('chatView', { history });
 });
 
 http.listen(3000, () => {
