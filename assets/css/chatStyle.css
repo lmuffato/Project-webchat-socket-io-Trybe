@@ -39,10 +39,10 @@ header {
 
 .messages {
   list-style-type: none;
-  text-align: center;
-  margin-right: 280px;
   margin-left: 280px;
+  margin-right: 280px;
   padding: 0;
+  text-align: center;
 }
 
 .messages li {
@@ -52,15 +52,16 @@ header {
 footer {
   margin-top: 250px;
   text-align: center;
+
   /* padding: 3px; */
 }
 
 footer input {
-  width: 200px;
   margin-right: 9px;
+  width: 200px;
 }
 
- /* h1 {
+/* h1 {
   margin: 50px;
   text-align: center;
 } */
