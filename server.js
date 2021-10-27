@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const path = require('path');
 const app = express();
 const http = require('http').createServer(app);
 
@@ -10,6 +11,14 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
+
+app.set('view engine', 'html');
+app.set('views', './views');
+app.engine('html', require('ejs').renderFile);
+app.use('/',express.static(path.join(__dirname + './views')));
+
+// linha 17 adicionada seguindo solução proposta no tópico seguinte: 
+// https://stackoverflow.com/questions/17911228/how-do-i-use-html-as-the-view-engine-in-express
 
 const dateInteger = new Date;
 const formatedDate = `${dateInteger.getDay()}-${dateInteger.getMonth()}-${dateInteger.getFullYear()}`
@@ -31,6 +40,10 @@ io.on('connection', (socket) => {
     io.emit('message', `${formatedDate} ${formatedHours} - ${nickname}: ${chatMessage}`)
   })
 });
+
+app.get('/', (_req,res) => {
+  res.render('view.html')
+})
 
 http.listen(PORT, () => {
   console.log(`Socket conectado na porta ${PORT}`);

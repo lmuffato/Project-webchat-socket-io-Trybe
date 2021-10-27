@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>WebChat</title>
+</head>
+<body>
+  <h3 id="user-name" data-testid="online-user"></h3>
+  <input type="text" id="input-change-nick" data-testid="nickname-box">
+  <button type="button" id="button-change-nick" data-testid="nickname-button">Trocar o nick</button>
+  <ul id="message-list"></ul>
+  <input type="text" data-testid="message-box" id="text-input"/>
+  <button type="button" data-testid="send-button" id="send-button">Enviar</button>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:3000');
+
+    const sendButton = document.querySelector('#send-button');
+
+    socket.on('wellcome', () => {
+      const id = socket.id.substring(0,11);
+      randomNick = `user-${id}`
+      sessionStorage.setItem('user', randomNick);
+      const userName = document.getElementById('user-name');
+      userName.innerHTML = sessionStorage.getItem('user');
+      });
+
+    sendButton.addEventListener('click', () => {
+      console.log('entrou aqui')
+      const message = document.querySelector('#text-input').value;
+      const sendMessage = {
+        chatMessage: message,
+        nickname: randomNick,
+      }
+      socket.emit('message', sendMessage)
+    });
+    socket.on('message', (message) => {
+      const li = document.createElement('li');
+      li.innerHTML = message;
+      document.getElementById('message-list').appendChild(li);
+    });
+
+    
+  </script>
+</body>
+
+</html>
