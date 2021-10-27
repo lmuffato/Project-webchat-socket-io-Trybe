@@ -10,11 +10,11 @@ module.exports = (io) => {
         console.log(message);// enviar ao front mensagem já formatada
     });
 
-    socket.on('refreshAllMessages', async () => {
-      const allMessages = await chatService.getAllMessages();
-      io.emit('refreshAllMessages', allMessages);
-      console.log(allMessages, 'all Messages');
-    });
+    // socket.on('refreshAllMessages', async () => {
+    //   const allMessages = await chatService.getAllMessages();
+    //   socket.emit('refreshAllMessages', allMessages);
+    //   console.log(allMessages, 'all Messages');
+    // });
 
     socket.on('disconnect', () => {
       socket.broadcast.emit('serverMessage', `eita, ${socket.id} saiu`);

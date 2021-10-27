@@ -17,7 +17,7 @@ const io = require('socket.io')(http, {
 });
 
 require('./sockets/chatSocket')(io);
-// const chatService = require('./services/chatService');
+const chatService = require('./services/chatService');
 
 // const corsSettings = {
 //   origin: 'http://localhost:3000',
@@ -35,6 +35,9 @@ app.set('views', './views');
 //   return res.status(200).json(chat);
 // });
 
-app.get('/', (_req, res) => res.render('chat'));
+app.get('/', async (_req, res) => {
+  const chat = await chatService.getAllMessages();
+  res.render('chat', { chat });
+});
 
 http.listen(PORT, () => console.log(`ouvindo na porta ${PORT}`));

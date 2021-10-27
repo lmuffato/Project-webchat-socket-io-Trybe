@@ -12,7 +12,6 @@ const createMessage = async (data) => {
   const newMessage = await chatModel.createMessage(data, generateTimeStamp)
   .then((res) => res).catch((e) => console.log(e));
   return newMessage;
-  // io.emit('message', `${data.timestamp} - ${nickname}: ${chatMessage}`);
 };
 
 module.exports = {
