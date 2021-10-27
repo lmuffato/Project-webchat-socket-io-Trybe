@@ -82,6 +82,17 @@ form {
   padding: 5px 10px;
 }
 
+.subcontainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 2rem;
+}
+
+.usersList {
+  padding: 2rem;
+  width: 30vw;
+}
+
 .messages li:nth-child( odd ) {
   background: #eee;
 }

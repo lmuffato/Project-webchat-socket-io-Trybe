@@ -44,9 +44,8 @@ nicknameButton.addEventListener('click', (ev) => {
   ev.preventDefault();
   if (inputNickname.value) {
     generateNickname = inputNickname.value;
-    socket.emit('generateNickname', generateNickname);
     inputNickname.value = '';
-    return;
+    return socket.emit('generateNickname', generateNickname);
   }
   generateNickname = randomID(16, randomChar, randomNumber);
   return socket.emit('generateNickname', generateNickname);
@@ -56,11 +55,12 @@ button.addEventListener('click', (ev) => {
   ev.preventDefault();
   const backupNickname = socket.id.substring(0, 16);
   const msgData = { nickname: generateNickname || backupNickname, chatMessage: inputMessage.value };
-  socket.emit('message', msgData);
   inputMessage.value = '';
+  socket.emit('message', msgData);
   // console.log(msgData);
 });
 
+// Outra forma de fazer a renderização das msgs
 // socket.on('refreshAllMessages', (data) => {
 //   // console.log(data, 'data');
 //   data.forEach((item) => {
@@ -68,7 +68,7 @@ button.addEventListener('click', (ev) => {
 //     const formatMsg = `${timestamp} - ${nickname}: ${message}`;
 //     createMessage(formatMsg);
 //   });
-//   // socket.emit('refreshAllMessages', data);
+//   socket.emit('refreshAllMessages', data);
 // });
 
 socket.on('message', (data) => {

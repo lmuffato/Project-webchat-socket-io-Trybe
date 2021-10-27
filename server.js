@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+// renderização de todas as msgs salvas na collection messages, usando SSR - Server Side Rendering
 app.get('/', async (_req, res) => {
   const chat = await chatService.getAllMessages();
   res.render('chat', { chat });

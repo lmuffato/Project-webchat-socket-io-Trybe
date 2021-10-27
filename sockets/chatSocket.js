@@ -12,15 +12,15 @@ module.exports = (io) => {
 
     socket.on('generateNickname', async (data) => {
       io.emit('generateNickname', data);
-      console.log(data);
     });
   
+    // Outra forma de fazer a renderização das msgs - renderização no lado do cliente
     // socket.on('refreshAllMessages', async () => {
     //   const allMessages = await chatService.getAllMessages();
-    //   socket.emit('refreshAllMessages', allMessages);
+    //   io.emit('refreshAllMessages', allMessages);
     //   console.log(allMessages, 'all Messages');
     // });
-
+  
     socket.on('disconnect', () => {
       socket.broadcast.emit('serverMessage', `eita, ${socket.id} saiu`);
     });

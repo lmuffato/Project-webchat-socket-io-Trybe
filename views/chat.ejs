@@ -10,12 +10,17 @@
 </head>
 <body>
   <main class="container">
-    <section class="messages-list">
-      <% chat.forEach((item) => { %>
-        <% const { nickname, message, timestamp } = item; %>
-          <p data-testid="message"> <%=timestamp %> - <%= nickname %> : <%= message %> </p>
-    <%  }) %>
-      </section>
+    <div class="subcontainer">
+      <section class="messages-list">
+        <% chat.forEach((item) => { %>
+          <% const { nickname, message, timestamp } = item; %>
+            <p data-testid="message"> <%=timestamp %> - <%= nickname %></span> : <%= message %> </p>
+      <%  }) %>
+        </section>
+        <ul class="usersList">
+          <li>Teste</li>
+        </ul>
+    </div>
       <div class="forms-container">
         <form action=" " class="nickname-box-container">
           <input
