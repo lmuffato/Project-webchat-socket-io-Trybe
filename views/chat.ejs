@@ -9,24 +9,7 @@
     <title>webchat</title>
   </head>
   <body class="main">
-    <script>
-      
-
-      const sendMessage = () => {
-        const message = document.querySelector('#message-box').value;
-        socket.emit('webchat', message);
-        document.querySelector('#message-box').value = '';
-      };
-
-
-      const socket = io();
-
-      socket.on('webchat', (message) => {
-        const li = document.createElement('li');
-        li.innerText = message;
-        document.querySelector('#messages').appendChild(li);
-      });
-    </script>
+    
     <section class="container">
       <div class="users-container">
         <div>
@@ -46,9 +29,9 @@
             Save Nickname
           </button>
         </div>
-        <div class="users">
+        <div class="online-users">
           <h3>Usuários Online</h3>
-          </ul id="online-users"></ul>
+          </ul id="users"></ul>
         </div>
       </div>
       <div class="messages-container">
@@ -70,7 +53,7 @@
             id="send-button"
             data-testid="send-button"
             type="submit"
-            onclick="sendMessage()"
+            onclick="sendMessage(event)"
           >
             Send Message
           </button>
@@ -78,4 +61,28 @@
       </div>
     </section>
   </body>
+  <script>
+
+    const sendMessage = () => {
+      const message = document.querySelector('#message-box').value;
+      socket.emit('message', message);
+      document.querySelector('#message-box').value = '';
+    };
+
+    const socket = io();
+    
+    socket.on('message', (message) => {
+      const li = document.createElement('li');
+      li.innerText = message;
+      document.querySelector('#messages').appendChild(li);
+    });
+
+    socket.on('login', (user) => {
+      console.log(user)
+      const li = document.createElement('li');
+      li.innerText = user;
+      document.querySelector('#users').appendChild(li);
+    });
+
+  </script>
 </html>
