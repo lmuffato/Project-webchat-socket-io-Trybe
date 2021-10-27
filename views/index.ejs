@@ -9,6 +9,11 @@
 <body>
   <h2>Send messages</h2>
   <p>Nickname: <span id="nickname" data-testid="online-user"><%= randomNickname %></span></p>
+  <form id="change-nick-form" action="">
+    <input id="nick-input" type="text" data-testid="nickname-box">
+    <button type="submit" data-testid="nickname-button">Change Nickname</button>
+  </form>
+
   <ul id="messages-list"></ul>
   <form id="message-form" action="">
     <input id="message-input" type="text" data-testid="message-box">
