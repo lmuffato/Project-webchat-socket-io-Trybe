@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+  <ul id="mensagens"></ul>
+
+  <form action="" id="msgForm">
+    <input id="mensagemInput" autocomplete="off" /><button>Enviar</button>
+  </form>
+  <form action="" id="nickForm">
+    <input id="nameInput" autocomplete="off" /><button>Alterar</button>
+  </form>
+
+    <script>
+      const socket = io();
+      
+      socket.on('setNick', (nick) => {
+        sessionStorage.setItem('nick', JSON.stringify(nick));
+      })
+      
+      const formMsg = document.querySelector('#msgForm');
+      const nickForm = document.querySelector('#nickForm');
+      const inputMessage = document.querySelector('#mensagemInput');
+      const inputName = document.querySelector('#nameInput');
+      
+      formMsg.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nickname = sessionStorage.getItem('nick');
+        const chatMessage = inputMessage.value;
+
+        socket.emit('message', {chatMessage, nickname});
+
+        inputMessage.value = '';
+        return false;
+      })
+
+      const createMessage = (message) => {
+        const messagesUl = document.querySelector('#mensagens');
+        const li = document.createElement('li');
+        li.innerText = message;
+        messagesUl.appendChild(li);
+      }
+
+      socket.on('message', (message) => createMessage(message));
+
+      nickForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nickChange = inputName.value
+        
+        const changeName = sessionStorage.setItem('nick', JSON.stringify(nickChange))
+        
+        inputName.value = '';
+        return false;
+      })
+      
+      window.onbeforeunload = () => {
+        socket.disconnect();
+      }; 
+    </script>
+</body>
+</html>
