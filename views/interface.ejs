@@ -13,7 +13,7 @@
     <div class="participants">
       <header><h2>Participantes do grupo</h2></header>
       <div>
-        <h3 id="username-name"><%=username%></h3>
+        <h3 id="username-name"></h3>
       </div>
       <div class="write-name">
         <form id="user">
@@ -46,25 +46,18 @@
     const userForm = document.getElementById('user');
     const message = document.getElementById('message');
     const messageInput = document.getElementById('messageInput');
-    const username = document.getElementById('username-name');
+    const usernameTag = document.getElementById('username-name');
     const chat = document.querySelector('.chat')
     const participantList = document.querySelector('.participants-list');
-    const userId = '<%- JSON.stringify(userID) %>';
-
-    const addIdLocalStorage = (data) => {
-      sessionStorage.setItem('userId', data);
-    }
-
-    addIdLocalStorage(userId);
-    socket.emit('login', username.innerHTML);
 
     const updateusername = (data) => {
-      username.innerHTML = data;
+      usernameTag.innerHTML = data;
     }
 
     userForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const newUsername = event.target[0].value;
+      const userId = sessionStorage.getItem('userId')
       const updateUser = { newUsername, userId }
       socket.emit('updateUsername', updateUser);
       updateusername(newUsername);
@@ -75,7 +68,7 @@
       const date = new Date();
       const message = {
         chatMessage: event.target[0].value,
-        nickname: username.innerHTML,
+        nickname: usernameTag.innerHTML,
         timestamp: `${date.getDay()}-${date.getMonth()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
       }
       socket.emit('message', message);
@@ -87,10 +80,6 @@
       clientMessage.innerHTML = `<p data-testid = "message">${input}</p>`;
       chat.appendChild(clientMessage);
     }
-
-    socket.on('message', (message) => {
-      createMessage(message);
-    });
 
     const createUser = (userList) => {
       const onlineUsers = document.querySelectorAll('.online-user');
@@ -105,13 +94,19 @@
       });
     };
 
+    socket.on('message', (message) => {
+      createMessage(message);
+    });
+
     socket.on('usernameList', (userList) => {
       createUser(userList);
     });
 
-    window.onbeforeunload = () => {
-      socket.emit('end', userId);
-    };
+    socket.on('login', ({ userList, userId, username }) => {
+      sessionStorage.setItem('userId', userId.id);
+      usernameTag.innerText = username;
+      createUser(userList);
+    });
   </script>
 </body>
 </html>
