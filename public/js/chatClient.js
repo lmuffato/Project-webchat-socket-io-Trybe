@@ -33,16 +33,6 @@ form.addEventListener('submit', (e) => {
   return false;
 });
 
-// const setAllMessages = (messages) => {
-//   const messagesUl = document.querySelector('#messages');
-//   messages.forEach((info) => {
-//     const li = document.createElement('li');
-//     li.setAttribute(TEST_ID, 'message');
-//     li.innerText = info.message;
-//     messagesUl.appendChild(li);
-//   });
-// };
-
 const serverMessage = (message) => {
   const messagesUl = document.querySelector('#messages');
   const li = document.createElement('li');
@@ -53,7 +43,6 @@ const serverMessage = (message) => {
 
 socket.on('message', (message) => serverMessage(message));
 socket.on('nickname', (randomName) => setRandomName(randomName));
-// socket.on('getHistory', (messages) => setAllMessages(messages));
 
 window.onbeforeunload = () => {
   socket.disconnect();
