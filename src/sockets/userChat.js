@@ -1,13 +1,22 @@
-let onlineUsers = [];
+const onlineUsers = {};
+
+const modelMessages = require('../../models/messages');
+
+const generateTimeStamp = require('../utils/generateTimeStamp');
 
 module.exports = (io) => io.on('connection', (socket) => {
   socket.on('updateName', (nickname) => {
-    onlineUsers = onlineUsers.concat(nickname);
+    onlineUsers[socket.id] = nickname;
     io.emit('updateUserlist', onlineUsers);
   });
   socket.on('disconnect', () => {
-    
-    socket.broadcast.emit('serverMessage', `Xiii! ${socket.id} acabou de se desconectar! :(`);
+    delete onlineUsers[socket.id];
+    io.emit('updateUserlist', onlineUsers);
   });
-
+  socket.on('message', async ({ chatMessage, nickname }) => {
+    const timeStamp = generateTimeStamp();
+    await modelMessages.create({ timeStamp, nickname, chatMessage });
+    const message = `${timeStamp} - ${nickname}: ${chatMessage}`;
+    io.emit('message', message);
+  });
 });
