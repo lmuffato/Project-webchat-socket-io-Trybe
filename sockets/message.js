@@ -3,7 +3,7 @@ module.exports = (io) => {
     console.log(`New connection. Id: ${socket.id}`);
 
     socket.on('message', ({ chatMessage, nickname }) => {
-      const dateStr = new Date().toLocaleString('en-GB').replace(/\//g, '-');
+      const dateStr = new Date().toLocaleString('en-GB').replace(/\//g, '-').replace(',', '');
       const message = `(${dateStr}) ${nickname}: ${chatMessage}`;
       io.emit('message', message);
     });

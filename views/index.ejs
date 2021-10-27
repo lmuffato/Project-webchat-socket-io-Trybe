@@ -14,7 +14,12 @@
     <button type="submit" data-testid="nickname-button">Change Nickname</button>
   </form>
 
-  <ul id="messages-list"></ul>
+  <ul id="messages-list">
+    <% messages.forEach((message) => { %>
+      <% const formattedMessage = `(${message.timestamp}) ${message.nickname}: ${message.message}`  %>
+      <li><%= formattedMessage %></li>
+    <% }); %>
+  </ul>
   <form id="message-form" action="">
     <input id="message-input" type="text" data-testid="message-box">
     <button type="submit" data-testid="send-button">Send</button>
