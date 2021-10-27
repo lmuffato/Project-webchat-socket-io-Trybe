@@ -1,26 +1,19 @@
-const express = require('express');
 const http = require('http');
 const dotenv = require('dotenv');
+const SocketIO = require('socket.io');
+const app = require('./app');
+const messagesSocket = require('./sockets/message');
 
 dotenv.config();
-const app = express();
 
 const server = http.createServer(app);
-const io = require('socket.io')(server, {
+const io = SocketIO(server, {
   cors: {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 });
-
-require('./sockets/message')(io);
-
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
-app.get('/', (_req, res) => {
-  res.status(200).render('test-client');
-});
+messagesSocket(io);
 
 const PORT = 3000;
 server.listen(PORT, () => {
