@@ -24,7 +24,13 @@
     </fieldset>
     <ul class="messages" id="messages"></ul>
     <form class="form" id="form" action="">
-      <input class="input" id="input" autocomplete="off" /><button>Send</button>
+      <input
+        class="input"
+        id="input"
+        autocomplete="off"
+        data-testid="message-box"
+      />
+      <button data-testid="send-button">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src='./js/webChat.js'></script>
