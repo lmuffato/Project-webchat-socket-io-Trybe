@@ -1,4 +1,5 @@
 require('dotenv/config');
+const path = require('path');
 const express = require('express');
 // const cors = require('cors');
 const app = express();
@@ -18,7 +19,7 @@ app.use('/', express.static('./public'));
 require('./sockets/chat')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile('./public/index.html');
+  res.sendFile(path.join(__dirname, './public', 'index.html'));
 });
 
 server.listen(PORT, () => console.log(`Webchat server running on port ${PORT}!`));
