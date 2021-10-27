@@ -14,13 +14,26 @@ const changeNick = () => {
 
 changeNick();
 
-const setRandomName = (randomName) => {
-  sessionStorage.setItem('name', randomName);
+const getOnlineUsers = (users) => {
+  const allUsers = Object.values(users);
+  onlineUsers.innerText = '';
+  allUsers.forEach((user) => {
   const li = document.createElement('li');
   li.setAttribute('id', 'onlineUser');
   li.setAttribute(TEST_ID, 'online-user');
   li.classList.add('nickName');
-  li.innerText = randomName;
+  li.innerText = user;
+  onlineUsers.appendChild(li);
+  });
+};
+
+const setRandomName = (users) => {
+  sessionStorage.setItem('name', users);
+  const li = document.createElement('li');
+  li.setAttribute('id', 'onlineUser');
+  li.setAttribute(TEST_ID, 'online-user');
+  li.classList.add('nickName');
+  li.innerText = users;
   onlineUsers.appendChild(li);
 };
 
@@ -43,6 +56,7 @@ const serverMessage = (message) => {
 
 socket.on('message', (message) => serverMessage(message));
 socket.on('nickname', (randomName) => setRandomName(randomName));
+socket.on('login', (users) => getOnlineUsers(users));
 
 window.onbeforeunload = () => {
   socket.disconnect();
