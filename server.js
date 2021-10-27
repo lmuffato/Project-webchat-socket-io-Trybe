@@ -12,10 +12,15 @@ const io = require('socket.io')(http, {
 
 require('./sockets/chatSocket')(io);
 
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 app.use(express.static(`${__dirname}/public`));
 
-app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/index.html`);
+app.get('/', (_req, res) => {
+  res.render('chatView', {
+    messages: ['teste1', 'teste2'], nickName: 'nick', users: ['usr1', 'usr2'],
+  });
 });
 
 http.listen(3000, () => {
