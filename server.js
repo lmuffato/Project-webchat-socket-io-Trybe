@@ -11,7 +11,9 @@ const io = require('socket.io')(http, {
 });
 const Chat = require('./models/chatModels');
 
-require('./sockets/chatSocket')(io);
+const { handleSocket } = require('./sockets/chatSocket');
+
+handleSocket(io);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
