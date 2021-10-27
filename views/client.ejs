@@ -8,25 +8,46 @@
   <title>Client chat</title>
 </head>
 <body>
-  <input type="text" placeholder="Insira seu nickname"/>
-  <button>Slavar</button>
+  <form id="nicknameForm">
+    <input id="userNickname" type="text" placeholder="Insira seu nickname"/>
+    <button id="btnNickname">Slavar</button>
+  </form>
   <div>
+    <ul id="nicknames">
+    </ul>
   </div>
 
-  <form>
+  <form id="messsageForm">
     <input id="messageUser" type="text" placeholder="Digite uma nova mensagem aqui"/>
     <button>Enviar</button>
   </form>
     <script>
       const socket = io();
-      const formMessage = document.querySelector('form');
+      const formMessage = document.querySelector('#messsageForm');
       const userMessage = document.querySelector('#messageUser');
+      
+      const formNickname = document.querySelector('#nicknameForm');
+      const userNickname = document.querySelector('#userNickname')
+
+      formNickname.addEventListener('submit', (e) => {
+        e.preventDefault();
+        socket.emit('nickname', userNickname.value);
+        userNickname.value = '';
+        return false;
+      });
+
+      const createNickname = (nickname) => {
+        const nicknamesUl = document.querySelector('#nicknames');
+        const li = document.createElement('li');
+        li.innerText = nickname;
+        nicknamesUl.appendChild(li);
+      }
       
       formMessage.addEventListener('submit', (e) => {
         e.preventDefault();
-        socket.emit('message', userMessage.value);
+        const nick = socket.id.substring(0, 16);
+        socket.emit('message', { chatMessage: userMessage.value, nickname: nick });
         userMessage.value = '';
-        return false;
       });
 
       const createMessage = (message) => {
@@ -35,14 +56,18 @@
         li.innerText = message;
         messageUl.appendChild(li);
       }
-
-      socket.on('serverMessage', ({message}) => createMessage(message));
-
+      
+      socket.on('serverNickname', ({nickname}) => createNickname(nickname));
+      
+      socket.on('message', (message) => createMessage(message));
+      
+      window.onbeforeunload = () => {
+        socket.disconnect();
+      }; 
     </script>
 
-  <div>
-    <ul id="messages">
-
+<div>
+  <ul id="messages">
     </ul>
   </div>
 </body>

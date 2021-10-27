@@ -4,6 +4,7 @@ const app = express();
 const server = require('http').createServer(app);
 require('dotenv').config();
 const cors = require('cors');
+const moment = require('moment');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -20,8 +21,14 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
   console.log(`Feita a conexão! Novo usuário conectado ${socket.id}`);
 
-  socket.on('message', (msg) => {
-    io.emit('serverMessage', { message: msg });
+  socket.on('nickname', (nick) => {
+    io.emit('serverNickname', { nickname: nick });
+  });
+
+  socket.on('message', ({ nickname, chatMessage }) => {
+    const timestamp = moment().format('DD-MM-yyyy HH:mm:ss A');
+    console.log(timestamp, nickname, chatMessage);
+    io.emit('message', `${timestamp} - ${nickname}: ${chatMessage}`);
   });
 });
 
