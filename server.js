@@ -1,17 +1,43 @@
 const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
+const moment = require('moment');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+
+const http = require('http').createServer(app);
+
+const PORT = 3000;
 
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:3000',
-    method: ['GET', 'POST'],
-  }
-})
+    origin: `http://localhost:${PORT}`,
+    methods: ['GET', 'POST'],
+  },
+});
+
+const Controller = require('./controllers/ChatController');
+
+io.on('connection', (socket) => {
+  const initialId = socket.id.substring(0, 16);
+  socket.emit('connection', initialId);
+  socket.on('message', (data) => {
+    const { chatMessage, nickname } = data;
+    const now = new Date();
+    const dateStringWithTime = moment(now).format('DD-MM-yyyy HH:mm:ss A');
+    const newMessage = `${dateStringWithTime} - ${nickname}: ${chatMessage}`;
+    io.emit('message', newMessage);
+  });
+});
 
 app.use(cors());
 
-http.listen(3000, () => {
-  console.log('Servidor ouvindo na porta 3000');
-})
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.get('/', Controller.getAllMessages);
+
+http.listen(PORT, () => {
+  console.log(`Servidor ouvindo na porta ${PORT}`);
+});

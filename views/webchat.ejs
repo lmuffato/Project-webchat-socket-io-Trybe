@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebChat</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <header>
+    <h1>WebChat</h1>
+  </header>
+  <br />
+  <input />
+  <ul id="messageList">
+  </ul>
+  <input data-testid='message-box' id='messageBox' />
+  <button data-testid='send-button' id='sendButton' >Enviar</button>
+  <h3 id="myNickName"></h3>
+</body>
+</html>
+<script>
+  const client = window.io();
+
+  const insertMessage = (message) => {
+    const messageList = document.querySelector('#messageList');
+    const li = document.createElement('li');
+    li.setAttribute('data-testid', 'message');
+    li.innerText = message;
+    messageList.appendChild(li);
+  }
+
+  client.on('getAllMessages', (message) => {
+    message.foreach((msg) => {
+      insertMessage(message);
+    });
+  });
+
+  client.on('message', (message) => {
+    insertMessage(message);
+  });
+
+  client.on('connection', (clientId) => {
+    document.querySelector('#myNickName').innerText = clientId;
+  });
+
+  document.querySelector('#sendButton').addEventListener('click', () => {
+    const msg = document.querySelector('#messageBox').value;
+    const myClient = document.querySelector('#myNickName').innerText;
+    client.emit('message', { chatMessage: msg, nickname: myClient });
+  });
+</script>
