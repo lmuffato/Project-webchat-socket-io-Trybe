@@ -5,6 +5,23 @@
     <link rel="stylesheet" type="text/css" href="./css/webChat.css" media="screen" />
   </head>
   <body>
+    <fieldset class="nick">
+      <span id="user">Welcome to Trybe WebChat! Your nickname is </span>
+      <div>
+        <input
+          data-testid="nickname-box"
+          id="nickInput"
+          type="text"
+          placeholder="Change your nickname"
+        >
+        <button
+          id="nickBtn"
+          data-testid="nickname-button"
+        >
+        Submit
+        </button>
+      </div>
+    </fieldset>
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>

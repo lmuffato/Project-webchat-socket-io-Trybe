@@ -1,9 +1,11 @@
+const moment = require('moment');
+
+const messageMoment = moment().format('DD-MM-yyyy HH:mm:ss A');
+
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    console.log(`Cliente ${socket.id} acabou de entrar!`);
-
-    socket.on('message', (msg) => {
-      io.emit('message', msg);
+    socket.on('message', ({ chatMessage, nickname }) => {
+      io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
     });
   });
 };

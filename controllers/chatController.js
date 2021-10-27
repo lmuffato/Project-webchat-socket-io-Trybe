@@ -1,4 +1,4 @@
-const getAllMsg = (req, res) => {
+const getAllMsg = (_req, res) => {
   res.status(200).render('webChat');
 };
 
