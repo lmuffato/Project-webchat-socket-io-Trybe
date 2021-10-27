@@ -12,12 +12,13 @@
     <h1>WebChat</h1>
   </header>
   <br />
-  <input />
+  <input data-testid='nickname-box' id="nameBox" />
+  <button data-testid='nickname-button' id='changeNameBtn'>Change Name</button>
   <ul id="messageList">
   </ul>
   <input data-testid='message-box' id='messageBox' />
   <button data-testid='send-button' id='sendButton' >Enviar</button>
-  <h3 id="myNickName"></h3>
+  <h3 id="myNickName" data-testid="online-user"></h3>
 </body>
 </html>
 <script>
@@ -43,6 +44,11 @@
 
   client.on('connection', (clientId) => {
     document.querySelector('#myNickName').innerText = clientId;
+  });
+
+  document.querySelector('#changeNameBtn').addEventListener('click', () => {
+    newName = document.querySelector('#nameBox').value;
+    document.querySelector('#myNickName').innerText = newName;
   });
 
   document.querySelector('#sendButton').addEventListener('click', () => {
