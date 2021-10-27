@@ -9,12 +9,12 @@ const app = express();
 
 const socketIoServer = require('http').createServer();
 
-const io = require('socket.io')(socketIoServer, {
-  cors: { 
-    origin: `http://localhost:${EXPRESS_PORT}`, 
-    methods: ['GET', 'POST'], 
-  },
-});
+// const io = require('socket.io')(socketIoServer, {
+//   cors: { 
+//     origin: `http://localhost:${EXPRESS_PORT}`, 
+//     methods: ['GET', 'POST'], 
+//   },
+// });
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
