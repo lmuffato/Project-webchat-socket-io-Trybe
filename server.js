@@ -1,14 +1,23 @@
-// Faça seu código aqui
 const express = require('express');
-const webchatController = require('./controllers/webchat');
+const bodyParser = require('body-parser');
+// const cors = require('cors');
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+const http = require('http').createServer(app);
+
+// const webchatController = require('./controllers/webchat');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-const PORT = process.env.PORT || 3000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/webchat', webchatController.getAll);
+app.get('/webchat', (_req, res) => {
+  res.render('chat');
+});
 
-app.listen(PORT, () => console.log(`API escutando na porta ${PORT}`));
+http.listen(PORT, () => console.log(`API escutando na porta ${PORT}`));

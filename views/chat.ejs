@@ -4,16 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./chat.css" />
+    <link rel="stylesheet" href="chat.css" />
     <title>webchat</title>
   </head>
   <body class="main">
-    <% if (result) { %>
-      <ul>
-        <% result.forEach((element) => { %>
-          <li><%= element.nickName %></li>
-        <% }) %>
-      </ul>
-    <% } %>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket= io();
+    </script>
+    <section class="container">
+      <div class="users-container">
+        <div>
+          <label for="nickname-box">
+            <input
+              id="nickname-box"
+              data-testid="nickname-box"
+              type="text"
+              placeholder="Type your nickname here"
+            />  
+          </label>
+          <button
+            type="button"
+            id="nickname-button"
+            data-testid="nickname-button"
+          >
+            Save Nickname
+          </button>
+        </div>
+        <div class="users">
+          <h3>Usuários Online</h3>
+          </ul>
+           
+          </ul>
+        </div>
+      </div>
+      <div class="messages-container">
+        <div class="messages">
+          <ul id="messages">
+          </ul>
+        </div>
+      </div>
+      <div class="type-message-container">
+        <div class="type-messages">
+          <label for="message-box">
+            <input
+              id="message-box"
+              data-testid="message-box"
+              type="text"
+              placeholder="Type the message here"
+            />
+          </label>
+          <button
+            id="send-button"
+            data-testid="send-button"
+            type="submit"
+          >
+            Send Message
+          </button>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
