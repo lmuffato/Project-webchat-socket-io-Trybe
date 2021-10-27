@@ -15,12 +15,12 @@ const io = require('socket.io')(server, {
 
 const chatController = require('./controller/chatController');
 
-app.set('view engine', 'ejs');
-app.set('views', './views');
+// app.set('view engine', 'ejs');
+// app.set('views', './views');
 
 app.use(cors());
-app.use('/assets', express.static('./assets/scripts'));
-app.use('/assets', express.static('./assets/css'));
+// app.use('/assets', express.static('./assets/scripts'));
+// app.use('/assets', express.static('./assets/css'));
 
 require('./assets/scripts/serverChat')(io);
 
