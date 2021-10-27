@@ -7,6 +7,9 @@
         "node": true,
         "jest": true
     },
+    "rules": {
+      "no-param-reassign": 0
+    },
     "extends": "trybe-backend",
     "parserOptions": { "ecmaVersion": 11 }
   }
