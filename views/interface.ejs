@@ -87,18 +87,22 @@
     });
 
     const createUser = (userList) => {
-      if (userList && userList.length > 0){
-        userList.forEach((user) => {
-          const newUser = document.createElement('p');
-          newUser.innerHTML = `<p>${user.nickname}</p>`;
-          participantList.appendChild(newUser);
-        })
-      }
-    }
+      const onlineUsers = document.querySelectorAll('.online-user');
+      onlineUsers.forEach((user) => {
+        user.remove();
+      });
+      userList.forEach((user) => {
+        const newUser = document.createElement('div');
+        newUser.className = 'online-user';
+        newUser.innerHTML = `<p data-testid="online-user">${user.nickname}</p>`;
+        participantList.appendChild(newUser);
+      });
+    };
 
     socket.on('usernameList', (userList) => {
       createUser(userList);
     });
+
     window.onbeforeunload = () => {
       socket.emit('end', userId);
     };

@@ -40,7 +40,7 @@ const deleteById = async (id) => {
   const collection = await connection()
   .then((db) => db.collection(COLLECTION));
 
-  // const response = await collection.deleteMany({});
+  // const response = await collection.deleteMany({}); // gambiarra para limpar tudo
 
   const response = await collection.deleteOne({ _id: new ObjectId(JSON.parse(id)) });
 
