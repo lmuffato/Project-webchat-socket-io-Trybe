@@ -18,6 +18,7 @@ io.on('connection', (socket) => {
   console.log(socket.id);
   socket.on('message', ({ chatMessage, nickname }) => {
     const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
+    console.log(`${timeStamp} - ${nickname}: ${chatMessage}`);
     io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
   });
 });

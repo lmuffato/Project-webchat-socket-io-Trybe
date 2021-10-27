@@ -9,12 +9,12 @@
   <title>Webchat</title>
 </head>
 <body>
-  <form id="chat">
-    <input type="text" name="nickname" placeholder="Digite seu usuario">
+ <div id="chat">
+    <input id="username" type="text" name="nickname" placeholder="Digite seu usuario">
     <div class="messages"></div>
-    <input type="text" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
-    <button type="submit" data-testid="send-button" name="send-button">Enviar</button>
-  </form>
+    <input type="text" id="message-teste" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
+    <button id="button-teste" data-testid="send-button" name="send-button">Enviar</button>
+  </div>
   <script src="./script.js"></script>
 </body>
 </html>

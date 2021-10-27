@@ -1,17 +1,17 @@
 const client = window.io();
 
-const author = document.getElementsByName('nickname');
-const message = document.getElementsById('message-box');
-const form = document.getElementById('chat');
+const button = document.querySelector('#button-teste');
 
-form.submit((event) => {
-  event.preventDefault();
+button.addEventListener('click', () => {
+  const author = document.querySelector('#username').value;
+  const message = document.querySelector('#message-teste').value;
 
   if (author.length && message.length) {
     const newMsg = {
       chatMessage: message,
       nickname: author,
     };
+    console.log(newMsg);
     client.emit('message', newMsg);
   }
 });
