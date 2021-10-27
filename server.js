@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const http = require('http');
 require('dotenv').config();
 
@@ -20,6 +21,7 @@ require('./sockets/webchat')(io);
 
 // usando middle
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(cors());
 
 // declarando rota
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '/index.html')));

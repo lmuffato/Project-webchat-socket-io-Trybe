@@ -1,10 +1,14 @@
 module.exports = (io) => io.on('connection', (socket) => {
   console.log(`Usuário conectado. ID: ${socket.id} `);
-  socket.on('clientMessage', (message) => {
-    console.log(`Mensagem ${message}`);
-    io.emit('serverMessage', message);
+
+  // lidando com as msg
+  socket.on('message', (data) => {
+    console.log(data);
+    console.log(`Mensagem ${data.chatMessage}`);
+    io.emit('message', data.chatMessage);
   });
+  // caso disconnect 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('serverMessage', `tchau ${socket.id}`);
+    socket.broadcast.emit('message', `tchau ${socket.id}`);
   });
 });
