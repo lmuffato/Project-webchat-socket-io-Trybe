@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const cors = require('cors');
-const { getRandomName } = require('./middlewares/chat');
 
 app.set('view engine', 'ejs');
 app.set('views', './public');
@@ -20,7 +19,7 @@ const io = require('socket.io')(http, {
 
 app.use(express.static(`${__dirname}/public`));
 
-app.get('/', getRandomName, (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).render(`${__dirname}/public/index.ejs`);
 });
 

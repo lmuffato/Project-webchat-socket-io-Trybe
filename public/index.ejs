@@ -9,9 +9,14 @@
     <link rel="stylesheet" href="./css/chat.css">
   </head>
   <body>
-    <ul id="messages"></ul>
+    <button id="nickNameButton" data-testid="nickname-button" onclick="changeNick()" type="button">Alterar Nick</button>
+    <input id="nickNameBox" type="text"  data-testid="nickname-box" />
+    <ul id="onlineUsers">
+      <!-- <li id="nickName" data-testid="online-user"></li> -->
+    </ul>
+    <ul id="messages">
     <li data-testid="message"></li>
-    <h2 id="nickname"><%= nickname %></h2>
+    </ul>
     <form action="">
       <input id="messageInput" data-testid="message-box" autocomplete="off" />
       <button data-testid="send-button">Send</button>
