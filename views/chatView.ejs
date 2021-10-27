@@ -11,7 +11,7 @@
 
 <body>
   <header>
-    <div data-testid="online-user" id="name"></div>
+    <!-- <div data-testid="online-user" id="name"></div> -->
     <form>
       <input type="text" name="nickName" id="nckNm" data-testid="nickname-box">
       <button type="button" id="newNckNm" data-testid="nickname-button">Atualizar</button>
@@ -33,7 +33,7 @@
     <button type="button" id="sendBtn" data-testid="send-button">Enviar</button>
   </form>
   <aside>
-    <ul>
+    <ul id="usrs">      
     </ul>
     <button id="exit-btn">Sair</button>
   </aside>
@@ -41,12 +41,12 @@
     const socket = io();
 
     // Elements
-    const nickNameParent = document.querySelector('#name');
     const newNameBtn = document.querySelector('#newNckNm');
     const nameInput = document.querySelector('#nckNm');
     const msgList = document.querySelector('#msgs');
     const msgText = document.querySelector('#msg');
     const sendBtn = document.querySelector('#sendBtn');
+    const usrsList = document.querySelector('#usrs');
 
     // Helpers  e métodos
     const createChildren = (parent, content, element, testId) => {
@@ -58,14 +58,26 @@
       }).forEach((child) => parent.appendChild(child));
     };
 
-    // Escutadores do socket
-    socket.on('defaultNick', (defaultNick) => {      
-      nickNameParent.innerText = defaultNick;
-      sessionStorage.setItem('nickname', defaultNick);
-    });
+    const sortUsers = (usr, id) => {
+      const me = usr[id];
+      const toBeFixed = { ...usr };
+      delete toBeFixed[id];
+      return [me, ...Object.values(toBeFixed)];
+    };
 
+    // Escutadores do socket
     socket.on('message', (msg) => {
       createChildren(msgList, [msg], 'li', 'message');
+    });
+
+    socket.on('users', ({users, id }) => {
+      const usrNames = sortUsers(users, id);
+      usrsList.innerHTML = '';
+      createChildren(usrsList, usrNames, 'li', 'online-user');
+    });
+
+    socket.on('defaultName', ({ defaultName, users, id }) => {
+      sessionStorage.setItem('nickname', defaultName);
     });
 
     // Eventos do DOM
@@ -83,7 +95,7 @@
       e.preventDefault();
       const name = nameInput.value;
       if (!name) return;
-      nickNameParent.innerText = name;
+      socket.emit('nameChange', name);
       sessionStorage.setItem('nickname', name);
       nameInput.value = '';
     });
