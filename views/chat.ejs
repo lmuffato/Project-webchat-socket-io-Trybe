@@ -22,7 +22,11 @@
       <ul></ul>
     </div>
     <div class="chat">
-      <ul class="messages"></ul>
+      <ul class="messages">
+        <% messages.forEach(m => { %>
+          <li data-testid="message"><%= `${m.timestamp} - ${m.nickname}: ${m.message}`%></li>
+        <% }) %>
+      </ul>
     </div>
     <footer>
       <form action="">
