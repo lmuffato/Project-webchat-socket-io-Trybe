@@ -44,10 +44,11 @@
     const sendBtn = document.querySelector('#sendBtn');
 
     // Helpers  e métodos
-    const createChildren = (parent, content, element) => {
+    const createChildren = (parent, content, element, testId) => {
       content.map((item) => {
         const node = document.createElement(element);
         node.innerText = item;
+        node.setAttribute('data-testid',testId);
         return node;
       }).forEach((child) => parent.appendChild(child));
     };
@@ -59,7 +60,7 @@
     });
 
     socket.on('message', (msg) => {
-      createChildren(msgList, [msg], 'li');
+      createChildren(msgList, [msg], 'li', 'message');
     });
 
     // Eventos do DOM
@@ -71,6 +72,15 @@
         nickname: sessionStorage.getItem('nickname'),
       });
       msgText.value = '';
+    });
+
+    newNameBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = nameInput.value;
+      if (!name) return;
+      nickNameParent.innerText = name;
+      sessionStorage.setItem('nickname', name);
+      nameInput.value = '';
     });
 
   </script>
