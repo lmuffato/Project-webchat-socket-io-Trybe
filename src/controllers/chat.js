@@ -1,3 +1,3 @@
-module.exports = (_req, _res) => {
-  
+module.exports = (_req, res) => {
+  res.status(200).render('chat');
 };
