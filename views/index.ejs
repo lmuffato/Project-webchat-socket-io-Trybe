@@ -9,7 +9,11 @@
 <body>
   <div>
     <div id="online-user" data-testid="online-user"></div>
-    <ul id="chat"></ul>
+    <ul id="chat">
+      <% messages.forEach((message) => { %>
+        <li data-testid="message"><%= message %></li>
+      <% }) %>
+    </ul>
     <form>
       <input type=text id="nickname-box" data-testid="nickname-box">
       <button type="submit" id="nickname-button" data-testid="nickname-button">Enviar</button>
@@ -20,6 +24,6 @@
     </form>
   </div>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/index.js"></script>
+  <script src="../js/index.js"></script>
 </body>
 </html>

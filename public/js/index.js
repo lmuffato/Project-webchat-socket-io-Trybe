@@ -1,10 +1,12 @@
 const socket = window.io();
 
+const getUpdatedOnlineUser = () => document.querySelector('#online-user');
+
 window.onload = () => {
   const randomUser = Array
     .from(Array(16), () => Math.floor(Math.random() * 36).toString(36)).join('');
 
-  document.querySelector('#online-user').innerText = randomUser;
+    getUpdatedOnlineUser().innerText = randomUser;
 };
 
 const sendButton = document.querySelector('#send-button');
@@ -13,7 +15,7 @@ sendButton.addEventListener('click', (e) => {
   e.preventDefault();
 
   const messageBox = document.querySelector('#message-box');
-  const onlineUser = document.querySelector('#online-user');
+  const onlineUser = getUpdatedOnlineUser();
 
   const data = { chatMessage: messageBox.value, nickname: onlineUser.innerText };
 
@@ -28,7 +30,7 @@ nickNameButton.addEventListener('click', (e) => {
   e.preventDefault();
   
   const nicknameBox = document.querySelector('#nickname-box');
-  const onlineUser = document.querySelector('#online-user');
+  const onlineUser = getUpdatedOnlineUser();
 
   onlineUser.innerText = nicknameBox.value;
 

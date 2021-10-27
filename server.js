@@ -12,12 +12,16 @@ const io = require('socket.io')(server, {
   },
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+app.set('views', './views');
 
-require('./sockets')(io);
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
+
+const chatController = require('./controllers/chat');
+
+chatController.socketConnection(io);
+
+app.get('/', chatController.chat);
 
 server.listen(3000, console.log('Listening to port 3000'));
