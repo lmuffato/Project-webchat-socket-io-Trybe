@@ -1,3 +1,5 @@
+// Iniciando o projeto
+
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
