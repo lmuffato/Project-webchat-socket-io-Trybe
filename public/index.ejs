@@ -15,8 +15,8 @@
       <!-- <li id="nickName" data-testid="online-user"></li> -->
     </ul>
     <ul id="messages" class="messages">
-      <% messages.forEach((info) => {%>
-        <li><%= info.message %></li>
+      <% message.forEach((message) => {%>
+        <li data-testid="message"><%= message %></li>
       <%})%>
     </ul>
     <form action="">

@@ -21,8 +21,10 @@ const io = require('socket.io')(http, {
 app.use(express.static(`${__dirname}/public`));
 
 app.get('/', async (req, res) => {
-  const messages = await getAllMessages();
-  res.status(200).render(`${__dirname}/public/index.ejs`, { messages });
+  const allinfos = await getAllMessages();
+  const message = allinfos
+  .map((info) => `${info.timestamp} ${info.nickname}: ${info.message}`);
+  res.status(200).render(`${__dirname}/public/index.ejs`, { message });
 });
 
 http.listen(3000, () => {

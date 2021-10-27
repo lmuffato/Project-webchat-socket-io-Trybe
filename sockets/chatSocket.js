@@ -3,10 +3,8 @@ const { saveMessage } = require('../models/chatModel');
 
 module.exports = (io) => io.on('connection', async (socket) => {
   const randomName = socket.id.slice(-16);
-  // const userMessage = await getAllMessages();
 
   io.emit('nickname', randomName);
-  // socket.emit('getHistory', userMessage);
 
   socket.on('message', async ({ chatMessage, nickname }) => {
     const dataAtual = moment().format('DD-MM-YYYY');
