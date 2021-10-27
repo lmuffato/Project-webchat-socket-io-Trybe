@@ -6,7 +6,7 @@ const messages = document.getElementById('messages');
 const nickButton = document.getElementById('nickBtn');
 const nickInput = document.getElementById('nickInput');
 
-let nickname = 'Dom Juan';
+let nickname = '';
 
 nickButton.addEventListener('click', () => {
   nickname = nickInput.value;
