@@ -1,0 +1,93 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+aside {
+  float: left;
+  margin: 15px;
+  text-align: center;
+  width: 20%;
+}
+
+aside input {
+  margin-right: 9px;
+}
+
+.list {
+  display: block;
+  float: left;
+  margin-top: 7px;
+  padding: 8px;
+  width: 100%;
+}
+
+.list li {
+  list-style-type: none;
+}
+
+main {
+  margin: 10px;
+  padding: 5px;
+}
+
+header {
+  padding: 15px;
+  text-align: center;
+}
+
+.messages {
+  list-style-type: none;
+  text-align: center;
+  margin-right: 280px;
+  margin-left: 280px;
+  padding: 0;
+}
+
+.messages li {
+  padding: 5px 10px;
+}
+
+footer {
+  margin-top: 250px;
+  text-align: center;
+  /* padding: 3px; */
+}
+
+footer input {
+  width: 200px;
+  margin-right: 9px;
+}
+
+ /* h1 {
+  margin: 50px;
+  text-align: center;
+} */
+
+/* form {
+  background: #000;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+} */
+
+/* form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: 0.5%;
+}
+
+form button {
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#messages li:nth-child(odd) {
+  background: #eee;
+} */

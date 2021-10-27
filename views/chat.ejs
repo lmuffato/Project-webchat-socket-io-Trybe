@@ -9,11 +9,27 @@
   <title>Web-chat Trybe</title>
 </head>
 <body>
-  <h1>Tryber Chat</h1>
-  <ul id="messages"></ul>
-  <form action="">
-    <input id="messageInput" autocomplete="off" /><button>Enviar</button>
-  </form>
+  <main>
+    <header>
+      <h1>Tryber Chat</h1>
+    </header>
+    <aside>
+      <form action="">
+        <input id="nick-input" data-testid="nickname-box" placeholder="Insira aqui seu nickname" /><button id="btn-nick" data-testid="nickname-button">Salvar</button>
+      </form>
+    </aside>
+    <div class="list-users">
+      <ul></ul>
+    </div>
+    <div class="chat">
+      <ul class="messages"></ul>
+    </div>
+    <footer>
+      <form action="">
+        <input data-testid="message-box" id="msg-input" placeholder="Digite um nova mensagem aqui"/><button data-testid="send-button" id="btn-send">Enviar</button>
+      </form>
+    </footer>
+  </main>
   <script src="http://localhost:3000/assets/client.js"></script>
 </body>
 </html>
