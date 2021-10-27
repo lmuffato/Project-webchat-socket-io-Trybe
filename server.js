@@ -20,6 +20,7 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   console.log(`Feita a conexão! Novo usuário conectado ${socket.id}`);
+  io.emit('nickname', socket.id.substring(0, 16));
 
   socket.on('nickname', (nick) => {
     io.emit('serverNickname', { nickname: nick });
@@ -27,7 +28,6 @@ io.on('connection', (socket) => {
 
   socket.on('message', ({ nickname, chatMessage }) => {
     const timestamp = moment().format('DD-MM-yyyy HH:mm:ss A');
-    console.log(timestamp, nickname, chatMessage);
     io.emit('message', `${timestamp} - ${nickname}: ${chatMessage}`);
   });
 });

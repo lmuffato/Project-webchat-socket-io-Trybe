@@ -9,8 +9,8 @@
 </head>
 <body>
   <form id="nicknameForm">
-    <input id="userNickname" type="text" placeholder="Insira seu nickname"/>
-    <button id="btnNickname">Slavar</button>
+    <input id="userNickname" data-testid="nickname-box" type="text" placeholder="Insira seu nickname"/>
+    <button id="btnNickname"  data-testid="nickname-button">Slavar</button>
   </form>
   <div>
     <ul id="nicknames">
@@ -18,20 +18,26 @@
   </div>
 
   <form id="messsageForm">
-    <input id="messageUser" type="text" placeholder="Digite uma nova mensagem aqui"/>
-    <button>Enviar</button>
+    <input id="messageUser" data-testid="message-box" type="text" placeholder="Digite uma nova mensagem aqui"/>
+    <button data-testid="send-button">Enviar</button>
   </form>
-    <script>
+  <div>
+    <ul id="messages">
+    </ul>
+  </div>
+
+  <script>
       const socket = io();
       const formMessage = document.querySelector('#messsageForm');
       const userMessage = document.querySelector('#messageUser');
-      
       const formNickname = document.querySelector('#nicknameForm');
-      const userNickname = document.querySelector('#userNickname')
+      const userNickname = document.querySelector('#userNickname');
+      let nickname;
 
       formNickname.addEventListener('submit', (e) => {
         e.preventDefault();
-        socket.emit('nickname', userNickname.value);
+        nickname = userNickname.value;
+        socket.emit('nickname', userNickname.value || socket.id.substring(0, 16));
         userNickname.value = '';
         return false;
       });
@@ -39,13 +45,14 @@
       const createNickname = (nickname) => {
         const nicknamesUl = document.querySelector('#nicknames');
         const li = document.createElement('li');
+        li.setAttribute('data-testid', 'online-user');
         li.innerText = nickname;
         nicknamesUl.appendChild(li);
       }
       
       formMessage.addEventListener('submit', (e) => {
         e.preventDefault();
-        const nick = socket.id.substring(0, 16);
+        const nick = nickname || socket.id.substring(0, 16);
         socket.emit('message', { chatMessage: userMessage.value, nickname: nick });
         userMessage.value = '';
       });
@@ -53,10 +60,13 @@
       const createMessage = (message) => {
         const messageUl = document.querySelector('#messages');
         const li = document.createElement('li');
+        li.setAttribute('data-testid', 'message');
         li.innerText = message;
         messageUl.appendChild(li);
       }
       
+      socket.on('nickname', (nickname) => createNickname(nickname));
+
       socket.on('serverNickname', ({nickname}) => createNickname(nickname));
       
       socket.on('message', (message) => createMessage(message));
@@ -64,11 +74,8 @@
       window.onbeforeunload = () => {
         socket.disconnect();
       }; 
+
     </script>
 
-<div>
-  <ul id="messages">
-    </ul>
-  </div>
 </body>
 </html>
