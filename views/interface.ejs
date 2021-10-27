@@ -25,7 +25,13 @@
     </div>
     <div class="chat-frame">
       <header><h2>Conversa</h2></header>
-      <div class="chat"></div>
+      <div class="chat">
+        <% if(messages) {
+          messages.forEach(({ nickname, chatMessage, timestamp }) => { %>
+            <p data-testid = "message"><%=`${nickname}@${timestamp}: ${chatMessage}`%></p>
+        <% });
+        }; %>
+      </div>
       <div class="write">
         <form id="message">
           <input type="text" name="message" id="messageInput" placeholder="Mensagem" data-testid="message-box">

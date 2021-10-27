@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const chatModel = require('../models/chatModel');
 
 const updateUsername = async (io, { userId, newUsername }) => {
   await userModel.update(userId, { nickname: newUsername });
@@ -12,10 +13,12 @@ const login = async (io) => {
 };
 
 const messageCreator = async (io, message) => {
+  const { chatMessage, nickname } = message;
   const date = new Date();
   const timestamp = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()
   } ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-  const newMessage = `${message.nickname}@${timestamp}: ${message.chatMessage}`;
+  const newMessage = `${nickname}@${timestamp}: ${chatMessage}`;
+  await chatModel.create({ chatMessage, nickname, timestamp });
   io.emit('message', newMessage);
 };
 
