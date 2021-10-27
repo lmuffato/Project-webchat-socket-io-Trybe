@@ -20,10 +20,25 @@ function formatMessage(timeStamp, nickname, chatMessage) {
   return `${timeStamp} - ${nickname}: ${chatMessage}`;
 }
 
-io.on('connection', async (socket) => {
-  allUsers[socket.id] = socket.id.substring(0, 16);
+const rendersUsers = (socket) => {
+  socket.broadcast.emit('newUser', Object.values(allUsers));
+  socket.emit('newUser', Object.values(allUsers).reverse());
+};
 
-  io.emit('newUser', Object.values(allUsers));
+const saveMessage = (socket) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
+    const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
+    await chatModel.saveMessage({ chatMessage, nickname, timeStamp });
+    io.emit('message', formatMessage(timeStamp, nickname, chatMessage));
+  });
+};
+
+io.on('connection', async (socket) => {
+  // socket.disconnect(0);
+  allUsers[socket.id] = socket.id.substring(0, 16);
+  rendersUsers(socket);
+
+  saveMessage(socket);
 
   const allMessages = await chatModel.getAllMessages();
   allMessages.map(({ timeStamp, nickname, chatMessage }) =>
@@ -31,10 +46,9 @@ io.on('connection', async (socket) => {
 
   socket.emit('getMessages', allMessages);
 
-  socket.on('message', async ({ chatMessage, nickname }) => {
-    const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
-    await chatModel.saveMessage({ chatMessage, nickname, timeStamp });
-    io.emit('message', formatMessage(timeStamp, nickname, chatMessage));
+  socket.on('setNick', (nickname) => {
+    allUsers[socket.id] = nickname;
+    io.emit('newUser', Object.values(allUsers));
   });
 
   socket.on('disconnect', () => {
