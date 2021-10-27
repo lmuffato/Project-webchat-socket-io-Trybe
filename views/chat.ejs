@@ -5,12 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="chat.css" />
+    <script src="/socket.io/socket.io.js"></script>
     <title>webchat</title>
   </head>
   <body class="main">
-    <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket= io();
+
+      socket.on('webchat', (message) => {
+        const li = document.createElement('li');
+        li.innerText = message;
+        document.querySelector('#messages').appendChild(li);
+      });
     </script>
     <section class="container">
       <div class="users-container">
@@ -40,8 +46,9 @@
       </div>
       <div class="messages-container">
         <div class="messages">
-          <ul id="messages">
-          </ul>
+
+          <ul id="messages"></ul>
+
         </div>
       </div>
       <div class="type-message-container">
