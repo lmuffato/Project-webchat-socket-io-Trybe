@@ -1,7 +1,16 @@
 const socket = window.io();
     
+const messagesUl = document.getElementById('messages-list');
 const form = document.getElementById('message-form');
-// const nicknameSpan = document.getElementById('nickname');
+const nicknameSpan = document.getElementById('nickname');
+
+const appendMessages = (message) => {
+  const newLi = document.createElement('li');
+  newLi.setAttribute('data-testid', 'message');
+  newLi.textContent = message;
+
+  messagesUl.appendChild(newLi);
+};
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -10,15 +19,13 @@ form.addEventListener('submit', (e) => {
 
   socket.emit('message', {
     chatMessage: msgInput.value,
-    nickname: 'abc',
+    nickname: nicknameSpan.innerText,
   });
 
   msgInput.value = '';
 });
 
-socket.on('message', (message) => {
-  console.log(`${message}`);
-});
+socket.on('message', appendMessages);
 
 window.onload = () => {
 };
