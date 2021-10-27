@@ -32,13 +32,22 @@
   <script>
     const socket = window.io();
 
+    let usersOnline = {};
+
     const messagesUl = document.querySelector('#msgs');
     const sendButton = document.querySelector('#sendMsgBtn');
+    const saveButton = document.querySelector('#saveUserBtn');
+    const userUl = document.querySelector('#onlineUsers');
 
     sendButton.addEventListener('click', () => {
-      const nickname = socket.id;
+      const nickname = usersOnline[socket.id];
       const chatMessage = document.querySelector('.message').value;
       socket.emit('message', { chatMessage, nickname });
+    });
+
+    saveButton.addEventListener('click', () => {
+      nick = document.querySelector('#nickname').value;
+      socket.emit('updateName', { nick, id: socket.id });
     });
 
     const createMsgList = (message) => {
@@ -51,6 +60,26 @@
     socket.on('message', async (message) => {
       createMsgList(message);
     });
+
+    socket.on('updateOlineList', async (users) => {
+      usersOnline = users;
+      userUl.innerHTML = '';
+      const client = users[socket.id];
+      createOnlineList(client);
+
+      Object.values(users).forEach((user) => {
+        if (user !== client) {
+          createOnlineList(user);
+        }
+      });
+    });
+
+    const createOnlineList = (user) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-testid', 'online-user');
+      li.innerText = user;
+      userUl.appendChild(li);
+    };
 
   </script>
 </body>
