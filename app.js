@@ -1,4 +1,5 @@
 const express = require('express');
+const randomString = require('randomstring');
 
 const app = express();
 
@@ -8,7 +9,14 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.get('/', (_req, res) => {
-  res.status(200).render('test-client');
+  const randomNickname = randomString.generate({
+    length: 16,
+    charset: 'alphanumeric',
+  });
+
+  res.status(200).render('test-client', {
+    randomNickname,
+  });
 });
 
 module.exports = app;
