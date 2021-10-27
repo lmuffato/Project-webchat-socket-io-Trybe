@@ -10,6 +10,7 @@ const changeNick = () => {
   if (nickNameBox.value.length < 1) return;
   sessionStorage.setItem('name', nickNameBox.value);
   nickName.innerText = nickNameBox.value;
+  socket.emit('updateNick', nickNameBox.value);
 };
 
 changeNick();
@@ -27,13 +28,13 @@ const getOnlineUsers = (users) => {
   });
 };
 
-const setRandomName = (users) => {
-  sessionStorage.setItem('name', users);
+const setRandomName = (nick) => {
+  sessionStorage.setItem('name', nick);
   const li = document.createElement('li');
   li.setAttribute('id', 'onlineUser');
   li.setAttribute(TEST_ID, 'online-user');
   li.classList.add('nickName');
-  li.innerText = users;
+  li.innerText = nick;
   onlineUsers.appendChild(li);
 };
 

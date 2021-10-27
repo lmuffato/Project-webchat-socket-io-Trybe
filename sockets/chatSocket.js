@@ -1,9 +1,10 @@
-const moment = require('moment');
-const { saveMessage } = require('../models/chatModel');
+const sendMessage = require('./sendMessage');
 
 const usersOn = {};
 
-module.exports = (io) => io.on('connection', async (socket) => {
+// eslint-disable-next-line max-lines-per-function
+module.exports = (io) => io.on('connection', (socket) => {
+  //  socket.disconnect(0);
   const randomName = socket.id.slice(-16);
   
   usersOn[socket.id] = randomName;
@@ -12,13 +13,13 @@ module.exports = (io) => io.on('connection', async (socket) => {
   io.emit('login', usersOn);
 
   socket.on('message', async ({ chatMessage, nickname }) => {
-    const dataAtual = moment().format('DD-MM-YYYY');
-    const horaAtual = moment().format('LTS');
-    const message = `${dataAtual} ${horaAtual} - ${nickname}: ${chatMessage}`;
-    io.emit('message', message);
-    const timestamp = `${dataAtual} ${horaAtual}`;
-    const data = { message: chatMessage, nickname, timestamp };
-    await saveMessage(data);
+    await sendMessage(io, { chatMessage, nickname });
+  });
+
+  socket.on('updateNick', (nick) => {
+    io.emit('nickname', nick);
+    usersOn[socket.id] = nick;
+    io.emit('login', usersOn);
   });
 
   socket.on('disconnect', () => {
