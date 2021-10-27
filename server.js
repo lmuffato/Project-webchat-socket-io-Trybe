@@ -15,6 +15,8 @@ const io = require('socket.io')(http, {
   },
 });
 
+const chatController = require('./controllers/chatController');
+
 app.use(cors());
 
 app.set('views', './views');
@@ -22,8 +24,6 @@ app.set('view engine', 'ejs');
 
 require('./sockets/chatSocket')(io);
 
-app.get('/', (_req, res) => {
-  res.status(200).render('index');
-});
+app.get('/', chatController.renderChat);
 
 http.listen(port, () => console.log(`Ouvindo na porta ${port}!`));
