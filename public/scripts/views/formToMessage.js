@@ -26,7 +26,7 @@ function randomNickname() {
 
 const form = {
   nameInput: document.forms[0][0],
-  messageInput: document.forms[0][1],
+  messageInput: document.forms[0][2],
 };
 
 const nickname = randomNickname();
