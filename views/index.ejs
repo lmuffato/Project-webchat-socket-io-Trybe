@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/chat.css">
   <title>Chat</title>
 </head>
 
@@ -14,7 +15,7 @@
     <button data-testid="nickname-button" id="saveUserBtn">Salvar</button>
     <div class="container">
       <div class="online">
-        <ul id="onlineUsers">
+        <ul class="onlineUsers">
         </ul>
       </div>
       <div class="messages">
@@ -42,16 +43,18 @@
     const messagesUl = document.querySelector('#msgs');
     const sendButton = document.querySelector('#sendMsgBtn');
     const saveButton = document.querySelector('#saveUserBtn');
-    const userUl = document.querySelector('#onlineUsers');
+    const userUl = document.querySelector('.onlineUsers');
 
     sendButton.addEventListener('click', () => {
       const nickname = usersOnline[socket.id];
       const chatMessage = document.querySelector('.message').value;
+      document.querySelector('.message').value = '';
       socket.emit('message', { chatMessage, nickname });
     });
 
     saveButton.addEventListener('click', () => {
       nick = document.querySelector('#nickname').value;
+      document.querySelector('#nickname').value = '';
       socket.emit('updateName', { nick, id: socket.id });
     });
 

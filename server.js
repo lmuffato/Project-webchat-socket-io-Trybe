@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { join } = require('path');
 
 require('dotenv').config();
 
@@ -18,6 +19,7 @@ const io = require('socket.io')(http, {
 const chatController = require('./controllers/chatController');
 
 app.use(cors());
+app.use(express.static(join(__dirname, '/public')));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
