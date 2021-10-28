@@ -8,7 +8,7 @@ const time = () => {
 
 module.exports = (io) => io.on('connection', async (socket) => {
   time();
-  socket.on('message', async ({ msg, nick }) => {
-    io.emit('message', `${time()} - ${nick}: ${msg}`);
+  socket.on('message', async ({ chatMessage, nickname }) => {
+    io.emit('message', `${time()} - ${nickname}: ${chatMessage}`);
   });
 });

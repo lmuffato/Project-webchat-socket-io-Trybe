@@ -69,19 +69,19 @@
       
       const insertMessage = (message) => {
         const li = document.createElement('li');
-        li.innerText = message;
         li.setAttribute('data-testid', 'message');
+        li.innerText = message;
         messageBoxList.appendChild(li);
       };
       
       sendMessageBtn.addEventListener('click', () => {
-        const nick = socket.id.substr(0, 15);
-        const msg = document.getElementById('message-box').value;
-        socket.emit('message', { msg, nick });
+        const nickname = socket.id.substr(0, 15);
+        const chatMessage = document.getElementById('message-box').value;
+        socket.emit('message', { chatMessage, nickname });
         document.getElementById('message-box').value = '';
       });
       
-      socket.on('message', async (message) => insertMessage(message));
+      socket.on('message', async (message) => await insertMessage(message));
       
       </script>
   </body>
