@@ -1,26 +1,69 @@
 body {
+  align-items: center;
   flex-direction: column;
 }
 
+h1 {
+  align-self: center;
+  background-color: azure;
+  margin: 1%;
+  padding: 1%;
+  width: 100%;
+}
+
 .middle-items {
-  flex-flow: row wrap;
-  align-items: center;
+  align-content: center;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 5px;
+  padding: 5px;
 }
 
 .side-intems {
-  flex-flow: column wrap; 
+  align-items: center;
+  background-color: brown;
+  border: 1px solid black;
+  flex-flow: column wrap;
+  margin: 5px;
+  padding: 5px;
+  width: 30%;
 }
 
 .user-list {
-  height: 60px;
-  width: 80px;
   background-color: beige;
+  height: 60px;
+  margin: 5px;
+  padding: 5px;
+  width: 80px;
+}
+
+.nickname-form {
+  border: 1px solid black;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin: 5px;
+  padding: 5px;
+}
+
+.form-msg {
+  bottom: 0%;
+}
+
+.msgInput {
+  width: 90%;
+}
+
+.sendButton {
+  width: 8%;
 }
 
 .chat {
   list-style-type: none;
-  margin: 0%;
-  padding: 0%;
+  margin: 5px;
+  padding: 5px;
+  width: 70%;
 }
 
 .chat li {
