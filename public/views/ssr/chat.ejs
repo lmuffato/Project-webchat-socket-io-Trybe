@@ -10,11 +10,20 @@
 <body>
   <h1>Project Chat</h1>
 
+  <ul id="message">
+    <% notifications.forEach((notification) => { %>
+      <li><%= notification %></li>
+    <% }) %>
+  </ul>
+
   <script>
     const socket = io("http://localhost:5000");
 
     socket.on('/message', (notification) => {
-      console.log(notification);
+      const li = document.createElement('li');
+      const liText = document.createTextNode(notification);
+      li.appendChild(liText);
+      document.getElementById('message').appendChild(li);
     })
 
   </script>

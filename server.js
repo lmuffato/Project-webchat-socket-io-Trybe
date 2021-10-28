@@ -27,10 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // ok
 /* app.use('/assets', express.static('./assets/javascripts'));
 app.use('/assets', express.static('./assets/css'));
  */
-/* const NEWS = []; */
+const NEW_NOTIFICATION = [];
 
-app.get('/chat', (req, res) => {
-  res.render('chat');
+app.get('/chat/ssr', (req, res) => {
+  res.render('ssr/chat', { notifications: NEW_NOTIFICATION });
 });
 
 /* app.get('/board/csr', (req, res) => {
@@ -40,7 +40,7 @@ app.get('/chat', (req, res) => {
 app.post('/message', (req, res) => { // ok
   const { notification } = req.body;
 
-  // NEWS.push(notification);
+  NEW_NOTIFICATION.push(notification); // Criar um db para salvar as mensagens
 
   io.emit('/message', notification);
   console.log(notification);
