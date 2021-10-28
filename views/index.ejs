@@ -79,6 +79,19 @@
       document.getElementById('messages').append(li);
     });
 
+    // querySelectorAll retorna um objeto NodeList
+    // NodeList não é um array mas pode ser iterado pelo método forEach
+    // https://developer.mozilla.org/pt-BR/docs/Web/API/Document/querySelectorAll
+    // https://developer.mozilla.org/pt-BR/docs/Web/API/NodeList
+
+    socket.on('user-disconnect', (id) => {
+      document.querySelectorAll('#users li').forEach((user) => {
+        if (user.id === id) {
+          user.remove();
+        }
+      });
+    });
+
     socket.on('change-nickname', ({ nick, id }) => {
       let connectedUser = null;
       document.querySelectorAll('#users li').forEach((user) => {
