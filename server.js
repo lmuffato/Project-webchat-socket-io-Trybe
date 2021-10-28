@@ -22,18 +22,29 @@ const Model = require('./models/ChatModel');
 
 const usuarios = [];
 
+const registerUser = (soc, data, initialId) => {
+  if (!data) {
+    usuarios.push({ userName: initialId, clientId: soc.id });
+    soc.emit('usuarios', usuarios);
+    soc.broadcast.emit('newUser', { userName: initialId, clientId: soc.id });
+  } else {
+    soc.emit('usuarios', usuarios);
+  }
+};
+
+const messageGen = (data) => {
+  const { chatMessage, nickname } = data;
+  const now = new Date();
+  const dateStringWithTime = moment(now).format('DD-MM-yyyy HH:mm:ss A');
+  const newMessage = `${dateStringWithTime} - ${nickname}: ${chatMessage}`;
+  Model.insertMessage({ timestamp: dateStringWithTime, nickname, message: chatMessage });
+  return newMessage;
+};
+
 io.on('connection', (socket) => {
-  const clientId = socket.id;
-  const initialId = socket.id.substring(0, 16);
-  socket.emit('connection', initialId);
+  socket.emit('connection', socket.id.substring(0, 16));
   socket.on('registeredUser', ({ data }) => {
-    if (!data) {
-      usuarios.push({ userName: initialId, clientId });
-      socket.emit('usuarios', usuarios);
-      socket.broadcast.emit('newUser', { userName: initialId, clientId });
-    } else {
-      socket.emit('usuarios', usuarios);
-    }
+    registerUser(socket, data, socket.id.substring(0, 16));
   });
   socket.on('changeName', (data) => {
     const index = usuarios.findIndex((user) => user.userName === data.oldName);
@@ -41,11 +52,7 @@ io.on('connection', (socket) => {
     io.emit('changeName', data);
   });
   socket.on('message', (data) => {
-    const { chatMessage, nickname } = data;
-    const now = new Date();
-    const dateStringWithTime = moment(now).format('DD-MM-yyyy HH:mm:ss A');
-    const newMessage = `${dateStringWithTime} - ${nickname}: ${chatMessage}`;
-    Model.insertMessage({ timestamp: dateStringWithTime, nickname, message: chatMessage });
+    const newMessage = messageGen(data);
     io.emit('message', newMessage);
   });
   socket.on('disconnect', () => {
