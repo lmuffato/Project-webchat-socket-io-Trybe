@@ -14,7 +14,7 @@ const corsOptions = {
   origin: `http://localhost:${PORT}`,
   methods: ['GET', 'POST'],
 };
-
+// io
 const io = require('socket.io')(http, corsOptions);
 
 app.set('view engine', 'html');
