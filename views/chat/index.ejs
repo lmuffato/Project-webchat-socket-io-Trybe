@@ -7,17 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src='/socket.io/socket.io.js'></script>
+  <link rel="stylesheet" href="/css/styles.css"/>
   <title>TryChat</title>
 </head>
 <body>
 
   <main>
-
     <header>
       <h1 class="title">TryChat</h1>
     </header>
-
     <div class="c_webchat">
       <input type="text" placeholder="Insira seu nickname" data-testid="nickname-box" class="webchat_nickname__input webchat__input"/>
       <button type="button" data-testid="nickname-button" class="webchat_nickname__button webchat__button">Salvar</button>
@@ -29,203 +27,10 @@
         <% }) %>
       </ul>
       <input type="text" placeholder="Digite uma nova mensagem aqui" data-testid="message-box" class="webchat__message__input webchat__input"/>
-      <button type="button" data-testid="send-button" class="webchat__message__buttonn webchat__button">Enviar</button>
+      <button type="button" data-testid="send-button" class="webchat__message__button webchat__button">Enviar</button>
     </div>
-
   </main>
-  
-  <script>
-    const socket = io('http://localhost:3000');
-    const userButton = document.querySelector('.webchat_nickname__button');
-    const userBox = document.querySelector('.webchat_user__box');
-    const messageButton = document.querySelector('.webchat__message__buttonn');
-    const messageBox = document.querySelector('.webchat__message__box');
-    
-    const createElementsNickNameInTheBox = (nicknames) => {
-      nicknames.forEach(nickname => {
-        const nicknameElement = document.createElement('li');
-        nicknameElement.setAttribute('data-testid', 'online-user');
-        nicknameElement.textContent = nickname;
-        userBox.appendChild(nicknameElement);
-        // userBox.insertBefore(nicknameElement, userBox.firstChild)
-      });
-    }
-
-    const deleteElementsNickNameInTheBox = () => {
-      const nicknameElements = Array.from(userBox.getElementsByTagName('li'));
-      nicknameElements.forEach(nicknameElement => nicknameElement.remove());
-    }
-
-    // const createElementNickNameInTheBox = (nickname) => {
-    //   const nickNameElement = document.createElement('li');
-    //   nickNameElement.textContent = nickname;
-    //   nickNameElement.setAttribute('data-testid', 'online-user');
-      
-    //   userBox.insertBefore(nickNameElement, userBox.firstChild);
-    //   // const nicknameElement = document.createElement('li');
-    //   // nicknameElement.textContent = nickname;
-    //   // userBox.appendChild(nicknameElement);
-    // }
-
-    const createElementsMessageInTheBox = (message) => {
-      const messageElement = document.createElement('li');
-      messageElement.setAttribute('data-testid', 'message');
-      messageElement.textContent = message;
-      messageBox.appendChild(messageElement);
-    }
-
-    userButton.addEventListener('click', (_e) => {
-      const nickname = document.querySelector('.webchat_nickname__input');
-      socket.emit('nickname', nickname.value);
-
-      nickname.value = '';
-    });
-
-    socket.on('nickname', (nicknames) => {
-      deleteElementsNickNameInTheBox(nicknames);
-      createElementsNickNameInTheBox(nicknames);
-    });
-
-    messageButton.addEventListener('click', (_e) => {
-      const message = document.querySelector('.webchat__message__input');
-      const onlineUser = document.getElementById('online-user');
-      socket.emit('message', { chatMessage: message.value, nickname: socket.id });
-
-      message.value = '';
-    });
-
-    socket.on('message', (message) => {
-      createElementsMessageInTheBox(message);
-    });
-
-    // window.onbeforeunload = () => {
-    //   socket.disconnect();
-    // };
-  </script>
-
-  <style type="text/css">
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    main {
-      font-family: 'Roboto', sans-serif;
-      padding: 20px;
-    }
-
-    .title {
-      text-align: center;
-      margin-top: 10vh;
-      font-size: 1.8rem;
-    }
-
-    .c_webchat {
-      max-width: 1200px;
-      margin: 20px auto;
-      display: grid;
-      grid-gap: 10px;
-      grid-template:
-      "nickname_input nickname_button message_box message_box" 5vh
-      "user_box user_box message_box message_box" 20vh
-      "user_box user_box message_box message_box" 30vh
-      "message_input message_input message_input message_button" 8vh
-      / 3fr 1fr 5fr 1fr;
-    }
-
-    .webchat_nickname__input {
-      grid-area: nickname_input;
-    }
-
-    .webchat_nickname__button {
-      grid-area: nickname_button;
-    }
-
-    .webchat_user__box {
-      grid-area: user_box;
-    }
-
-    .webchat__message__box {
-      grid-area: message_box;
-    }
-
-    .webchat__message__box li {
-      line-height: 1.5;
-    }
-
-    .webchat_user__box, .webchat__message__box {
-      padding: 10px;
-      list-style-type: none;
-      font-size: 1.265rem;
-      overflow: hidden;
-      overflow-y: scroll;
-    }
-
-    .webchat__message__input {
-      grid-area: message_input;
-    }
-
-    .webchat_message_button {
-      grid-area: message_button;
-    }
-
-    .webchat__button {
-      cursor: pointer;
-      border-radius: 8px;
-      border: none;
-      background-color: green;
-      box-shadow: 2px 2px 5px 1px rgba(255, 255, 255, 0.9);
-      color: white;
-      font-size: 1.265rem;
-    }
-
-    .webchat__button:hover {
-      opacity: 0.6;
-    }
-
-    .webchat__input {
-      padding: 10px;
-    }
-
-    .webchat_box {
-      border: 2px dotted green;
-      box-shadow: 2px 2px 5px 1px rgba(255, 255, 255, 0.9);
-    }
-
-    @media screen and (max-width: 900px) {
-      .c_webchat {
-        max-width: 900px;
-        margin: 20px auto;
-        display: grid;
-        grid-gap: 10px;
-        grid-template:
-        "nickname_input nickname_input nickname_button" 4vh
-        "user_box user_box user_box" 10vh
-        "message_box message_box message_box" 50vh
-        "message_input message_input message_button " 5vh
-        / 3fr 5fr 1fr;
-      }
-
-      .title {
-        font-size: 1.2rem;
-      }
-
-      .webchat__input {
-        padding: 5px;
-        font-size: 0.8rem;
-      }
-
-      .webchat_user__box, .webchat__message__box {
-        font-size: 0.8rem;
-      }
-
-      .webchat__button {
-        font-size: 0.8rem;
-        padding: 5px;
-      }
-    }
-  </style>
-  
+  <script src='/socket.io/socket.io.js'></script>
+  <script src="/js/chat.js"></script>
 </body>
 </html>
