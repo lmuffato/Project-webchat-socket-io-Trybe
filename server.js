@@ -14,7 +14,10 @@ const io = require('socket.io')(socketIoServer, {
   },
 });
 
+const NEW_NOTIFICATION = [];
+
 io.on('connection', (socket) => {
+  socket.emit('chat', NEW_NOTIFICATION);
   console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
 });
 
@@ -27,14 +30,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // ok
 /* app.use('/assets', express.static('./assets/javascripts'));
 app.use('/assets', express.static('./assets/css'));
  */
-const NEW_NOTIFICATION = [];
 
 app.get('/chat/ssr', (req, res) => {
   res.render('ssr/chat', { notifications: NEW_NOTIFICATION });
 });
 
-/* app.get('/board/csr', (req, res) => {
-  res.render('board/csr');
+/* app.get('/chat/ssr', (req, res) => {
+  res.render('ssr/chat copy', { notifications: NEW_NOTIFICATION });
 }); */
 
 app.post('/message', (req, res) => { // ok
@@ -43,7 +45,6 @@ app.post('/message', (req, res) => { // ok
   NEW_NOTIFICATION.push(notification); // Criar um db para salvar as mensagens
 
   io.emit('/message', notification);
-  console.log(notification);
 
   res.status(201).json({ message: 'Notified successfully' });
 });
