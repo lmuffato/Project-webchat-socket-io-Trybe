@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebChat</title>
+  </head>
+  <body>
+    sdsdasdxxxxxxxxxxxxxx
+    <ul id="mensagensAntigas">
+
+    </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const oldMessages = document.getElementsById('mensagensAntigas');
+      socket.on('oldMessagesBD',  (oldMessages) => {
+        console.log('eeeeeeeeeeeeeeeeeee')
+        let newEl = document.createElement('li');
+        newEl.innerText = oldMessages;
+        oldMessages.appendChild(newEl);
+    });
+
+    </script>
+
+<ul>
+  <% oldMessages.forEach((oldMessage) => { %>
+    <li><%= oldMessage %></li>
+  <% }) %>
+</ul>
+  </body>
+
+</html>
