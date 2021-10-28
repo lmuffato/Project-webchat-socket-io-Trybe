@@ -25,7 +25,6 @@ const usuarios = [];
 io.on('connection', (socket) => {
   const initialId = socket.id.substring(0, 16);
   socket.emit('connection', initialId);
-
   socket.on('registeredUser', ({ data }) => {
     if (!data) {
       usuarios.push(initialId);
@@ -35,13 +34,11 @@ io.on('connection', (socket) => {
       socket.emit('usuarios', usuarios);
     }
   });
-
   socket.on('changeName', (data) => {
     const index = usuarios.indexOf(data.oldName);
     usuarios.splice(index, 1, data.newName);
     io.emit('changeName', data);
   });
-
   socket.on('message', (data) => {
     const { chatMessage, nickname } = data;
     const now = new Date();

@@ -43,12 +43,6 @@
     messageList.appendChild(li);
   }
 
-  client.on('getAllMessages', (message) => {
-    message.foreach((msg) => {
-      insertMessage(message);
-    });
-  });
-
   client.on('message', (message) => {
     insertMessage(message);
   });
@@ -67,6 +61,8 @@
   });
 
   client.on('usuarios', (usuarios) => {
+    const onlineContainer = document.querySelector('#onlineContainer');
+    const myId = sessionStorage.getItem('webChatNickname');
     const users = document.querySelectorAll('#onlineUser');
     console.log(users.length);
     if (users.length === 0) {
@@ -75,7 +71,11 @@
         li.innerText = usuario;
         li.setAttribute('data-testid', 'online-user');
         li.className = 'onlineUser';
-        document.querySelector('#onlineContainer').appendChild(li);
+        if (usuario === myId) {
+          onlineContainer.insertBefore(li, onlineContainer.firstChild);
+        } else {
+          onlineContainer.appendChild(li);
+        }
       });
     }
   });
