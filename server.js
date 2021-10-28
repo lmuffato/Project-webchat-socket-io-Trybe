@@ -21,11 +21,27 @@ const Controller = require('./controllers/ChatController');
 const Model = require('./models/ChatModel');
 
 const usuarios = [];
+
 io.on('connection', (socket) => {
   const initialId = socket.id.substring(0, 16);
   socket.emit('connection', initialId);
-  usuarios.push(initialId);
-  io.emit('usuarios', usuarios);
+
+  socket.on('registeredUser', ({ data }) => {
+    if (!data) {
+      usuarios.push(initialId);
+      socket.emit('usuarios', usuarios);
+      socket.broadcast.emit('newUser', initialId);
+    } else {
+      socket.emit('usuarios', usuarios);
+    }
+  });
+
+  socket.on('changeName', (data) => {
+    const index = usuarios.indexOf(data.oldName);
+    usuarios.splice(index, 1, data.newName);
+    io.emit('changeName', data);
+  });
+
   socket.on('message', (data) => {
     const { chatMessage, nickname } = data;
     const now = new Date();
