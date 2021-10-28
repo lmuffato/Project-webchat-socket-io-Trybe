@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  font-family: Roboto, sans-serif;
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-top: 10vh;
+  text-align: center;
+}
+
+.c_webchat {
+  display: grid;
+  grid-gap: 10px;
+  grid-template: 'nickname_input nickname_button message_box message_box' 5vh
+    'user_box user_box message_box message_box' 20vh
+    'user_box user_box message_box message_box' 30vh
+    'message_input message_input message_input message_button' 8vh
+    / 3fr 1fr 5fr 1fr;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+.webchat_nickname__input {
+  grid-area: nickname_input;
+}
+
+.webchat_nickname__button {
+  grid-area: nickname_button;
+}
+
+.webchat_user__box {
+  grid-area: user_box;
+}
+
+.webchat__message__box {
+  grid-area: message_box;
+}
+
+.webchat__message__box li {
+  line-height: 1.5;
+}
+
+.webchat_user__box , .webchat__message__box {
+  font-size: 1.265rem;
+  list-style-type: none;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.webchat__message__input {
+  grid-area: message_input;
+}
+
+.webchat_message_button {
+  grid-area: message_button;
+}
+
+.webchat__button {
+  background-color: green;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px 1px rgba(255, 255, 255, 0.9);
+  color: white;
+  cursor: pointer;
+  font-size: 1.265rem;
+}
+
+.webchat__button:hover {
+  opacity: 0.6;
+}
+
+.webchat__input {
+  padding: 10px;
+}
+
+.webchat_box {
+  border: 2px dotted green;
+  box-shadow: 2px 2px 5px 1px rgba(255, 255, 255, 0.9);
+}
+
+@media screen and ( max-width : 900px ) {
+
+  .c_webchat {
+    display: grid;
+    grid-gap: 10px;
+    grid-template: 'nickname_input nickname_input nickname_button' 4vh
+      'user_box user_box user_box' 10vh
+      'message_box message_box message_box' 50vh
+      'message_input message_input message_button ' 5vh
+      / 3fr 5fr 1fr;
+    margin: 20px auto;
+    max-width: 900px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .webchat__input {
+    font-size: 0.8rem;
+    padding: 5px;
+  }
+
+  .webchat_user__box , .webchat__message__box {
+    font-size: 0.8rem;
+  }
+
+  .webchat__button {
+    font-size: 0.8rem;
+    padding: 5px;
+  }
+}
