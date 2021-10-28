@@ -17,6 +17,7 @@ const io = require('socket.io')(http, {
 });
 
 require('./sockets/chatSocket')(io);
+
 const chatService = require('./services/chatService');
 
 // const corsSettings = {
