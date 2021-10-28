@@ -33,6 +33,12 @@ io.on('connection', (socket) => {
     Model.storeMessage(data.chatMessage, data.nickname);
     io.emit('message', Model.formatMessage(data.chatMessage, data.nickname)); // manda para todos no frontend a msg formatada
   });
+
+  socket.on('disconnect', () => {
+    console.log(onlineUsers);
+    delete onlineUsers[socket.id];
+    socket.broadcast.emit('user-disconnect', socket.id); // manda para todos exceto pra quem emitiu
+  });
 });
 
 app.set('view engine', 'ejs');
