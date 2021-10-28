@@ -11,5 +11,6 @@ module.exports = (socket, server) => {
     const message = `${currentDate} ${currentTime} ${nickname} ${chatMessage}`;
     console.log(message);
     server.emit('message', message);
+    socket.emit('author-message', message);
   });
 };
