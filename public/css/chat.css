@@ -24,12 +24,9 @@ form button {
 }
 
 ul {
-  margin-top: 50px;
-}
-
-ul {
   list-style-type: none;
   margin: 0;
+  margin-top: 50px;
   padding: 0;
 }
 
