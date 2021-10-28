@@ -14,8 +14,8 @@ const io = require('socket.io')(socketIoServer, {
   },
 });
 
-io.on('connection', () => {
-  console.log('ta on');
+io.on('connection', (socket) => {
+  console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
 });
 
 app.set('view engine', 'ejs');
