@@ -7,8 +7,6 @@ const server = require('http').createServer(app);
 
 const PORT = 3000;
 
-app.use(cors());
-
 const io = require('socket.io')(server, {
   cors: {
     origin: 'http://localhost:3000',
@@ -16,10 +14,12 @@ const io = require('socket.io')(server, {
   },
 });
 
+app.use(cors());
+
 require('./sockets/chat.js')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '/index.html'));
 });
 
 server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

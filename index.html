@@ -2,13 +2,67 @@
 <html lang="en">
 <head>
   <title>WebChat Project</title>
-  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+  <form id="new-user-form">
+    <input id="new-user-input"/ placeholder="Insert your name">
+    <button id="save-nickname">Save</button>
+  </form>
+  <ul id="users-list"></ul>
+  <br>
   <ul id="message-list"></ul>
-  <form>
+  <form id="message-form">
     <input id="text-input"/>
     <button id="send-btn">Send</button>
   </form>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  const userForm = document.getElementById('new-user-form');
+  const userInput = document.getElementById('new-user-input');
+  const userList = document.getElementById('users-list');
+
+  const textForm = document.getElementById('message-form');
+  const chatText = document.getElementById('text-input');
+  const chatMessages = document.getElementById('message-list');
+
+  textForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const chatMessage = chatText.value.toString();
+    const nickname = socket.id;
+    socket.emit('message', { chatMessage, nickname });
+    chatText.value = '';
+    return false;
+  });
+
+  const createMessage = (msg) => {
+    const messageLi = document.createElement('li');
+    messageLi.innerText = msg;
+    chatMessages.appendChild(messageLi);
+  };
+
+  socket.on('message', (msg) => {
+    createMessage(msg);
+  });
+
+  userForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    socket.emit('save-user', userInput.value);
+    userInput.value = '';
+    return false;
+  })
+
+  const createUser = (nickName) => {
+    const userLi = document.createElement('li');
+    userLi.innerText = nickName;
+    userList.appendChild(userLi);
+  }
+
+  socket.on('new-user', (serverReturn) => {
+    createUser(serverReturn.nickName);
+  })
+
+</script>
 </html>
