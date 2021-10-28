@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebChat</title>
+</head>
+<body>
+  <h1 style="color:blue;">WebChat</h1>
+  <div style="display:flex">
+    <div style="background-color: yellow;">
+      <input
+        type="text"
+        placeholder="Insira seu nickname"
+        data-testid="nickname-box"
+        id="nicknameBox"
+      >
+      <button 
+        type="submit"
+        data-testid="nickname-button"
+        id="nicknameButton"
+      >
+        Salvar
+      </button>
+      <ul id="userList"></ul>
+    </div>
+    <div style="background-color: red; ">
+      <ul id="messages"></ul>
+    </div>
+  </div>
+  <input
+    type="text"
+    placeholder="Digite uma nova mensagem aqui"
+    data-testid="message-box"
+    id="messageBox"
+  >
+  <button 
+    type="submit"
+    data-testid="send-button"
+    id="sendButton"
+  >
+    Enviar
+  </button>
+  <ul id='news'></ul>
+  <script src='/socket.io/socket.io.js'></script>
+  <script src="./script/client.js"></script>
+</body>
+</html> 

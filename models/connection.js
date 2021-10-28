@@ -6,7 +6,7 @@ let schema = null;
 async function connection() {
   if (schema) return Promise.resolve(schema);
   return MongoClient
-    .connect(process.env.DB_URL, {
+    .connect(process.env.DB_URL_DEV, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
