@@ -17,10 +17,10 @@ const io = require('socket.io')(socketIoServer, {
 io.on('connection', (socket) => {
   socket.emit('loadNotifications', NEWS);
   console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
-});
+}); */
 
 app.set('view engine', 'ejs');
-app.set('views', './views'); */
+app.set('views', './public/views');
 
 app.use(bodyParser.json()); // ok
 app.use(bodyParser.urlencoded({ extended: true })); // ok
@@ -30,11 +30,11 @@ app.use('/assets', express.static('./assets/css'));
  */
 /* const NEWS = []; */
 
-/* app.get('/board/ssr', (req, res) => {
-  res.render('board/ssr', { notifications: NEWS });
+app.get('/chat', (req, res) => {
+  res.render('chat');
 });
 
-app.get('/board/csr', (req, res) => {
+/* app.get('/board/csr', (req, res) => {
   res.render('board/csr');
 }); */
 
