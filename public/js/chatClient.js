@@ -28,6 +28,22 @@ const getOnlineUsers = (users) => {
   });
 };
 
+const updateList = (users) => {
+  const arrUser = users;
+  const newUsersOn = {};
+
+  const lastUser = users[arrUser.length - 1];
+  arrUser.splice(0, 0, lastUser);
+  arrUser.pop();
+  for (let i = 0; i < arrUser.length; i += 1) {
+    const key = arrUser[i][0];
+    const value = arrUser[i][1];
+    newUsersOn[key] = value;
+  }
+  
+  getOnlineUsers(newUsersOn);
+};
+
 const setRandomName = (nick) => {
   sessionStorage.setItem('name', nick);
   const li = document.createElement('li');
@@ -58,6 +74,7 @@ const serverMessage = (message) => {
 socket.on('message', (message) => serverMessage(message));
 socket.on('nickname', (randomName) => setRandomName(randomName));
 socket.on('login', (users) => getOnlineUsers(users));
+socket.on('updateList', (usersList) => updateList(usersList));
 
 window.onbeforeunload = () => {
   socket.disconnect();
