@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="http://localhost:5000/socket.io/socket.io.js"></script> <!-- O pacote socket.io cria esse arq -->
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script> <!-- O pacote socket.io cria esse arq -->
   <title>Project Chat</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
   </ul>
 
   <script>
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:3000");
 
     socket.on('/message', (notification) => {
       const li = document.createElement('li');

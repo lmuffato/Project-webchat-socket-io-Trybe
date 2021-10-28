@@ -9,7 +9,7 @@ const app = express(); // ok
 const socketIoServer = require('http').createServer(app);
 const io = require('socket.io')(socketIoServer, {
   cors: { // Aqui existe um objeto de configuração, essas options são necessárias a partir da major 3 do socket.io 
-    origin: `http://localhost:${process.env.EXPRESS_PORT}`, // origem permitida
+    origin: `http://localhost:${process.env.PORT}`, // origem permitida
     methods: ['GET', 'POST'], // métodos permitidos
   },
 });
@@ -17,7 +17,7 @@ const io = require('socket.io')(socketIoServer, {
 const NEW_NOTIFICATION = [];
 
 io.on('connection', (socket) => {
-  socket.emit('chat', NEW_NOTIFICATION);
+  socket.emit('chat', NEW_NOTIFICATION); // envia para todos sem repetir p quem já ta on (qndo entra alguem novo)
   console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
 });
 
@@ -49,12 +49,12 @@ app.post('/message', (req, res) => { // ok
   res.status(201).json({ message: 'Notified successfully' });
 });
 
-app.listen(
+/* app.listen(
   process.env.EXPRESS_PORT, () => 
   console.log(`Express app listening on port ${process.env.EXPRESS_PORT}!`),
-  );
+  ); */
 
 socketIoServer.listen(
-  process.env.SOCKETIO_PORT, 
-  console.log(`Socket.io server listening on port ${process.env.SOCKETIO_PORT}!`),
+  process.env.PORT, 
+  console.log(`Socket.io server listening on port ${process.env.PORT}!`),
   ); // ok
