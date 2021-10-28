@@ -12,6 +12,8 @@ const io = require('socket.io')(http, {
   },
 });
 
+const Model = require('./models/messages');
+
 const onlineUsers = {};
 
 // quando a pessoa usuária se conecta, é executado o que está no io.on('connection')
@@ -31,6 +33,13 @@ io.on('connection', (socket) => {
     Model.storeMessage(data.chatMessage, data.nickname);
     io.emit('message', Model.formatMessage(data.chatMessage, data.nickname)); // manda para todos no frontend a msg formatada
   });
+});
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.get('/', (req, res) => {
+  res.render('index.ejs');
 });
 
 http.listen(PORT, () => console.log(`WEBCHAT PROJECT STARTED AT: ${PORT}`));
