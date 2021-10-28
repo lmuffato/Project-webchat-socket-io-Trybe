@@ -5,7 +5,7 @@ const webchatSocket = require('./socket/webchat');
 
 const app = express();
 const server = http.createServer(app);
-const socket = new Server(server);
+const ioServer = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,9 +17,9 @@ app.get('/', (req, res) => {
   res.render('./index');
 });
 
-socket.on('connection', (io) => {
+ioServer.on('connection', (socket) => {
   console.log('a user connected');
-  webchatSocket(io);
+  webchatSocket(socket, ioServer);
 });
 
 server.listen(PORT, () => {
