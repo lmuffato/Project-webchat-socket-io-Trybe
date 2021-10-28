@@ -4,6 +4,7 @@ const messagesList = document.querySelector('.messages-list');
 const inputMessage = document.querySelector('.messageInput');
 const button = document.querySelector('.send-button');
 const nicknameButton = document.querySelector('.nickname-btn');
+const usersList = document.querySelector('.usersList');
 
 const createMessage = (message) => {
   const p = document.createElement('p');
@@ -32,7 +33,7 @@ const randomID = (length, firstRange, secondRange) => {
     const charCod = Math.floor(Math.random() * (max - min + 1)) + min;
     str += String.fromCharCode(charCod);
   }
-  return str.substring(0, 16); // return str
+  return str.substring(0, 16);
 };
 
 const randomChar = ['A', 'B', 'C', 'D', 'E', 'F',
@@ -54,10 +55,23 @@ nicknameButton.addEventListener('click', (ev) => {
 button.addEventListener('click', (ev) => {
   ev.preventDefault();
   const backupNickname = socket.id.substring(0, 16);
-  const msgData = { nickname: generateNickname || backupNickname, chatMessage: inputMessage.value };
-  inputMessage.value = '';
-  socket.emit('message', msgData);
+  if (inputMessage.value) {
+    const msgData = { nickname: generateNickname || backupNickname,
+      chatMessage: inputMessage.value };
+    inputMessage.value = '';
+    socket.emit('message', msgData);
+  }
   // console.log(msgData);
+});
+
+socket.on('usersOnline', (data) => {
+  const li = document.createElement('li');
+  li.setAttribute('data-testid', 'online-user');
+  data.forEach((d) => {
+    li.innerText = d;
+    usersList.appendChild(li);
+  });
+  console.log(data, 'data');
 });
 
 // Outra forma de fazer a renderização das msgs
