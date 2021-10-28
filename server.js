@@ -15,7 +15,7 @@ const io = require('socket.io')(socketIoServer, {
 });
 
 io.on('connection', () => {
-  console.log('pai ta on');
+  console.log('ta on');
 });
 
 app.set('view engine', 'ejs');
