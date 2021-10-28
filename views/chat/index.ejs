@@ -21,7 +21,7 @@
     <div class="c_webchat">
       <input type="text" placeholder="Insira seu nickname" data-testid="nickname-box" class="webchat_nickname__input webchat__input"/>
       <button type="button" data-testid="nickname-button" class="webchat_nickname__button webchat__button">Salvar</button>
-      <ul data-testid="online-user" class="webchat_user__box webchat_box">
+      <ul class="webchat_user__box webchat_box">
       </ul>
       <ul class="webchat__message__box webchat_box">
         <% messages.forEach(({ message, nickname, timestamp }) => { %>
@@ -97,6 +97,10 @@
     socket.on('message', (message) => {
       createElementsMessageInTheBox(message);
     });
+
+    // window.onbeforeunload = () => {
+    //   socket.disconnect();
+    // };
   </script>
 
   <style type="text/css">
