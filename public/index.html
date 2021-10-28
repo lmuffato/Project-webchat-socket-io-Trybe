@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+  </head>
+  <body>
+    <div id="change-nickname">
+      <input id="nickname-input" placeholder="Insira seu nickname" data-testid="nickname-box">
+      <button id="nickname-button" data-testid="nickname-button">Salvar</button>
+    </div>
+    <ul id="user-list">
+    </ul>
+    <ul id="message-list">
+    </ul>
+    <div id="input-box">
+      <input id="message-input" placeholder="Insira uma nova mensagem aqui" data-testid="message-box">
+      <button id="message-button" data-testid="send-button">Enviar</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      /* Auxiliary functions */
+      var randomNumber = () => Math.round(65 + Math.random() * 25)
+      var randomName = (() =>
+      Array
+      .from({length: 16})
+      .map(randomNumber)
+      .map((n) => String.fromCharCode(n))
+      .join(''))();
+      /* Generate random name */
+      var userName = sessionStorage.getItem('username') || randomName;
+      var createAndAppendUser = () => {
+        var userLi = document.createElement('li');
+        userLi.id = 'online-user';
+        userLi.innerText = userName;
+        userLi.dataset.testid='online-user';
+        sessionStorage.setItem('username', userName);
+        document.querySelector('#user-list').appendChild(userLi);
+        return userLi;
+      }
+      createAndAppendUser();
+      /* Start connection */
+      var socket = io({extraHeaders: {nickname: userName}});
+      /* Change user name */
+      var nicknameInput = document.querySelector('#nickname-input');
+      var nicknameButton = document.querySelector('#nickname-button');
+      nicknameButton.addEventListener('click', (e) => {
+        if(nicknameInput.value){
+          socket.emit('nameChange', {oldName:userName, newName: nicknameInput.value});
+          userName = nicknameInput.value;
+          document.querySelector('#online-user').innerText = nicknameInput.value;       
+          sessionStorage.setItem('username', nicknameInput.value);
+          nicknameInput.value = '';
+        }
+      })
+      /* Send message */
+      var messageInput = document.querySelector('#message-input');
+      var sendButton = document.querySelector('#message-button');
+      sendButton.addEventListener('click', (e) => {
+        if(messageInput.value){
+          socket.emit('message', {chatMessage: messageInput.value, nickname: userName});
+          messageInput.value = '';
+        }
+      })
+      /* Show new message */
+      var messages = document.querySelector('#message-list');
+      socket.on('message', function(message){
+        var newMessage = document.createElement('li');
+        newMessage.innerText = message;
+        newMessage.dataset.testid='message';
+        messages.appendChild(newMessage);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      /* Get user list from server */
+      socket.on('userList', function(onlineUsers){
+        var userList = document.querySelector('#user-list');
+        userList.innerHTML = '';
+        createAndAppendUser();
+        onlineUsers
+        .filter((name) => name !== userName)
+        .forEach((name) => {
+          var userElement = document.createElement('li');
+          userElement.innerText = name;
+          userElement.dataset.testid='online-user';
+          userList.appendChild(userElement);
+        })
+      });
+      /* Get message list from server */
+      socket.on('messageList', (messages) => {
+        const messageList = document.querySelector('#message-list');
+        messageList.innerHTML = '';
+        messages
+        .forEach((message) => {
+          var messageElement = document.createElement('li');
+          messageElement.innerText = message;
+          messageElement.dataset.testid='message';
+          messageList.appendChild(messageElement);
+        })
+      })      
+      /* Disconnect from server */
+      window.onbeforeunload = () => { socket.disconnect(); }
+    </script>
+  </body>
+</html>
