@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"
+      integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>TrybeChatzin</h1>
+    </header>
+    <div class="container">
+      <h3>Usuários</h3>
+      <form class="nameForm">
+        <input
+          type="text"
+          data-testid="nickname-box"
+          class="nickname"
+          placeholder="Digite seu nome"
+        />
+        <button type="submit" data-testid="nickname-button">Salvar</button>
+      </form>
+        <ul class="nicknames"></ul>
+      <div class="chat-container">
+        <section>
+          <ul class="mensagens"></ul>
+        </section>
+        <form class="messageForm">
+          <input
+            type="text"
+            data-testid="message-box"
+            placeholder="mensagem"
+            class="mensagemInput"
+          />
+          <button type="submit" data-testid="send-button">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      const socket = io();
+      const messageForm = document.querySelector(".messageForm");
+      const nameForm = document.querySelector(".nameForm");
+      const inputName = document.querySelector(".nickname");
+      const inputMessage = document.querySelector(".mensagemInput");
+
+      let name = '';
+      const currentId = '';
+
+      const createMessage = (message) => {
+        const messagesUl = document.querySelector(".mensagens");
+        const newMessage = document.createElement("li");
+        newMessage.setAttribute("data-testid", "message");
+        newMessage.innerText = message;
+        messagesUl.appendChild(newMessage);
+      };
+
+      const updateUsers = (id) => {
+        currentId = 'id';
+      }
+
+      const createNickname = (nickname) => {
+          const nicknamesUl = document.querySelector(".nicknames");
+          const li = document.createElement("li");
+          li.setAttribute("data-testid", "online-user");
+          li.setAttribute("data-socketId", nickname);
+          li.innerText = nickname;
+          nicknamesUl.appendChild(li);
+      };
+
+      nameForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        name = inputName.value;
+        socket.emit("nickname", inputName.value);
+      });
+
+      messageForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        socket.emit("message", {
+          chatMessage: inputMessage.value,
+          nickname: name,
+      });
+        inputMessage.value = "";
+        return false;
+      });
+      socket.on("nickname", (nickname) => createNickname(nickname));
+      socket.on("socketId", (id) => updateUsers(id));
+      socket.on("serverNickname", ({ nickname }) => createNickname(nickname));
+      socket.on("previewMessages", (message) => createMessage(message));
+      socket.on("message", (message) => createMessage(message));
+    </script>
+  </body>
+</html>
