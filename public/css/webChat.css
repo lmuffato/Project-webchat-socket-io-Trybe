@@ -5,6 +5,12 @@ body {
   padding-bottom: 3rem;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .form {
   backdrop-filter: blur(10px);
   background: rgba(0, 0, 0, 0.15);
