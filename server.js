@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express(); // ok
 
-/* const socketIoServer = require('http').createServer(app);
+const socketIoServer = require('http').createServer(app);
 const io = require('socket.io')(socketIoServer, {
   cors: { // Aqui existe um objeto de configuração, essas options são necessárias a partir da major 3 do socket.io 
     origin: `http://localhost:${EXPRESS_PORT}`, // origem permitida
@@ -17,7 +17,7 @@ const io = require('socket.io')(socketIoServer, {
 io.on('connection', (socket) => {
   socket.emit('loadNotifications', NEWS);
   console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
-}); */
+});
 
 app.set('view engine', 'ejs');
 app.set('views', './public/views');
