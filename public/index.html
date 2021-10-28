@@ -7,13 +7,26 @@
   </head>
   <body>
     <h1>Vini Chat</h1>
-    <fieldset>
-      <ul class="chat"></ul>
-      <form action="" id="form-msg">
-        <input id="msgInput" type="text"/><button id="sendButton" type="button">Send</button>
-      </form>
-    </fieldset>
-
+    <div class="middle-items">
+      <div class="side-intems">
+        <div class="nickname-form">
+          <form action="">
+            <input type="text"><button id="nicknameButton" type="button">Save</button>
+          </form>
+        </div>
+        <div class="user-list">
+          <ul>
+            <li>hello</li>
+            <li>hello</li>
+            <li>hello</li>
+          </ul>
+        </div>
+      </div>
+      <div><ul class="chat"></ul></div>
+    </div>
+    <form action="" class="form-msg">
+      <input class="msgInput" type="text"/><button class="sendButton" type="button">Send</button>
+    </form>
     <script src='./scripts/chat.js'></script>
   </body>
 </html>

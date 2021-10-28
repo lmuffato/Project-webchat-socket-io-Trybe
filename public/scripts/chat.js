@@ -5,8 +5,8 @@
 const socket = window.io();
 
 // listando os elementos
-const msgInput = document.getElementById('msgInput');
-const sendButton = document.getElementById('sendButton');
+const msgInput = document.querySelector('.msgInput');
+const sendButton = document.querySelector('.sendButton');
 
 // função para add msg na UL
 const createMessage = (message) => {
