@@ -26,4 +26,6 @@ app.use('/', (req, res) => {
   res.render('index.ejs');
 });
 
+app.get('/', (_req, res) => { res.status(200).render('webChat'); });
+
 http.listen(PORT, () => console.log(`Passando na porta ${PORT}`));

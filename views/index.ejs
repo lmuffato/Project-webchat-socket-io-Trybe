@@ -4,24 +4,45 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
   <title>WebChat</title>
 </head>
 <body>
-  <form >
+  <fieldset>
+    <div>
+      <span id="userName">Hello </span>
+      <input
+        type="text"
+        id="nickInput"
+        placeholder="Change your nickname"
+        data-testid="nickname-box"
+      >
+      <button
+        id="nickBtn"
+        data-testid="nickname-button"
+      >
+      Submit
+      </button>
+    </div>
+  </fieldset>
+  <ul id="messagesField"></ul>
+  <div id="chat">
     <input
       type="text"
+      id="messageText"
       name="message-box"
       data-testid="message-box"
-      placeholder="Digite a mensagem"
+      placeholder="Type a message"
       autocomplete="off"
     />
-    <button 
-      type="submit"
+    <div class="messages"></div>
+    <button
       name="send-button"
       data-testid="send-button"
+      id="sendButton"
     >
-      Enviar Mensagem
-  </form>
-  <script src="/socket.io/socket.io.js"></script>
+      Send
+  </div>
+  <script src="./webChat.js"></script>
 </body>
 </html>
