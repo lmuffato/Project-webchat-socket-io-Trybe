@@ -9,14 +9,19 @@ module.exports = (io) => io.on('connection', (socket) => {
     await chatModel.createModel({ timestamp: dataHours, nickname, message: chatMessage });
     io.emit('message', `${dataHours} - ${nickname}: ${chatMessage}`);
   });
+  
+  Users[socket.id] = socket.id.substring(0, 16);
+  // const user = Object.values(Users).filter((u) => u === socket.id.substring(0, 16));
+  // // console.log(user);
+  io.emit('show_Users', Object.values(Users));
 
   socket.on('saveName', (nickname) => {
     Users[socket.id] = nickname;
-    io.emit('saveName', Object.values(Users));
+    io.emit('show_Users', Object.values(Users));
   });
 
   socket.on('disconnect', () => {
     delete Users[socket.id];
-    io.emit('saveName', Object.values(Users));
+    io.emit('show_Users', Object.values(Users));
   });
 });
