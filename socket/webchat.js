@@ -1,13 +1,15 @@
-/**
- * @param {import('socket.io').Socket} socket
- */
-
 const getCurrentDate = require('../utils/dateTime');
 
-module.exports = (socket) => {
+/**
+ * @param {import('socket.io').Socket} socket
+ * @param {import('socket.io').Server} server
+ */
+module.exports = (socket, server) => {
   socket.on('message', ({ nickname, chatMessage }) => {
     const currentDate = getCurrentDate().fulldate;
     const currentTime = getCurrentDate().fulltime;
-    console.log(`${currentDate} ${currentTime} ${nickname} ${chatMessage}`);
+    const message = `${currentDate} ${currentTime} ${nickname} ${chatMessage}`;
+    console.log(message);
+    server.emit('message', message);
   });
 };
