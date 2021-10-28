@@ -79,6 +79,12 @@
       document.getElementById('messages').append(li);
     });
 
+    // função para ter garantia que o socket vai se desconectar
+    // a depender de como a página foi encerrada, o socket pode não se desconectar
+    window.onbeforeunload = function (event) {
+      socket.disconnect();
+    };
+
     // querySelectorAll retorna um objeto NodeList
     // NodeList não é um array mas pode ser iterado pelo método forEach
     // https://developer.mozilla.org/pt-BR/docs/Web/API/Document/querySelectorAll
