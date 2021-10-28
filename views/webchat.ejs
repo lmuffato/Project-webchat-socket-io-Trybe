@@ -68,10 +68,11 @@
     if (users.length === 0) {
       usuarios.forEach((usuario) => {
         const li = document.createElement('li');
-        li.innerText = usuario;
+        li.innerText = usuario.userName;
+        li.id = usuario.clientId;
         li.setAttribute('data-testid', 'online-user');
         li.className = 'onlineUser';
-        if (usuario === myId) {
+        if (usuario.userName === myId) {
           onlineContainer.insertBefore(li, onlineContainer.firstChild);
         } else {
           onlineContainer.appendChild(li);
@@ -80,9 +81,9 @@
     }
   });
 
-  client.on('newUser', (useId) => {
+  client.on('newUser', (userId) => {
     const li = document.createElement('li');
-    li.innerText = useId;
+    li.innerText = userId;
     li.setAttribute('data-testid', 'online-user');
     li.className = 'onlineUser';
     document.querySelector('#onlineContainer').appendChild(li);
@@ -90,7 +91,7 @@
 
   document.querySelector('#changeNameBtn').addEventListener('click', (e) => {
     e.preventDefault();
-    const oldName = sessionStorage.getItem('webChatNickname');
+    const oldName = document.querySelector('#myNickName').innerText;
     const newName = document.querySelector('#nameBox').value;
     document.querySelector('#myNickName').innerText = newName;
     sessionStorage.setItem('webChatNickname', newName);
@@ -105,6 +106,12 @@
         li.innerText = data.newName;
       }
     });
+  });
+
+  client.on('disconnected', (disconectedId) => {
+    // ulList = document.querySelector('#onlineContainer');
+    itemToRemove = document.querySelector(`#${disconectedId}`);
+    document.querySelector('#onlineContainer').removeChild(itemToRemove);
   });
 
   document.querySelector('#sendButton').addEventListener('click', (e) => {

@@ -23,11 +23,12 @@ const Model = require('./models/ChatModel');
 const usuarios = [];
 
 io.on('connection', (socket) => {
+  const clientId = socket.id;
   const initialId = socket.id.substring(0, 16);
   socket.emit('connection', initialId);
   socket.on('registeredUser', ({ data }) => {
     if (!data) {
-      usuarios.push(initialId);
+      usuarios.push({ userName: initialId, clientId });
       socket.emit('usuarios', usuarios);
       socket.broadcast.emit('newUser', initialId);
     } else {
@@ -35,8 +36,8 @@ io.on('connection', (socket) => {
     }
   });
   socket.on('changeName', (data) => {
-    const index = usuarios.indexOf(data.oldName);
-    usuarios.splice(index, 1, data.newName);
+    const index = usuarios.findIndex((user) => user.userName === data.oldName);
+    usuarios[index] = { userName: data.newName, clientId: usuarios[index].clientId };
     io.emit('changeName', data);
   });
   socket.on('message', (data) => {
@@ -46,6 +47,11 @@ io.on('connection', (socket) => {
     const newMessage = `${dateStringWithTime} - ${nickname}: ${chatMessage}`;
     Model.insertMessage({ timestamp: dateStringWithTime, nickname, message: chatMessage });
     io.emit('message', newMessage);
+  });
+  socket.on('disconnect', () => {
+    io.emit('disconnected', socket.id);
+    const myIndex = usuarios.findIndex((user) => user.clientId === socket.id);
+    usuarios.splice(myIndex, 1);
   });
 });
 
