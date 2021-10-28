@@ -1,14 +1,16 @@
 const express = require('express');
+
 const app = express();
 const http = require('http').createServer(app);
-const model = require('./models/messages');
-
+const cors = require('cors');
 
 const io = require('socket.io')(http, {
   cors: {
     origin: 'http://localhost:3000', 
     methods: ['GET', 'POST'], 
-  }});
+  } });
+
+  app.use(cors());
 
 // io.on('connection', (socket) => {
 //   console.log(`Usuário conectado. ID: ${socket.id} `);
@@ -21,7 +23,7 @@ const io = require('socket.io')(http, {
 require('./sockets/chat')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/chat.html');
+  res.sendFile(`${__dirname}/views/chat.html`);
 });
 
 http.listen(3000, () => {
