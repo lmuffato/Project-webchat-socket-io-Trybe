@@ -50,8 +50,14 @@ const getNick = () => {
 socket.on('message', (message) => createMessage(message));
 socket.on('userConnection', (users) => {
   connectedUsers.innerHTML = '';
-  users.forEach((user) => createConnectedUserCard(user))
+  if (!nick) {
+    nick = users[users.length - 1];
+  }
+  createConnectedUserCard(nick);
+  const newUsers = users.filter((user) => user !== nick);
+  newUsers.forEach((newUser) => createConnectedUserCard(newUser));
 });
+
 socket.on('recoverMessages', (messages) => {
   messages.forEach(({ chatMessage, timestamp, nickname }) => {
     const serializedMessage = `${timestamp} - ${nickname}: ${chatMessage}`;

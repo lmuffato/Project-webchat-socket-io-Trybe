@@ -4,8 +4,8 @@ const messagesModel = require('../models/messagesModel');
 let connectedUsers = {};
 
 module.exports = (io) => io.on('connection', async ( socket ) => {
-  connectedUsers.push(socket.id);
-  io.emit('userConnection', connectedUsers);
+  connectedUsers[socket.id] = socket.id.substring(0, 16);
+  io.emit('userConnection', Object.values(connectedUsers));
   socket.emit('recoverMessages', await messagesModel.findAll());
   socket.on('message', async ({ chatMessage, nickname }) => {
     const timestamp = moment().format('DD-MM-yyyy HH:mm:ss A');
@@ -15,12 +15,14 @@ module.exports = (io) => io.on('connection', async ( socket ) => {
   });
 
   socket.on('changeNick', (nick) => {
-    const updatedConnections = connectedUsers.map((userId) => {
-      if (userId === socket.id) return nick
-      return userId
-    });
-    connectedUsers = updatedConnections;
+    connectedUsers[socket.id] = nick;
 
-    io.emit('userConnection', connectedUsers);
+    io.emit('userConnection', Object.values(connectedUsers));
   });
+
+  socket.on('disconnect', () => {
+    delete connectedUsers[socket.id];
+
+    io.emit('userConnection', Object.values(connectedUsers));
+  })
 });
