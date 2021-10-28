@@ -5,16 +5,11 @@ const btnSave = document.querySelector('#btn-nick');
 const inputMessage = document.querySelector('#msg-input');
 const inputNick = document.querySelector('#nick-input');
 
+let nick = '';
+
 btnMessage.addEventListener('click', (e) => {
   e.preventDefault();
-  let name = '';
-  if (inputNick.value === '') {
-    name = socket.id.substring(0, 16);
-    socket.emit('message', { chatMessage: inputMessage.value, nickname: name });
-    inputMessage.value = '';
-    return false;
-  }
-  name = inputNick.value;
+  const name = nick || socket.id.substring(0, 16);
   socket.emit('message', { chatMessage: inputMessage.value, nickname: name });
   inputMessage.value = '';
   return false;
@@ -36,18 +31,22 @@ const createUsers = (user) => {
   const listUsers = document.querySelector('.list-users');
   li.innerText = user;
   listUsers.appendChild(li);
+  return li;
 };
-
-socket.on('show_Users', (users) => {
-  const listUsers = document.querySelector('.list-users');
-  listUsers.innerHTML = '';
-  users.forEach((user) => createUsers(user));
-});
 
 btnSave.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log(inputNick.value);
-  const nickname = inputNick.value;
-  socket.emit('saveName', nickname);
+  nick = inputNick.value;
+  socket.emit('saveName', nick);
   return false;
+});
+
+socket.on('saveName', (data) => {
+  const listUsers = document.querySelector('.list-users');
+  listUsers.innerHTML = '';
+
+  if (!nick) nick = data[data.length - 1];
+  listUsers.appendChild(createUsers(nick));
+  const users = data.filter((user) => user !== nick);
+  users.forEach((user) => createUsers(user));
 });
