@@ -16,7 +16,11 @@
     <button id='nickname-button' data-testid="nickname-button">Mudar</button>
   </section>
   <section>Mensagens
-    <ul id='messages'></ul>
+    <ul id='messages'>
+      <% messages.forEach(({ id, message, nickname, timestamp }) => { %>
+        <li data-testid="message"><%= `${timestamp} - ${nickname}: ${message}` %></li>
+      <% }) %>
+    </ul>
     <input type="text" id="message-input" data-testid="message-box" >
     <button id='send-button' data-testid="send-button">Enviar</button>
   </section>

@@ -25,10 +25,12 @@ const io = require('socket.io')(http, {
   },
 });
 
-const createMessage = (chatMessage, nickname) => {
-  const data = moment().format('DD-MM-YYYY hh:mm:ss A');
-  return `${data} - ${nickname}: ${chatMessage}`;
-};
+const controller = require('./controller/messageController');
+
+// const createMessage = (chatMessage, nickname) => {
+//   const data = moment().format('DD-MM-YYYY hh:mm:ss A');
+//   return `${data} - ${nickname}: ${chatMessage}`;
+// };
 
 io.on('connection', (socket) => {
   const id = idFormater(socket.id);
@@ -36,24 +38,33 @@ io.on('connection', (socket) => {
   io.emit('user', id);
 
   clients.push(client);
+
   socket.on('message', ({ chatMessage, nickname }) => {
-    const idFormated = idFormater(nickname);
-    const message = createMessage(chatMessage, idFormated);
+    const formatedId = idFormater(nickname);
+    // const message = createMessage(chatMessage, formatedId);
+    const date = moment().format('DD-MM-YYYY hh:mm:ss A');
+    const message = `${date} - ${formatedId}: ${chatMessage}`;
 
     io.emit('message', message);
+
+    controller.insertMessage(id, chatMessage, formatedId, date);
   });
 
-  socket.on('nickname', ({ nickname, id: clientId }) => {
-    const idFormated = idFormater(clientId);
-    const clientIndex = clients.findIndex((c) => c.id === idFormated);
+  socket.on('nickname', ({ nickname }) => {
+    const clientIndex = clients.findIndex((c) => c.id === id);
 
     clients.splice(clientIndex, 1);
-    
-    clients.push({ id: idFormated, nickname });
-    io.emit('nickname', { id: idFormated, nickname });
+    clients.push({ id, nickname });
+
+    io.emit('nickname', { id, nickname });
+
+    controller.updateNickname(id, nickname);
   });
 });
 
-app.get('/', (req, res) => res.render('index', { clients }));
+app.get('/', async (_req, res) => {
+  const messages = await controller.findAll();
+  res.render('index', { clients, messages });
+});
 
 http.listen(port, () => console.log('Ouvindo na porta 3000'));
