@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     if (!data) {
       usuarios.push({ userName: initialId, clientId });
       socket.emit('usuarios', usuarios);
-      socket.broadcast.emit('newUser', initialId);
+      socket.broadcast.emit('newUser', { userName: initialId, clientId });
     } else {
       socket.emit('usuarios', usuarios);
     }

@@ -78,11 +78,12 @@
     }
   });
 
-  client.on('newUser', (userId) => {
+  client.on('newUser', (data) => {
     const li = document.createElement('li');
-    li.innerText = userId;
+    li.innerText = data.userName;
     li.setAttribute('data-testid', 'online-user');
     li.className = 'onlineUser';
+    li.id = data.clientId
     document.querySelector('#onlineContainer').appendChild(li);
   });
 
