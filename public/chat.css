@@ -18,14 +18,14 @@
   margin: auto;
   margin-top: 7rem;
   width: 50rem;
-};
+}
 
 .users-container {
-  border: 2px solid black;
   background-color: rgb(76, 27, 122);
+  border: 2px solid black;
   height: 30rem;
   width: 20rem;
-};
+}
 
 .type-message-container {
   align-self: flex-end;
@@ -35,13 +35,13 @@
 }
 
 .users {
+  background-color: rgb(95, 187, 190);
   border: 1px grey solid;
   height: 38rem;
-  background-color: rgb(95, 187, 190);
   justify-content: center;
   width: 17rem;
 }
 
 .users h3 {
   margin-left: 4rem;
-};
+}
