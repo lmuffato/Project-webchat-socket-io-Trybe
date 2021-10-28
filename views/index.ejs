@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='socket.io/socket.io.js'></script>
+  <title>WEBCHAT PROJECT</title>
+</head>
+
+<body>
+  <div>
+    <h3>USERS</h3>
+    <ul id="users"></ul>
+  </div>
+
+  <div>
+    <h3>CHANGE NICKNAME</h3>
+    <input data-testid="nickname-box" id="nickname-input">
+    <button data-testid="nickname-button" id="change-nickname">CHANGE NICKNAME</button>
+  </div>
+
+  <div>
+    <h3>MESSAGES</h3>
+    <ul id="messages"></ul>
+    <input data-testid="message-box" id="message-input">
+    <button data-testid="send-button" id="send-message">Enviar</button>
+  </div>
+
+  <script>
+    socket = io();
+
+    const newMessage = (message) => {
+      const li = document.createElement('li');
+      li.innerText = message;
+      li.setAttribute('data-testid', 'message');
+      return li;
+    }
+
+    const createUserLi = (nick, id) => {
+      const li = document.createElement('li');
+      li.innerText = nick;
+      li.setAttribute('data-testid', 'online-user');
+      li.setAttribute('id', id);
+      return li;
+    }
+
+    document.getElementById('send-message').addEventListener('click', () => {
+      const chatMessage = document.getElementById('message-input').value;
+      const nickname = document.getElementById('username').innerText;
+
+      socket.emit('message', { chatMessage, nickname }); // apenas pra quem emitiu; vai ser formatada e enviada para todos nos server.js
+    });
+
+    document.getElementById('change-nickname').addEventListener('click', () => {
+      const newNickname = document.getElementById('nickname-input').value;
+      document.getElementById('username').innerText = newNickname;
+      socket.emit('change-nickname', newNickname); // apenas pra quem emitiu;
+    });
+
+    socket.on('messages', ({ messages, online }) => {
+      const allMessages = messages.map((message) => newMessage(message));
+      document.getElementById('messages').append(...allMessages);
+
+      const randomNick = Math.random().toString().replace('.', '').slice(0, 16);
+      const user = createUserLi(randomNick, 'username');
+
+      socket.emit('change-nickname', randomNick); // manda apenas para quem emitiu
+
+      // método Object.keys retorna um array a partir das chaves do objeto
+      const users = Object.keys(online).map((userId) => createUserLi(online[userId], userId));
+      document.getElementById('users').append(user, ...users); // primeiro o que acabou de se conectar, depois os que já estão conectados
+    });
+
+
+    socket.on('message', (message) => {
+      const li = newMessage(message);
+      document.getElementById('messages').append(li);
+    });
+
+    socket.on('change-nickname', ({ nick, id }) => {
+      let connectedUser = null;
+      document.querySelectorAll('#users li').forEach((user) => {
+        if (user.id === id) {
+          connectedUser = true;
+          user.innerText = nick;
+        }
+      });
+
+      if (!connectedUser) {
+        const user = createUserLi(nick, id);
+        document.getElementById('users').append(user);
+      }
+    });
+
+  </script>
+</body>
+
+</html>
