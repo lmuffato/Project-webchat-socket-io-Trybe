@@ -8,7 +8,9 @@
 </head>
 <body>
   <div>
-    <div id="online-user" data-testid="online-user"></div>
+    <ul id="users-list">
+      <li class="online-user" data-testid="online-user"></li>
+    </ul>
     <ul id="chat">
       <% messages.forEach((message) => { %>
         <li data-testid="message"><%= message %></li>

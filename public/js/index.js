@@ -1,15 +1,45 @@
 const socket = window.io();
 
-const getUpdatedOnlineUser = () => document.querySelector('#online-user');
+const sendButton = document.querySelector('#send-button');
+const nickNameButton = document.querySelector('#nickname-button');
+const usersList = document.querySelector('#users-list');
+
+const getUpdatedOnlineUser = () => document.querySelector('.online-user');
 
 window.onload = () => {
   const randomUser = Array
     .from(Array(16), () => Math.floor(Math.random() * 36).toString(36)).join('');
 
-    getUpdatedOnlineUser().innerText = randomUser;
+    const onlineUser = getUpdatedOnlineUser();
+
+    socket.emit('updateUser', randomUser);
+
+    onlineUser.innerText = randomUser;
 };
 
-const sendButton = document.querySelector('#send-button');
+const displayUsers = (connectedUsers) => {
+  console.log(connectedUsers);
+  const currentUser = getUpdatedOnlineUser().innerText;
+  usersList.innerHTML = '';
+
+  connectedUsers.forEach((user) => {
+    const newUser = document.createElement('li');
+
+    newUser.setAttribute('data-testid', 'online-user');
+    newUser.setAttribute('class', 'online-user');
+    newUser.innerText = user;
+
+    if (currentUser === user) {
+      usersList.prepend(newUser);
+    } else {
+      usersList.appendChild(newUser);
+    }
+  });
+};
+
+socket.on('connectedUsers', (connectedUsers) => {
+  displayUsers(connectedUsers);
+});
 
 sendButton.addEventListener('click', (e) => {
   e.preventDefault();
@@ -24,8 +54,6 @@ sendButton.addEventListener('click', (e) => {
   socket.emit('message', data);
 });
 
-const nickNameButton = document.querySelector('#nickname-button');
-
 nickNameButton.addEventListener('click', (e) => {
   e.preventDefault();
   
@@ -34,13 +62,19 @@ nickNameButton.addEventListener('click', (e) => {
 
   onlineUser.innerText = nicknameBox.value;
 
+  socket.emit('updateUser', onlineUser.innerText);
+
   nicknameBox.value = '';
 });
 
 const createMessage = (message) => {
   const chat = document.querySelector('#chat');
 
-  chat.innerHTML += `<li data-testid="message">${message}</li>`;
+  const newMessage = document.createElement('li');
+  newMessage.innerText = message;
+  newMessage.setAttribute('data-testid', 'message');
+
+  chat.appendChild(newMessage);
 };
 
 socket.on('message', (message) => createMessage(message));
