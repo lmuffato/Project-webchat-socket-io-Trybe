@@ -1,5 +1,4 @@
 // const { ObjectId } = require('mongodb');
-const { map } = require('lodash');
 const getConnection = require('./connection');
 
 // const saveMessages = async () => {
@@ -15,12 +14,10 @@ const getConnection = require('./connection');
 //   return { recipe: inserted };
 // };
 
-const formatDataOfDbToSend = (arrayMessages) => {
-  return arrayMessages.map((message) => {
+const formatDataOfDbToSend = (arrayMessages) => arrayMessages.map((message) => {
     const oldMessages = `${message.timestamp} - ${message.nickname}: ${message.message}`;
     return oldMessages;
   });
-};
 
 const getAllMessages = async () => {
   const getAll = await getConnection()
@@ -29,8 +26,6 @@ const getAllMessages = async () => {
   if (!getAll.length) return { error: true };
 
   const allOldMessagesFormated = formatDataOfDbToSend(getAll);
-
-  console.log(allOldMessagesFormated, 'aaaaaaaaaaaaaaaaaaaa');
 
   return allOldMessagesFormated;
 };

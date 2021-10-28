@@ -22,6 +22,8 @@ app.set('view engine', 'ejs');
 
 app.set('views', './views');
 
+app.use(express.static(`${__dirname}/views`)); // para conseguir isolar o js do html e usar o "io" no js
+
 require('./sockets/chat')(io);
 
 app.get('/', chatControllers.getAllMessages);
