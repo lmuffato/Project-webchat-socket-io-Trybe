@@ -4,7 +4,7 @@ const messageForm = document.querySelector('#messageForm');
 const nickForm = document.querySelector('#nickForm');
 const inputMessage = document.querySelector('#messageInput');
 const inputNick = document.querySelector('#nickNameInput');
-const connectedUsers = document.querySelector('#connectedUsers')
+const connectedUsers = document.querySelector('#connectedUsers');
 
 let nick = '';
 
@@ -41,11 +41,7 @@ const createConnectedUserCard = (userId) => {
   li.innerText = userId.substring(0, 16);
   li.setAttribute('data-testid', 'online-user');
   usersList.append(li);
-}
-
-const getNick = () => {
-  return inputNick.value || null;
-}
+};
 
 socket.on('message', (message) => createMessage(message));
 socket.on('userConnection', (users) => {
@@ -62,5 +58,5 @@ socket.on('recoverMessages', (messages) => {
   messages.forEach(({ chatMessage, timestamp, nickname }) => {
     const serializedMessage = `${timestamp} - ${nickname}: ${chatMessage}`;
     createMessage(serializedMessage);
-  })
+  });
 });

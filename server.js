@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 require('dotenv').config();
 const http = require('http').createServer(app);
@@ -12,10 +13,10 @@ const io = require('socket.io')(http, {
 
 require('./sockets/chat')(io);
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/chat.html');
+  res.sendFile(`${__dirname}/public/chat.html`);
 });
 
 http.listen(3000, () => {
