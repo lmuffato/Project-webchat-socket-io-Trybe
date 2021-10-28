@@ -5,23 +5,23 @@ const userList = [];
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    const userId = socket.id.substr(0, 16);
+    const { id } = socket;
+    const genericUser = id.substr(0, 16);
 
-    userList.push(userId);
-    console.log(userList);
+    userList.push({ id, genericUser });
 
-    io.emit('connected', userList);
+    io.emit('addNewUser', genericUser);
 
-    socket.on('message', ({ chatMessage, user }) => {
-      io.emit('message', `${messageMoment} - ${user}: ${chatMessage}`);
+    socket.on('message', ({ chatMessage, nickname }) => {
+      io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
     });
 
-    socket.on('disconnect', () => {
+/*     socket.on('disconnect', () => {
       userList.forEach((item, i) => {
         if (item === userId) userList.splice(i, 1);
       });
 
       io.emit('userList', userList);
-    });
+    }); */
   });
 };
