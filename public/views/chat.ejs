@@ -13,6 +13,10 @@
   <script>
     const socket = io("http://localhost:5000");
 
+    socket.on('/message', (notification) => {
+      console.log(notification);
+    })
+
   </script>
 </body>
 </html>

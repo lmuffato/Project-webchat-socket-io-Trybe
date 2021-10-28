@@ -40,9 +40,9 @@ app.get('/chat', (req, res) => {
 app.post('/message', (req, res) => { // ok
   const { notification } = req.body;
 
-/*   NEWS.push(notification);
+  // NEWS.push(notification);
 
-  io.emit('message', notification); */
+  io.emit('/message', notification);
   console.log(notification);
 
   res.status(201).json({ message: 'Notified successfully' });
