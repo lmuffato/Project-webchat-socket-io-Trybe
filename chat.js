@@ -1,6 +1,6 @@
 // Front connection
 
-const socket = window.io('http://localhost:3000');
+/* const socket = window.io('http://localhost:3000');
 
 const createLi = (notification) => {
   const li = document.createElement('li');
@@ -16,3 +16,4 @@ socket.on('loadNotifications', (notifications) => {
     createLi(notification);
   });
 });
+ */

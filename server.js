@@ -51,7 +51,7 @@ app.post('/message', (req, res) => { // ok
 
 app.listen(
   process.env.EXPRESS_PORT, () => 
-  console.log(`Express app listening on port ${process.env.SOCKETIO_PORT}!`),
+  console.log(`Express app listening on port ${process.env.EXPRESS_PORT}!`),
   );
 
 /* socketIoServer.listen(
