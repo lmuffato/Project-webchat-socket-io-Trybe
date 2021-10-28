@@ -9,6 +9,7 @@ const messagesList = require('./models/messages');
 const expressApp = express();
 const httpServer = http.createServer(expressApp);
 const ioServer = new Server(httpServer);
+const PORT = process.env.PORT || 3000;
 
 expressApp.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`);
@@ -65,6 +66,6 @@ async (socket) => {
   listenNameChange(socket);
   listenDisconnection(socket, nickname);
 });
-httpServer.listen(process.env.PORT, () => {
-  console.log(`http://localhost:${process.env.PORT}/`);
+httpServer.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}/`);
 });
