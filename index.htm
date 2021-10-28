@@ -6,9 +6,10 @@
     </head>
     <body>
         <div id="userDiv">
-            <h1 id='userName' data-testid="online-user"></h1>
+            <h1 id='userName' ></h1>
             <input id="inputName" type="text" data-testid="nickname-box" />
             <button id="buttonName" data-testid="nickname-button">Novo nome</button>
+            <ul id="onlineList"></ul>
         </div>
         <div id="messagesDiv">
             <input id="input" type="text" data-testid="message-box">
@@ -17,24 +18,26 @@
             </ul>
         </div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'></script>
-        <script>            
+        <script>                       
             const userName = document.querySelector('#userName');
             const generateNickname = () => {
                 const alphabet = 'qwertyuiopasdfghjklzxcvbnm';
                 let newName = '';
                 while (newName.length < 16) {                    
-                    newName += alphabet[Math.round(Math.random() * alphabet.length) - 1];
+                    newName += alphabet[Math.floor(Math.random() * (alphabet.length - 1))];
                 };
                 userName.innerHTML = newName;
             };
             generateNickname();
             const socket = window.io();
+            socket.emit('namesList', userName.innerHTML);
             const buttonName = document.querySelector('#buttonName');
             const inputName = document.querySelector('#inputName');
             buttonName.addEventListener('click', () => {
                 userName.innerHTML = inputName.value;
                 inputName.value = '';
-            })
+                socket.emit('namesList', userName.innerHTML);
+            });
             const userDiv = document.querySelector('#userDiv');
             const messagesDiv = document.querySelector('#messagesDiv');
             const button = document.querySelector('#button');
@@ -59,6 +62,30 @@
             socket.on('message', (message) => {
                 insertLi(message)
             });
+            const putUsers = (obj) => {
+                const usersList = document.querySelector('#onlineList');                
+                const li = document.createElement('li');
+                li.innerHTML = obj.name;
+                li.id = `a${obj.id}`;
+                li.setAttribute('data-testid', 'online-user');
+                const isTherUser = document.querySelector(`#a${obj.id}`);                
+                if (isTherUser) {
+                    isTherUser.innerHTML = obj.name;
+                } else if (obj.name === userName.innerHTML) {                    
+                    console.log(li);
+                    usersList.insertBefore(li, usersList.childNodes[0]);
+                } else {
+                    usersList.appendChild(li);
+                }
+            }
+            const destroyUser = (id) => {
+                console.log(id);
+                const li = document.querySelector(`#a${id}`);
+                li.remove();
+            }
+            socket.on('namesList', (obj) => putUsers(obj));
+            socket.on('destroy', (id) => destroyUser(id));
+            socket.on('onlineUsers', () => socket.emit('namesList', userName.innerHTML));
         </script>
     </body>
 </html>
