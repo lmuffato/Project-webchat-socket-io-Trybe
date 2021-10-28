@@ -58,26 +58,25 @@
       }).forEach((child) => parent.appendChild(child));
     };
 
-    const sortUsers = (usr, id) => {
-      const me = usr[id];
-      const toBeFixed = { ...usr };
-      delete toBeFixed[id];
-      return [me, ...Object.values(toBeFixed)];
-    };
+    const removeMe = (usrs, me) => Object.values(usrs).filter(usr => usr !== me);
 
     // Escutadores do socket
     socket.on('message', (msg) => {
       createChildren(msgList, [msg], 'li', 'message');
     });
 
-    socket.on('users', ({users, id }) => {
-      const usrNames = sortUsers(users, id);
+    socket.on('users', (users) => {
+      const myId = sessionStorage.getItem('id');
+      const me = users[myId];
+      const others = removeMe(users, me);
       usrsList.innerHTML = '';
-      createChildren(usrsList, usrNames, 'li', 'online-user');
+      createChildren(usrsList, [me], 'li', 'online-user');
+      createChildren(usrsList, others, 'li', 'online-user');
     });
 
-    socket.on('defaultName', ({ defaultName, users, id }) => {
+    socket.on('defaultName', ({ defaultName, id }) => {
       sessionStorage.setItem('nickname', defaultName);
+      sessionStorage.setItem('id', id);
     });
 
     // Eventos do DOM
