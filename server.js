@@ -1,6 +1,7 @@
 // Back-end server
 const express = require('express'); // ok
 const bodyParser = require('body-parser'); // ok
+const path = require('path');
 
 require('dotenv').config();
 
@@ -27,32 +28,22 @@ app.set('views', './public/views');
 app.use(bodyParser.json()); // ok
 app.use(bodyParser.urlencoded({ extended: true })); // ok
 
-/* app.use('/assets', express.static('./assets/javascripts'));
-app.use('/assets', express.static('./assets/css'));
- */
+app.use(express.static(path.join(__dirname, 'public', 'assets', 'javascript'))); 
+// app.use('/assets', express.static('.public/assets/css'));
 
-app.get('/chat/ssr', (req, res) => {
-  res.render('ssr/chat', { notifications: NEW_NOTIFICATION });
+app.get('/chat', (req, res) => {
+  res.render('chat', { notifications: NEW_NOTIFICATION });
 });
-
-/* app.get('/chat/ssr', (req, res) => {
-  res.render('ssr/chat copy', { notifications: NEW_NOTIFICATION });
-}); */
 
 app.post('/message', (req, res) => { // ok
   const { notification } = req.body;
 
   NEW_NOTIFICATION.push(notification); // Criar um db para salvar as mensagens
 
-  io.emit('/message', notification);
+  io.emit('message', notification);
 
   res.status(201).json({ message: 'Notified successfully' });
 });
-
-/* app.listen(
-  process.env.EXPRESS_PORT, () => 
-  console.log(`Express app listening on port ${process.env.EXPRESS_PORT}!`),
-  ); */
 
 socketIoServer.listen(
   process.env.PORT, 
