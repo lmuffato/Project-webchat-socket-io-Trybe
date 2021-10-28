@@ -23,18 +23,25 @@ const io = new Server(serverHttp, options);
 const users = {};
 
 io.on('connection', (socket) => {
+  console.log(`Client ${socket.id} connected`);
   users[socket.id] = socket.id.slice(0, 16);
+  console.log(users);
+  
   socket.on('nickname', (nickname) => {
     users[socket.id] = nickname;
     io.emit('nickname', Object.values(users));
   });
+
   socket.on('message', async ({ nickname, chatMessage, socketId = '' }) => {
     await sendMessage({ socketId, nickname, chatMessage, io, users });
   });
+
   socket.on('disconnect', () => {
     delete users[socket.id];
+    console.log(`Client ${socket.id} disconnected`);
     io.emit('nickname', Object.values(users));
   });
+
   io.emit('nickname', Object.values(users));
 });
 
