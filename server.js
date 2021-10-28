@@ -14,10 +14,10 @@ const io = require('socket.io')(socketIoServer, {
   },
 });
 
-io.on('connection', (socket) => {
+/* io.on('connection', (socket) => {
   socket.emit('loadNotifications', NEWS);
   console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
-});
+}); */
 
 app.set('view engine', 'ejs');
 app.set('views', './public/views');
@@ -54,6 +54,6 @@ app.listen(
   console.log(`Express app listening on port ${process.env.EXPRESS_PORT}!`),
   );
 
-/* socketIoServer.listen(
+socketIoServer.listen(
   process.env.EXPRESS_PORT, 
-  console.log(`Socket.io server listening on port ${process.env.SOCKETIO_PORT}!`)); // ok */
+  console.log(`Socket.io server listening on port ${process.env.SOCKETIO_PORT}!`)); // ok
