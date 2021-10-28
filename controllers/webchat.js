@@ -1,7 +1,7 @@
 const time = () => {
   const now = new Date();
   const date = `${now.getDate()}-${now.getMonth()}-${now.getFullYear()}`;
-  const hour = `${now.getHours()}-${now.getMinutes()}`;
+  const hour = `${now.getHours()}:${now.getMinutes()}`;
   const msgTime = `${date} ${hour}`;
   return msgTime;
 };
