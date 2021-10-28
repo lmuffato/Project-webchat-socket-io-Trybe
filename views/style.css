@@ -1,0 +1,80 @@
+html , body {
+  background-color: rgb(62, 206, 110);
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: white;
+  font-size: 60px;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.title img {
+  height: 80px;
+  margin-left: 20px;
+  width: 80px;
+}
+
+.chat {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+input {
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 14px;
+  height: 50px;
+  padding: 0 20px;
+  width: 600px;
+}
+
+button {
+  background: #1ebea5;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  font-weight: 800;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+}
+
+
+.messages {
+  background-image: url('https://i.pinimg.com/originals/62/40/b6/6240b66d5c50c8661eee78b439a7d33c.jpg');
+  border: 1px solid #ddd;
+  height: 400px;
+  margin: 20px 0;
+  padding: 20px;
+  width: 600px;
+}
+
+/* .messagesList {
+
+} */
+
+.message {
+  background-color: rgb(230, 222, 222);
+  border-radius: 20px;
+  list-style: none;
+  margin: 10px 0;
+  padding: 10px;
+}

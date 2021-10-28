@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebChat Socket.io</title>
+
+  <script src="http://localhost:3000/socket.io/socket.io.js" ></script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="title">
+  <h1>WebChat Socket.io</h1>
+  <img width ="50px" src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1-1.png" />
+</div>
+  <form class="chat">
+    <input type="text" name="username" id="username" placeholder="Digite seu usuário">
+    <div class="messages">
+      <ul id="messagesList"></ul>
+    </div>
+    <div class="btn">
+      <input type="text" name="message" id="message" placeholder="Digite sua mensagem"/>
+      <button type="submit">Enviar</button>
+    </div>
+  </form>
+
+  <script type="text/javascript">
+    const socket = io('http://localhost:3000');
+
+    const nickname = 'Coruja';
+    const chatMessage = 'Olá!'
+
+    socket.emit('message', { nickname, chatMessage })
+
+    socket.on('message', (data) => {
+      const li = document.createElement('li');
+      const liText = document.createTextNode(data);
+      li.appendChild(liText);
+      li.className = 'message'
+      document.getElementById('messagesList').appendChild(li);
+      
+      console.log(message)
+    })
+
+
+  </script>
+  
+</body>
+</html>
