@@ -103,7 +103,10 @@ const addNewUser = (nick) => {
 
 nickButton.addEventListener('click', () => {
   removeSpanUser();
+  const oldUser = sessionStorage.getItem('nickname');
+  const newUser = nickInput.value;
   addNewUser(nickInput.value);
+  socket.emit('replaceUser', { oldUser, newUser });
   nickInput.value = '';
 });
 
