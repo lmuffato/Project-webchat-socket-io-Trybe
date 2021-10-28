@@ -5,7 +5,7 @@ const onlineUsers = {};
 const generateTimeStamp = require('../utils/generateTimeStamp');
 
 module.exports = (io) => io.on('connection', (socket) => {
-  socket.on('updateName', (nickname) => {
+  socket.on('updateUserlist', (nickname) => {
     onlineUsers[socket.id] = nickname;
     io.emit('updateUserlist', onlineUsers);
   });

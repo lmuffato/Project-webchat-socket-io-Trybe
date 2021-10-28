@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const cors = require('cors');
 
+const path = require('path');
+
 const app = express();
 
 const http = require('http').createServer(app);
@@ -18,6 +20,8 @@ const io = require('socket.io')(http, {
 const chatController = require('./src/controllers/chat');
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, '/src/views')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

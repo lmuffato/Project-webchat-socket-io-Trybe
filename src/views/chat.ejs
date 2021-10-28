@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>TrybeChat</title>
+    <link rel="stylesheet" type="text/css" href="./css/chat.css">
+  </head>
+  <body>
+    <h1 class="box">TrybeChat</h1>
+    <div class="first-line">
+      <section id="users-container">
+        <form action="" class="forms">
+          <input 
+            type="text" 
+            name="user-name" 
+            id="user-name"
+            class="box"
+            placeholder="Digite seu nickname"
+          >
+          <button 
+            id="save-nickname"
+          >Salvar</button>
+        </form>
+        <ul 
+          id="online-users"
+          class="box"
+        >
+        </ul>
+      </section>
+      <section
+        id="chat-container"
+        class="box"      
+      >
+        <p>Bem vindo! Seu nickname é xablau
+          <span id="nickname" ></span>
+        </p>
+        <ul
+          id="messages-container"
+        >
+        </ul>
+      </section>
+    </div>
+    <form action="" class="forms">
+      <input 
+        type="text" 
+        name="write-message" 
+        id="write-message"
+        placeholder="Digite uma nova mensagem aqui"
+        class="box"
+        data-testid="message-box"
+      >
+      <button 
+        id="send-message"
+        class="button"
+        data-testid="send-button"
+      >Enviar</button>
+    </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+    integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- script que vai conter toda lógica de conexão com socket.io -->
+  <script src="./js/chat.js"></script>
+  </body>
+</html>
