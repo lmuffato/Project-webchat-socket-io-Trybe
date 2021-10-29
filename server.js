@@ -23,6 +23,7 @@ const io = require('socket.io')(server, {
 });
 
 let users = [];
+const Users = require('./models/User');
 
 function newData(chatMessage, nickname) {
   const data = new Date();
@@ -35,8 +36,9 @@ function newData(chatMessage, nickname) {
   return newMessage;
 }
 
-const newMessageFunc = (chatMessage, nickname) => {
+const newMessageFunc = async ({ chatMessage, nickname }) => {
       const newMessage = newData(chatMessage, nickname);
+      await Users.newMessage(chatMessage, nickname);
       io.emit('message', newMessage);
 };
 
@@ -49,9 +51,9 @@ function newNickFunc(data) {
   io.emit('newConnect', users);
 }
 io.on('connection', (socket) => {
-  console.log(socket.id);
+  // socket.disconnect(0);
   io.emit('newUser', socket.id);
-  socket.on('message', ({ chatMessage, nickname }) => newMessageFunc(chatMessage, nickname));
+  socket.on('message', (data) => newMessageFunc(data));
   socket.on('newNick', (data) => newNickFunc(data));
   socket.on('newConnect', (id) => {
     users.push(id);
@@ -65,8 +67,9 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/', (_req, res) => {
-    res.render('webchat/index.ejs');
+app.get('/', async (_req, res) => {
+    const messages = await Users.getAllMessages();
+    res.render('webchat/index.ejs', { messages });
     });
 
 // app.post('/user', async (req, res) => {

@@ -1,21 +1,23 @@
+const moment = require('moment');
+
 const connection = require('./connection');
 
-const updateNick = async (newNick, nickname) => {
+const getAllMessages = async () => {
   const db = await connection();
 
-  const user = await db.collection('user').update({ nickname }, { $set: { nickname: newNick } });
+  const messages = await db.collection('messages').find({}).toArray();
 
-  return user;
+  return messages;
 };
 
 const newMessage = async (chatMessage, nickname) => {
     const db = await connection();
-    const addMessage = await db.collection('user')
-    .insert({ chatMessage, nickname, date: Date() });
+    const addMessage = await db.collection('messages')
+    .insertOne({ chatMessage, nickname, date: moment().format('DD-MM-yyyy HH:mm:ss A') });
     return addMessage;
 };
 
 module.exports = {
-  updateNick,
+  getAllMessages,
   newMessage,
 };

@@ -16,7 +16,9 @@
 
   <div>
     <ul id="message">
-
+      <% console.log(messages) %>
+      <% messages? messages.forEach((message) => {
+        %><li><%=message.date %> <%=message.nickname %> : <%= message.chatMessage %></li><% }) : null %>  
     </ul>
     <input id="chatInput" data-testid="message-box" type="text">
     <button id="sendBtn" data-testid="send-button">Send</button>
@@ -31,15 +33,29 @@
     let identifica = '';
 
     const socket = io('http://localhost:3000');
+      
+      socket.emit('historics');
 
       socket.on('newUser', (id) => {
-        console.log(id);
         const newId = id.substring(4);
         identifica = newId;
         socket.emit('newConnect', newId);
 
       });
+      socket.on('historics', (historics) => {
+        const list = document.getElementById('message');
+        list.innerHTML = null;
 
+        historics.forEach((historic) => {
+          const li = document.createElement('li');
+          const text = `${historic.date} ${historic.nickname} ${historic.chatMessage}`
+          const liText = document.createTextNode(text);
+          li.appendChild(liText);
+          li.setAttribute('data-testid', 'message')
+          document.getElementById('message').appendChild(li);
+        });
+
+      })
       socket.on('newConnect', (users) => {
         const list = document.getElementById('users');
         list.innerHTML = null;
