@@ -15,6 +15,7 @@ const io = require('socket.io')(socketIoServer, {
 
 const chatSocket = require('./sockets/connectionSocket');
 const { consolidateDateAndTime } = require('./middlewares/dateAndTime');
+const { getAll } = require('./middlewares/dbWork');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -23,9 +24,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 chatSocket(io);
-app.use('/', (req, res) => {
+
+app.use('/', async (req, res) => {
   consolidateDateAndTime();
-  res.render('index');
+  const result = await getAll();
+  res.render('index', { result });
 });
 
 socketIoServer.listen(PORT, console.log(`Socket.io server listening on port: ${PORT}`));

@@ -9,7 +9,11 @@
 </head>
 <body>
 
-  <ul id="mensagens"></ul>
+  <ul id="mensagens">
+    <% result.forEach((message) => { %>
+      <li data-testid="message"><%= message.msgToSend %></li>
+    <% }) %>
+  </ul>
 
   <form action="" id="msgForm">
     <input id="mensagemInput" autocomplete="off" data-testid="message-box" /><button data-testid="send-button">Enviar</button>
@@ -27,7 +31,7 @@
       socket.on('setNick', (nick) => {
         const randNick = nick.substr(0, 16);
         const usr = randNick;
-        sessionStorage.setItem('nick', JSON.stringify(randNick));
+        sessionStorage.setItem('nick', randNick);
         socket.emit('addUser', usr);
       })
 
