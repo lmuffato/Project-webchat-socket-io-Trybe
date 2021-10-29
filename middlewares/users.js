@@ -1,4 +1,4 @@
-let userArray = [];
+const userArray = [];
 
 const addToUserArray = (usr) => {
   userArray.push(usr);

@@ -1,5 +1,5 @@
 const { consolidateDateAndTime } = require('../middlewares/dateAndTime');
-const { addToUserArray, changeNick } = require('../middlewares/users');
+const { addToUserArray } = require('../middlewares/users');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
