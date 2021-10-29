@@ -9,7 +9,25 @@
 </head>
 
 <body>
-  <h1>Web chat</h1>
+  <h2 data-testid="online-user" class="online-user"></h2>
+
+
+  <form action="" class="nickname-form">
+    <input type="text" placeholder="nickname" data-testid="nickname-box" class="nickname-input">
+    <button type="submit" data-testid="nickname-button">Salvar</button>
+  </form>
+
+  <form action="" class="new-message-form">
+    <input type="text" placeholder="message" data-testid="message-box" class="message-input">
+    <button data-testid="send-button" type="submit">Enviar</button>
+  </form>
+
+  <ul class="list-message">
+
+  </ul>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="../scripts/webchat.js"></script>
 </body>
 
 </html>

@@ -1,18 +1,24 @@
 const moment = require('moment');
 
 module.exports = (io) => {
+  const usersArray = [];
+
   io.on('connection', (socket) => {
-  console.log(`Usuário conectado. ID: ${socket.id} `);
+    console.log(`Usuário conectado. ID: ${socket.id} `);
   
-  socket.on('message', ({ chatMessage, nickname }) => {
-    const messageDate = new Date();
+    usersArray.push(socket.id);
 
-    const formatedDate = moment(messageDate).format('DD-MM-yyyy HH:mm:ss');
+    io.emit('refreshList', usersArray);
 
-    const message = `${formatedDate} - ${nickname}: ${chatMessage}`;
-    console.log(`${message}`);
+    socket.on('message', ({ chatMessage, nickname }) => {
+      const messageDate = new Date();
 
-    io.emit('message', message);
+      const formatedDate = moment(messageDate).format('DD-MM-yyyy HH:mm:ss');
+
+      const message = `${formatedDate} - ${nickname}: ${chatMessage}`;
+      console.log(`${message}`);
+
+      io.emit('message', message);
   });
 });
 };
