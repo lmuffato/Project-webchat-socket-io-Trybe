@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO - trybe</title>
+  </head>
+  <body>
+    <form action="">
+      <input id="nickname" autocomplete="off" />
+      <input id="messageInput" autocomplete="off" /><button>Send</button>
+    </form>
+    <ul id="messages"></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const form = document.querySelector('form');
+      const inputMessage = document.querySelector('#messageInput');
+      const nickname = document.querySelector('#nickname');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const msg = {
+          chatMessage: inputMessage.value,
+          nickname: nickname.value,
+        };
+        socket.emit('message', msg);
+        inputMessage.value = '';
+        return false;
+      });
+
+      const createMessage = (message) => {
+        const messagesUl = document.querySelector('#messages');
+        const li = document.createElement('li');
+        li.innerText = message;
+        messagesUl.appendChild(li);
+        return false;
+      };
+
+      socket.on('message', (message) => createMessage(message));
+    </script>
+  </body>
+</html>
