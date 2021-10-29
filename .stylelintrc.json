@@ -2,7 +2,6 @@
   "plugins": [
 		"stylelint-order"
 	],
-  "extends": ["stylelint-config-standard-scss"],
   "rules": {
     "at-rule-empty-line-before": "always",
     "at-rule-name-case": "lower",
