@@ -3,9 +3,9 @@
  */
 const socket = window.io();
 
-const form = document.getElementById('form');
-const input = document.getElementById('input');
-const messages = document.getElementById('messages');
+const form = document.querySelector('.form');
+const input = document.querySelector('.input');
+const messages = document.querySelector('.messages');
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 function makeid(length) {
