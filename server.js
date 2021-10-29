@@ -30,10 +30,5 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/', chatController.renderWebchat);
-// app.get('/', chatController.getUsers);
-
-// app.get('/', (req, res) => {
-//  res.sendFile(path.join(__dirname, './public', 'index.html'));
-// });
 
 server.listen(PORT, () => console.log(`Webchat server running on port ${PORT}!`));

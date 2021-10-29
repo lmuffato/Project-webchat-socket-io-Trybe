@@ -7,20 +7,24 @@
   <header>
     <%- include('../partials/header') %>
   </header>
-  <p data-testid="online-user"><%= nickname %></p>
-  <ul id="messages"></ul>
-  <form action="">
-    <input
-      id="messageInput"
-      autocomplete="off"
-      data-testid="message-box"
-      placeholder="Digite uma mensagem..." />
-    <button id="send-button" data-testid="send-button">Enviar</button>
-  </form>
+  <%- include('../partials/nickname') %>
+  <section id="messages-section">
+    Mensagens:
+    <ul id="messages"></ul>
+    <form id="message-form">
+      <input
+        id="message-input"
+        autocomplete="off"
+        data-testid="message-box"
+        placeholder="Digite uma mensagem..." />
+      <button id="send-button" data-testid="send-button">Enviar</button>
+    </form>
+  </section>
   <footer>
     <%- include('../partials/footer') %>
   </footer>
   <script src="/socket.io/socket.io.js"></script>
   <script src="./assets/js/chat.js"></script>
+  <script src="./assets/js/nickname.js"></script>
 </body>
 </html>

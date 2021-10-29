@@ -1,22 +1,18 @@
-const socket = window.io();
-const form = document.querySelector('form');
-const inputMessage = document.querySelector('#messageInput');
+const chatSocket = window.io();
+const messageForm = document.querySelector('#message-form');
+const inputMessage = document.querySelector('#message-input');
 
-form.addEventListener('submit', (e) => {
+messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
   let chatMessage = inputMessage.value;
-  const nickname = socket.id;
-  socket.emit('message', {nickname, chatMessage});
-  // console.log(chatMessage);
+  const nickname = document.querySelector('#online-user').innerHTML;
+  chatSocket.emit('message', { nickname, chatMessage });
   inputMessage.value = '';
   chatMessage = '';
   return false;
 });
-  
+
 const createMessage = (chatMessage) => {
-  // const { nickname } = chatMessage;
-  // console.log('o chat', chatMessage.nickname);
-  // console.log(chatMessage);
   const messageUl = document.querySelector('#messages');
   const li = document.createElement('li');
   li.innerHTML = chatMessage;
@@ -25,7 +21,7 @@ const createMessage = (chatMessage) => {
 };
 
 window.onbeforeunload = () => {
-  socket.disconnect();
+  chatSocket.disconnect();
 };
   
-socket.on('message', (chatMessage) => createMessage(chatMessage));
+chatSocket.on('message', (chatMessage) => createMessage(chatMessage));
