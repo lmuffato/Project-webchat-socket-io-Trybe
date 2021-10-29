@@ -4,9 +4,23 @@ const { saveMsgModel } = require('../models/chatModel');
 const messageMoment = moment().format('DD-MM-yyyy HH:mm:ss A');
 const userList = [];
 
-sendMessage = async (chatMessage, nickname, io) => {
+const sendMessage = async (chatMessage, nickname, io) => {
   io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
   await saveMsgModel({ message: chatMessage, nickname, timestamp: messageMoment });
+};
+
+const replaceUser = (oldUser, newUser, io) => {
+  userList.forEach(({ genericUser }, i) => {
+    if (genericUser === oldUser) userList[i].genericUser = newUser;
+  });
+  io.emit('refreshList', userList);
+};
+
+const disconnect = (socket, io) => {
+  userList.forEach((user, i) => {
+    if (user.id === socket.id) userList.splice(i, 1);
+  });
+  io.emit('refreshList', userList);
 };
 
 module.exports = (io) => {
@@ -26,18 +40,8 @@ module.exports = (io) => {
       await sendMessage(chatMessage, nickname, io);      
     });
 
-    socket.on('replaceUser', ({ oldUser, newUser }) => {
-      userList.forEach(({ genericUser }, i) => {
-        if (genericUser === oldUser) userList[i].genericUser = newUser;
-      });
-      io.emit('refreshList', userList);
-    });
+    socket.on('replaceUser', ({ oldUser, newUser }) => replaceUser(oldUser, newUser, io));
 
-    socket.on('disconnect', () => {
-      userList.forEach((user, i) => {
-        if (user.id === socket.id) userList.splice(i, 1);
-      });
-      io.emit('refreshList', userList);
-    });
+    socket.on('disconnect', () => disconnect(socket, io));
   });
 };
