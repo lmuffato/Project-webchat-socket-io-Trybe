@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Chat Publico</title>
+    <link rel="stylesheet" href="./chat.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Public Chat</h1>
+    <form id='form'>
+      <input id="messageInput" autocomplete="off" placeholder="Insira a sua mensagem aqui" />
+      <button type="button" class="messageInput">Enviar</button>
+    </form>
+    <ul id="messages"></ul>
+    <script src='/chat.js'></script>
+  </body>
+</html>
+
