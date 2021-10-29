@@ -62,23 +62,21 @@
         messagesUl.appendChild(newMessage);
       };
 
-      const updateUsers = (id) => {
-        currentId = 'id';
-      }
-
       const createNickname = (nickname) => {
           const nicknamesUl = document.querySelector(".nicknames");
           const li = document.createElement("li");
           li.setAttribute("data-testid", "online-user");
-          li.setAttribute("data-socketId", nickname);
           li.innerText = nickname;
           nicknamesUl.appendChild(li);
       };
 
       nameForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        name = inputName.value;
-        socket.emit("nickname", inputName.value);
+        if (inputName.value) {
+          name = inputName.value;
+          socket.emit("nickname", name);
+          inputName.value = ''
+        }
       });
 
       messageForm.addEventListener("submit", (event) => {
@@ -90,9 +88,16 @@
         inputMessage.value = "";
         return false;
       });
-      socket.on("nickname", (nickname) => createNickname(nickname));
-      socket.on("socketId", (id) => updateUsers(id));
-      socket.on("serverNickname", ({ nickname }) => createNickname(nickname));
+      socket.on("allUsers", (arrayOfUsers) => {
+        const nicknamesUl = document.querySelector(".nicknames");
+        nicknamesUl.innerHTML = '';
+        if (!name) {
+          name = arrayOfUsers[arrayOfUsers.length - 1];
+        }
+        createNickname(name);
+        const restOfUsers = arrayOfUsers.filter((userName) => userName !== name);
+        restOfUsers.forEach((userName) => createNickname(userName));
+      });
       socket.on("previewMessages", (message) => createMessage(message));
       socket.on("message", (message) => createMessage(message));
     </script>

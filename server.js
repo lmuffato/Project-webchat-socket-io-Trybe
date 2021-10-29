@@ -16,6 +16,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '/public')));
 app.set('views', './views');
 app.set('view engine', 'ejs');
+
 const users = {};
 
 const getDate = () => {
@@ -27,8 +28,7 @@ const getDate = () => {
 
 const onNewNickname = (nick, socket) => {
     users[socket.id] = nick;
-    io.emit('socketId', socket.id.substring(0, 16));
-    io.emit('serverNickname', { nickname: nick });
+    io.emit('allUsers', Object.values(users));
 };
 
 const onSendMessage = async ({ chatMessage, nickname }) => {
@@ -40,13 +40,14 @@ const onSendMessage = async ({ chatMessage, nickname }) => {
 io.on('connection', async (socket) => {
   const messages = await findAllMessages();
   users[socket.id] = socket.id.substring(0, 16);
-  io.emit('nickname', users[socket.id]);
+  io.emit('allUsers', Object.values(users));
 
   socket.on('nickname', (nick) => onNewNickname(nick, socket));
 
   socket.on('message', (data) => onSendMessage(data));
   socket.on('disconnect', () => {
       delete users[socket.id];
+      io.emit('allUsers', Object.values(users));
   });
   if (messages) {
     messages.forEach((message) => {
