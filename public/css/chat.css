@@ -16,9 +16,9 @@ h1 {
   border: 1px solid black;
   display: flex;
   flex-direction: row;
-  width: 100%;
   margin: 5px;
   padding: 5px;
+  width: 100%;
 }
 
 .side-intems {
@@ -33,10 +33,8 @@ h1 {
 
 .user-list {
   background-color: beige;
-  height: 60px;
   margin: 5px;
   padding: 5px;
-  width: 80px;
 }
 
 .nickname-form {
