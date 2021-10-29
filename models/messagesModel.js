@@ -7,4 +7,9 @@ const getAll = async () => {
   return messages;
 };
 
-module.exports = { getAll };
+const create = async (message, nickname, timestamp) => {
+  const db = await connection();
+  await db.collection('messages').insertOne({ message, nickname, timestamp });
+};
+
+module.exports = { getAll, create };

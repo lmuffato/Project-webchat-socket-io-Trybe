@@ -4,9 +4,9 @@ const HTTP_OK_STATUS = 200;
 const { getAll } = require('../models/messagesModel');
 
 const getAllMessages = rescue(async (_req, res) => {
-  const message = await getAll();
+  const messages = await getAll();
 
-  res.status(HTTP_OK_STATUS).render('client', message);
+  res.status(HTTP_OK_STATUS).render('client', { messages });
 });
 
 module.exports = { getAllMessages };

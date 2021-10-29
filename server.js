@@ -20,6 +20,10 @@ const io = require('socket.io')(server, {
   },
 });
 
+const { getAllMessages } = require('./controller/messagesController');
+
+const { create } = require('./models/messagesModel');
+
 io.on('connection', (socket) => {
   io.emit('nickname', socket.id.substring(0, 16));
 
@@ -27,20 +31,15 @@ io.on('connection', (socket) => {
     io.emit('serverNickname', { nickname: nick });
   });
 
-  socket.on('message', ({ nickname, chatMessage }) => {
+  socket.on('message', async ({ nickname, chatMessage }) => {
     const timestamp = moment().format('DD-MM-yyyy HH:mm:ss A');
+    await create(chatMessage, nickname, timestamp);
     io.emit('message', `${timestamp} - ${nickname}: ${chatMessage}`);
   });
 });
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.render('client');
-});
-
-// app.post('/', (req, res) => {
-
-// });
+app.get('/', getAllMessages);
 
 server.listen(PORT, console.log(`Ouvindo Socket.io server na porta ${PORT}`));

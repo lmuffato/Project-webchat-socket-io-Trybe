@@ -23,6 +23,9 @@
   </form>
   <div>
     <ul id="messages">
+      <% messages.forEach((message) => { %>
+        <li data-testid="message"> <%= `${message.timestamp} - ${message.nickname}: ${message.message} `%> </li>
+      <% }) %>
     </ul>
   </div>
 
