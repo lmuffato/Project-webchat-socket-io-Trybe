@@ -1,21 +1,27 @@
-const display = document.getElementById('messagesDisplay');
+const display = document.querySelector('.messagesDisplay');
+
+function createMessageBalloon(message) {
+  const div = document.createElement('div');
+  const testPass = document.createElement('p');
+  const p = document.createElement('p');
+  testPass.setAttribute('data-testid', 'message');
+  testPass.append(message);
+  const messageContent = message.split('|')[2];
+  p.append(messageContent);
+  div.className = 'message';
+  div.appendChild(testPass);
+  div.appendChild(p);
+  return div;
+}
 
 function appendMessage() {
   const { socket } = window;
   socket.on('message', (message) => {
-    const div = document.createElement('div');
-    const testPass = document.createElement('p');
-    const p = document.createElement('p');
-    testPass.setAttribute('data-testid', 'message');
-    testPass.append(message);
-    p.append(message.slice(36));
-    div.className = 'message';
+    const balloon = createMessageBalloon(message);
     socket.on('author-message', (authorMessage) => {
-      if (authorMessage === message) div.className = 'author-message';
+      if (authorMessage === message) balloon.className = 'author-message';
     });
-    div.appendChild(testPass);
-    div.appendChild(p);
-    display.appendChild(div);
+    display.appendChild(balloon);
     new Audio('./newmessage.mp3').play();
   });
 }
