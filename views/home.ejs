@@ -9,12 +9,15 @@
 </head>
 <body>
     <h1>Web Chat</h1>
+    <h3 data-testid="online-user" id="nick"></h3>
 
 
     <ul id="messages"></ul>
     <form action="">
-      <input id="name" placeholder="Digite seu nome"  />
-      <input id="messageInput" autocomplete="off" /><button>Enviar</button>
+      <input data-testid="nickname-box" id="name" placeholder="Digite seu nome"  />
+      <button id="nickName" data-testid="nickname-button">Nickname</button>
+      <input data-testid="message-box" id="messageInput" autocomplete="off" />
+      <button data-testid="send-button">Enviar</button>
     </form>
     
 
@@ -23,26 +26,51 @@
 </body>
 <script>
     const socket = io();
-
+    
     const form = document.querySelector('form');
-const inputMessage = document.querySelector('#messageInput');
-const inputName = document.querySelector('#name');
-const ulMessage = document.querySelector('#messages');
-form.addEventListener('submit', (e) => {
+    const inputMessage = document.querySelector('#messageInput');
+    const inputName = document.querySelector('#name');
+    const ulMessage = document.querySelector('#messages');
+    const buttonName = document.querySelector('#nickName');
+    const nick = document.querySelector('#nick')
+
+    let nickName = ''; 
+
+    // button nickName
+    buttonName.addEventListener('click', (e) => {
+        nickName = inputName.value;
+    })
+
+//    button message
+
+    form.addEventListener('submit', (e) => {
   e.preventDefault();
-  socket.emit('message', {chatMessage: inputMessage.value, nickname: inputName.value});
+  socket.emit('message', {chatMessage: inputMessage.value, nickname: nickName});
   inputMessage.value = '';
   return false;
 });
+
+//  render li message
  
 const renderLi = (message) => {
     const li = document.createElement('li');
-    li.innerText = message;
+    li.innerText = message; 
+    li.setAttribute('data-testid',  'message');
     ulMessage.appendChild(li);
 }
 
-
 socket.on('message', (message) =>  renderLi(message) )
+
+const aleatoreNick = () => {
+    let nick = '';
+    const str = 'abcdefghijklmnopqrstuvwyz';
+   for (let index = 0; index < 16; index += 1) {
+    nick += str[(Math.floor(Math.random() * str.length))];
+   }
+   return nick;
+};
+
+nick.innerHTML = aleatoreNick();
 
 
 </script>
