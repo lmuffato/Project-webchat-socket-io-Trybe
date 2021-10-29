@@ -4,8 +4,8 @@ module.exports = (io) => io.on('connection', (socket) => {
 
     socket.broadcast.emit('serverMessage', `${username} acabou de conectar`);
 
-    socket.on('clientMessage', (message) => {
-      io.emit('serverMessage', message);
+    socket.on('message', ({ chatMessage, nickname }) => {
+      io.emit('serverMessage', `${nickname}: ${chatMessage}`);
     });
   });
 });

@@ -12,7 +12,7 @@ socket.emit('joinChat', { username });
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  socket.emit('clientMessage', `${username}: ${inputMessage.value}`);
+  socket.emit('message', { chatMessage: inputMessage.value, nickname: username });
 
   inputMessage.value = '';
 
