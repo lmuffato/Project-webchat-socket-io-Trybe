@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-// const path = require('path');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -23,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/assets', express.static('./assets/javascripts'));
 
-const webchatSocket = require('./sockets/webchatSocket');
+const webchatSocket = require('./sockets/chatSocket');
 
 webchatSocket(io);
 
