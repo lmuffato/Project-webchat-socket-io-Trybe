@@ -322,6 +322,8 @@ Caso prefira testar um requisito por vez pode executar o teste da seguinte forma
 
 - Envie o histórico de mensagens salvo no banco via `html` quando um novo cliente se conectar.
 
+- Cada mensagem deve conter o `data-testid="message"`.
+
 #### As seguintes verificações serão feitas:
 ```
 - Será validado que todo o histórico de mensagens irá aparecer quando o cliente se conectar;
