@@ -135,6 +135,7 @@ const generateList = (user) => {
   const ul = document.getElementById('online-users');
   const li = document.createElement('li');
   li.className = 'userList';
+  li.setAttribute('data-testid', 'online-user');
   li.id = user;
   li.textContent = user;
   ul.appendChild(li);

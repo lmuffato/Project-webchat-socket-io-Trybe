@@ -1,11 +1,13 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable max-lines-per-function */
-
 const moment = require('moment');
 const { saveMsgModel } = require('../models/chatModel');
 
 const messageMoment = moment().format('DD-MM-yyyy HH:mm:ss A');
 const userList = [];
+
+sendMessage = async (chatMessage, nickname, io) => {
+  io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
+  await saveMsgModel({ message: chatMessage, nickname, timestamp: messageMoment });
+};
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
@@ -21,8 +23,7 @@ module.exports = (io) => {
     io.emit('refreshList', userList);
 
     socket.on('message', async ({ chatMessage, nickname }) => {
-      io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
-      await saveMsgModel({ message: chatMessage, nickname, timestamp: messageMoment });
+      await sendMessage(chatMessage, nickname, io);      
     });
 
     socket.on('replaceUser', ({ oldUser, newUser }) => {
@@ -36,7 +37,6 @@ module.exports = (io) => {
       userList.forEach((user, i) => {
         if (user.id === socket.id) userList.splice(i, 1);
       });
-      console.log(userList);
       io.emit('refreshList', userList);
     });
   });
