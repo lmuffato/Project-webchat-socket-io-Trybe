@@ -36,8 +36,6 @@ module.exports = (io) => {
     io.emit('addNewUser', randomNick);
     io.emit('refreshList', userList);
 
-    console.log(userList);
-
     socket.on('message', async ({ chatMessage, nickname }) => {
       await sendMessage(chatMessage, nickname, io);      
     });

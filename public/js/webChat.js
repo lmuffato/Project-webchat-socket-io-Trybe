@@ -66,6 +66,7 @@ const generateList = (user) => {
 const createListUsers = (listUser) => {
   removeListUsers();
   const mainUser = sessionStorage.getItem('nickname');
+
   generateList(mainUser);
 
   listUser.forEach(({ genericUser }, i) => {
@@ -73,6 +74,14 @@ const createListUsers = (listUser) => {
   });
 };
 
+const disconnection = (userList) => {
+  console.log('desconectou');
+  removeSpanUser();
+  sessionStorage.removeItem('nickname');
+  createListUsers(userList);
+};
+
 socket.on('addNewUser', addNewUser);
+socket.on('dis', disconnection);
 socket.on('message', sendMessage);
 socket.on('refreshList', createListUsers);
