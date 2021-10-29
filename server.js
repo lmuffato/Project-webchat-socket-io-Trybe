@@ -21,7 +21,7 @@ const chatController = require('./src/controllers/chat');
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, '/src/views')));
+app.use(express.static(path.join(__dirname, '/src/public/')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -29,7 +29,7 @@ require('./src/sockets/userChat')(io);
 
 app.set('view engine', 'ejs');
 
-app.set('views', './src/views');
+app.set('views', './src/public/views');
 
 app.get('/', chatController);
 
