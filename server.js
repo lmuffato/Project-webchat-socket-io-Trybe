@@ -1,32 +1,34 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
 const http = require('http');
-const moment = require('moment');
+const socket = require('socket.io');
 
 const app = express();
+const PORT = 3000;
+
 const server = http.createServer(app);
 
-const io = require('socket.io')(server, {
+const io = socket(server, {
   cors: {
     origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'], 
-  } });
-
-io.on('connection', (socket) => {
-  console.log(`Usuário conectado. ID: ${socket.id} `);
-  
-  socket.on('message', ({ chatMessage, nickname }) => {
-    const messageDate = new Date();
-
-    const formatedDate = moment(messageDate).format('DD-MM-yyyy HH:mm:ss');
-
-    const message = `${formatedDate} - ${nickname}: ${chatMessage}`;
-
-    io.emit('message', message);
-  });
+    methods: ['GET', 'POST'],
+  },
 });
 
-server.listen(3000, () => {
-  console.log('Servidor iniciado em http://localhost:3000');
-});
+const chatController = require('./src/controller/chatController');
 
-module.exports = { io };
+require('./src/socket/chatSocket')(io);
+
+app.use(express.static(path.join(__dirname, '/public')));
+app.set('view engine', 'ejs');
+app.set('views', './public/views');
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
+app.get('/', chatController.getAll);
+
+server.listen(PORT, () => console.log(`server running on http://localhost:${PORT}`));
