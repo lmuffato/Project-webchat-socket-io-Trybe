@@ -3,7 +3,9 @@ const socket = window.io();
 const form = document.querySelector('form');
 const inputMessage = document.querySelector('#messageInput');
 
-const username = undefined;
+const urlSearchParams = new URLSearchParams(window.location.search);
+
+const { username } = Object.fromEntries(urlSearchParams.entries());
   
 socket.emit('joinChat', { username });
 
