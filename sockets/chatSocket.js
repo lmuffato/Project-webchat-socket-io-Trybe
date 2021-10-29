@@ -5,7 +5,10 @@ module.exports = (io) => io.on('connection', (socket) => {
     const timeStamp = dayjs().format('DD-MM-YYYY HH:mm:ss');
     io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
   });
+  socket.on('nickname', (nickname) => {
+    socket.emit('nickname', nickname);
+  });
   // socket.on('disconnect', () => {
-  //   socket.broadcast.emit('message', `${socket.io} se desconectou.`)
+  //   socket.broadcast.emit('message', `${socket.io} se desconectou.`);
   // });
 });
