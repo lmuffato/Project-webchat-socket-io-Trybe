@@ -71,6 +71,16 @@
   width: 0;
 }
 
+.time-message {
+  background: #24643f;
+  border-radius: 5px;
+  color: #44ad70;
+  font-size: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  top: -10px;
+}
+
 .author-message {
   background: #44ad70;
   color: white;

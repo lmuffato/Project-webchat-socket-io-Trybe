@@ -7,6 +7,14 @@ function createNameLabel(name) {
   return nameSpan;
 }
 
+function createTimeLabel(time) {
+  const timeSpan = document.createElement('span');
+  const timeSliced = time.slice(0, -3);
+  timeSpan.append(timeSliced);
+  timeSpan.className = 'time-message';
+  return timeSpan;
+}
+
 function createMessageBalloon(message) {
   const div = document.createElement('div');
   const testPass = document.createElement('p');
@@ -14,14 +22,17 @@ function createMessageBalloon(message) {
   testPass.setAttribute('data-testid', 'message');
   testPass.append(message);
   testPass.className = 'hidden';
+  const messageTime = message.split('|')[1];
   const messageAuthor = message.split('|')[2];
   const messageContent = message.split('|')[3];
   const nameLabel = createNameLabel(messageAuthor);
+  const timeLabel = createTimeLabel(messageTime);
   p.append(messageContent);
   div.className = 'message';
   div.appendChild(nameLabel);
   div.appendChild(testPass);
   div.appendChild(p);
+  div.appendChild(timeLabel);
   return div;
 }
 
