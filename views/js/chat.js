@@ -4,23 +4,32 @@ const changeCurrentNickname = document.getElementById('changeCurrentNickname');
 const usersLogged = document.getElementById('usersLogged');
 let nickWithNumbers;
 
+socket.emit('initConnection');
+
 const insertNicknameUserLogged = (nickname) => {
   const newUserLogged = document.createElement('li');
   newUserLogged.innerText = nickname;
   newUserLogged.setAttribute('data-testid', 'online-user');
   newUserLogged.id = nickname;
   usersLogged.appendChild(newUserLogged);
+  socket.emit('userNickname', {
+     id: newUserLogged.id, 
+     innerText: newUserLogged.innerText,
+    });
 };
 
-socket.emit('initConnection');
+socket.on('addNickinameInOtherUser', (newUserLogged) => {
+  const otherUser = document.createElement('li');
+  otherUser.innerText = newUserLogged.innerText;
+  otherUser.id = newUserLogged.id;
+  otherUser.setAttribute('data-testid', 'online-user');
+
+  usersLogged.appendChild(otherUser);
+});
 
 socket.on('showNicknamesOfUsersLoggeds', (newNicknameFormated) => {
   nickWithNumbers = newNicknameFormated;
   insertNicknameUserLogged(newNicknameFormated);
-
-  // sessionStorage.setItem('nickname', JSON.stringify(newNicknameFormated));
-
-  // sessionStorage.setItem('nickname', JSON.stringify(newNicknameFormated));
 });
 
 changeCurrentNickname.addEventListener('submit', (e) => {
@@ -29,30 +38,3 @@ changeCurrentNickname.addEventListener('submit', (e) => {
   const currentUser = document.getElementById(nickWithNumbers);
   currentUser.innerText = nicknameBox.value;
 });
-
-// const { username, room } = Qs.parse(location.search, {
-//   ignoreQueryPrefix: true});
-
-// socket.emit('joinRoom', { username, room });
-
-// const createMessage = (message) => {
-//   const messagesUl = document.querySelector('#messages');
-//   const li = document.createElement('li');
-//   li.innerText = message;
-//   messagesUl.appendChild(li);
-// }
-
-// socket.on('serverMessage', (message) => createMessage(message));
-
-// socket.emit('joinRoom', { username, room });
-
-// const form = document.querySelector('form');
-// const inputMessage = document.querySelector('#messageInput');
-
-// form.addEventListener('submit', (e) =>{
-//   e.preventDefault();
-//   const message = inputMessage.value;
-//   socket.emit('roomClientMessage', { room, message });
-//   inputMessage.value = '';
-//   return false;
-// });

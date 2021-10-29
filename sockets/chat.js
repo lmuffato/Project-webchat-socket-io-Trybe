@@ -16,4 +16,9 @@ module.exports = (io) => io.on('connection', async (socket) => {
     socket.on('message', ({ chatMessage, nickname }) => {
       io.emit('message', `${date} - ${nickname}: ${chatMessage}`);
     });
+
+    socket.on('userNickname', (newUserLogged) => {
+      console.log(newUserLogged, 'wwwwwwwwww')
+      io.emit('addNickinameInOtherUser', newUserLogged);
+    });
 });
