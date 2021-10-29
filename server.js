@@ -5,7 +5,7 @@ const moment = require('moment');
 require('dotenv').config();
 
 const app = express();
-const { PORT } = process.env;
+const PORT = process.env.PORT || 3000;
 
 // app.use(cors());
 const http = require('http').createServer(app);
