@@ -25,7 +25,8 @@ const createMessage = (message) => {
 socket.on('message', (message) => createMessage(message));
 socket.on('loadMessages', (allMessages) => {
   allMessages.forEach((message) => {
-    createMessage(Object.values(message));
+    const formatMessage = `${message.timestamp} - ${message.nickname}: ${message.message}`;
+    createMessage(formatMessage);
   });
 });
 
