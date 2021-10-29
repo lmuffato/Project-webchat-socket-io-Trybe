@@ -16,9 +16,19 @@ app.use(express.static('./public'));
 app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public/chat.html'));
 });
-
-io.on('connection', () => {
+io.on('connection',
+/**
+ * @param {import('socket.io').Socket} socket
+ */
+  (socket) => {
   console.log('Usuário conectado');
+  socket.on('disconnect', () => {
+    console.log('Usuário desconectado');
+  });
+  socket.on('message', (msg) => {
+    io.emit('message', msg);
+  });
 });
 
-server.listen(PORT, () => console.log(`Server WebChat Online na porta ${PORT}`)); 
+server.listen(PORT, () =>
+  console.log(`Server WebChat Online na porta ${PORT}`));
