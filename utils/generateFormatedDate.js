@@ -1,15 +1,5 @@
-const generateFormatedDate = () => {
-  const date = new Date();
-  const day = date.getDay();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
+const moment = require('moment');
 
-  return `${day < 10 ? `0${day}` : day}-${
-    month < 10 ? `0${month}` : month
-  }-${year} ${hour}:${minute}:${second}`;
-};
+const generateFormatedDate = () => moment().format('DD-MM-YYYY HH:mm:ss');
 
 module.exports = generateFormatedDate;

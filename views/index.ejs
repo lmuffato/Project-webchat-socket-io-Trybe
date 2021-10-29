@@ -12,23 +12,34 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./css/index.css" />
-    <!-- <script
-      src="https://cdn.socket.io/4.3.2/socket.io.min.js"
-      integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      const socket = io();
-    </script> -->
   </head>
   <body>
     <section class="main">
-      <div class="side-bar"></div>
+      <div class="side-bar">
+        <form action="" id="nickname-form">
+          <input type="text" id="nickname-input" data-testid="nickname-box" placeholder="Digite seu novo nickname..." required />
+          <button id="change-nickname-btn" data-testid="nickname-button">
+            Confirmar
+          </button>
+        </form>
+      </div>
       <div class="chat-container">
+        <div>
+          <p>Olá, <span id="nickname" data-testid="online-user"></span>.</p>
+        </div>
         <ul class="chat-messages" id="chat-messages"></ul>
-        <form class="chat-message-form" action="">
-          <input type="text" id="input-message" />
-          <button>Enviar</button>
+        <form
+          class="chat-message-form"
+          id="chat-message-form"
+          action=""
+          onsubmit="return submitForm(event)"
+        >
+          <input
+            id="input-message"
+            data-testid="message-box"
+            required
+          />
+          <button id="submit-message" data-testid="send-button">Enviar</button>
         </form>
       </div>
     </section>

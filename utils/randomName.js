@@ -1,12 +1,5 @@
-const {
-  uniqueNamesGenerator,
-  adjectives,
-  colors,
-  animals,
-} = require('unique-names-generator');
-
 module.exports = () =>
-  uniqueNamesGenerator({
-    dictionaries: [adjectives, animals, colors],
-    length: 2,
-  });
+  (
+    Math.random().toString(36).substring(2, 15)
+    + Math.random().toString(36).substring(2, 15)
+  ).substring(0, 16);
