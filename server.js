@@ -22,7 +22,7 @@ const io = require('socket.io')(server, {
   },
 });
 
-const User = require('./models/User');
+let users = [];
 
 function newData(chatMessage, nickname) {
   const data = new Date();
@@ -34,45 +34,39 @@ function newData(chatMessage, nickname) {
   const newMessage = `${dataAtual} ${horaAtual} ${nickname} : ${chatMessage}`;
   return newMessage;
 }
-let users = [];
-io.on('connection', (socket) => {
-  io.emit('newUser', socket.id);
-  socket.on('message', async ({ chatMessage, nickname }) => {
-      console.log(nickname);
-      await User.newMessage(chatMessage, nickname);
+
+const newMessageFunc = ({ chatMessage, nickname }) => {
       const find = users.find((user) => user === nickname);
       if (find) {
-        const newMessage = newData(chatMessage, nickname);
-        io.emit('message', newMessage);
+          const newMessage = newData(chatMessage, nickname);
+          io.emit('message', newMessage);
       }
-});
-  socket.on('newNick', async ({ newNick, oldNick }) => {
-    await User.updateNick(newNick, oldNick);
-    const xablau = users.map((user) => {
-      if (user === oldNick) return newNick;
-      return user;
-    });
-    users = xablau;
-    io.emit('newConnect', users);
+};
+
+function newNickFunc(data) {
+  const newArr = users.map((user) => {
+    if (user === data.oldNick) return data.newNick;
+    return user;
   });
+  users = newArr;
+  io.emit('newConnect', users);
+}
+io.on('connection', (socket) => {
+  io.emit('newUser', socket.id);
+  socket.on('message', (data) => newMessageFunc(data));
+  socket.on('newNick', (data) => newNickFunc(data));
+ 
   socket.on('newConnect', (id) => {
     users.push(id);
     console.log(users);
-    socket.emit('newConnect', users);
+    io.emit('newConnect', users);
   });
-
   socket.on('disconnect', () => {
     const newArr = users.filter((user) => user !== socket.id.substring(4));
     users = newArr;
     io.emit('newConnect', users);
   });
 });
-
-app.get('/user', async (_req, res) => {
-    const user = await User.getAll();
-  
-    res.status(200).json(user);
-  });
 
 app.get('/', (_req, res) => {
     res.render('webchat/index.ejs');
