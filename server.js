@@ -24,10 +24,14 @@ io.on('connection', (socket) => {
     console.log(`${timeStamp} - ${nickname}: ${chatMessage}`);
     io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
   });
+  socket.on('disconnect', () => {
+    allUsers.pop();
+    io.emit('newUser', allUsers);
+  });
 });
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(`${__dirname}/public/`));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
