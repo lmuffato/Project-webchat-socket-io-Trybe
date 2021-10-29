@@ -8,8 +8,8 @@
 </head>
 <body>
   <h3 id="user-name" data-testid="online-user"></h3>
-  <input type="text" id="input-change-nick" data-testid="nickname-box">
-  <button type="button" id="button-change-nick" data-testid="nickname-button">Trocar o nick</button>
+  <input type="text" data-testid="nickname-box" id="nicknameBox">
+  <button type="button" data-testid="nickname-button" id="nicknameButton">Trocar o nick</button>
   <ul id="message-list"></ul>
   <input type="text" data-testid="message-box" id="text-input"/>
   <button type="button" data-testid="send-button" id="send-button">Enviar</button>
@@ -18,6 +18,10 @@
     const socket = io('http://localhost:3000');
 
     const sendButton = document.querySelector('#send-button');
+    const nicknameButton = document.getElementById('nicknameButton');
+    const nicknameBox = document.getElementById('nicknameBox');
+
+    let randomNick = '';
 
     socket.on('wellcome', () => {
       const id = socket.id.substring(0,11);
@@ -28,7 +32,7 @@
       });
 
     sendButton.addEventListener('click', () => {
-      console.log('entrou aqui')
+      console.log('entrou no send message')
       const message = document.querySelector('#text-input').value;
       const sendMessage = {
         chatMessage: message,
@@ -39,10 +43,19 @@
     socket.on('message', (message) => {
       const li = document.createElement('li');
       li.innerHTML = message;
+      li.setAttribute('data-testid','message');
       document.getElementById('message-list').appendChild(li);
     });
 
-    
+    nicknameButton.addEventListener('click', () => {
+      console.log('entrou no nickname')
+      randomNick = nicknameBox.value;
+      sessionStorage.removeItem('user');
+      sessionStorage.setItem('user', randomNick);
+      const userName = document.getElementById('user-name');
+      userName.innerHTML = sessionStorage.getItem('user');
+    })
+
   </script>
 </body>
 
