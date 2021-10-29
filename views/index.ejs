@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 4 para fazendo a ligação do front com back ??? entender a porta no video -->
+    <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+    <!-- 4 importando o css não necessario indicar a subpasta css pois ja foi indicado no server -->
+    <link rel="stylesheet" href='http://localhost:3000/assets/crs.css'>
+    <title>Primeiro ejs</title>
+</head>
+<body>
+  <h1>webchat Trybe</h1>
+  <!--<script src='http://localhost:3000/assets/client.js'></script>-->
+  <form id="webchat">
+    <input type="text" id="username" placeholder="digite seu username">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="digite sua messagem">
+    <button type="submit">Enviar</button>
+  </form> 
+  <!--conexão do socket com server no back atraves da url-->
+  <script type="text/javascript"> 
+    var socket = io('http://localhost:3000')
+    const realTime = () => {
+      // Obtém a data/hora atual
+      var data = new Date();
+
+      // Guarda cada pedaço em uma variável
+      var dia     = data.getDate();           // 1-31
+      var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+      var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+      var ano2    = data.getYear();           // 2 dígitos
+      var ano4    = data.getFullYear();       // 4 dígitos
+      var hora    = data.getHours();          // 0-23
+      var min     = data.getMinutes();        // 0-59
+      var seg     = data.getSeconds();        // 0-59
+      var mseg    = data.getMilliseconds();   // 0-999
+      var tz      = data.getTimezoneOffset(); // em minutos
+
+      // Formata a data e a hora (note o mês + 1)
+      var str_data = dia + '/' + (mes+1) + '/' + ano4;
+      var str_hora = hora + ':' + min + ':' + seg;
+
+      // Mostra o resultado
+      timestamp = str_data + ' ' + str_hora
+      return timestamp;
+  }
+
+  const renderMassages = (objectMessage) => {
+  const { nickname, chatMessage } = objectMessage;
+  const p = document.createElement('p');
+  const pText = document.createTextNode(`${realTime()} - ${nickname}: ${chatMessage}`);
+  p.appendChild(pText);
+  document.getElementById('messages').appendChild(p);
+
+  
+  // verificar o cod acima pois o paragrafo(p) estão fora da div -->
+}
+
+  socket.on('previewsMassage', (arrayOfMessages) => {
+    arrayOfMessages.forEach((message) => {
+    renderMassages(message);
+    });
+  });
+
+    socket.on('allMessage', (objectMessage) => {
+      renderMassages(objectMessage);
+    }); 
+
+    var form = document.getElementById('webchat')
+    var username = document.getElementById('username')
+    var textMassage = document.getElementById('message')
+    
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      var user = username.value
+      var message = textMassage.value
+      if(user.length && message.length) {
+        var objectMessage = {
+          nickname: user,
+          chatMessage: message,
+        }
+        renderMassages(objectMessage),
+        textMassage.value = ' ';
+        socket.emit('message', objectMessage)
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+body {
+    background-color: aquamarine;
+  }
+
+  #messages { 
+    background: rgb(166, 166, 233);
+    border: 1cm;
+    height: 200px;
+    overflow: auto; 
+    width: 500px;
+  }
