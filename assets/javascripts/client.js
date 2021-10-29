@@ -24,7 +24,6 @@ const createMessage = (message) => {
 
 socket.on('message', (message) => createMessage(message));
 socket.on('loadMessages', (allMessages) => {
-  console.log(allMessages);
   allMessages.forEach((message) => {
     createMessage(Object.values(message));
   });
