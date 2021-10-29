@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 const io = require('socket.io')(server, {
   cors: {
-    origin: `http://localhost:${EXPRESS_PORT}`,
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });
@@ -35,12 +35,10 @@ function newData(chatMessage, nickname) {
   return newMessage;
 }
 
-const newMessageFunc = ({ chatMessage, nickname }) => {
-      const find = users.find((user) => user === nickname);
-      if (find) {
-          const newMessage = newData(chatMessage, nickname);
-          io.emit('message', newMessage);
-      }
+const newMessageFunc = (chatMessage, nickname) => {
+      const newMessage = newData(chatMessage, nickname);
+      io.emit('message', newMessage);
+
 };
 
 function newNickFunc(data) {
@@ -52,10 +50,10 @@ function newNickFunc(data) {
   io.emit('newConnect', users);
 }
 io.on('connection', (socket) => {
+  console.log(socket.id);
   io.emit('newUser', socket.id);
-  socket.on('message', (data) => newMessageFunc(data));
+  socket.on('message', ({ chatMessage, nickname }) => newMessageFunc(chatMessage, nickname));
   socket.on('newNick', (data) => newNickFunc(data));
- 
   socket.on('newConnect', (id) => {
     users.push(id);
     console.log(users);

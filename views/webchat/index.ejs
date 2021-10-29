@@ -28,13 +28,14 @@
   window.onbeforeunload = function(event) {
   socket.disconnect();
 };
-
+    let identifica = '';
 
     const socket = io('http://localhost:3000');
 
       socket.on('newUser', (id) => {
         console.log(id);
         const newId = id.substring(4);
+        identifica = newId;
         socket.emit('newConnect', newId);
 
       });
@@ -59,7 +60,7 @@
     sendBtn.addEventListener("click", function() {
       const messageInput = document.getElementById('chatInput');
       const message = messageInput.value;
-      socket.emit('message',{chatMessage:message,nickname:nick||socket.id.substring(4)});
+      socket.emit('message',{chatMessage:message,nickname:nick||identifica});
 });
     socket.on('message', (message) => {
       const li = document.createElement('li');
