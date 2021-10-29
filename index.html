@@ -5,15 +5,19 @@
 </head>
 <body>
   <form id="new-user-form">
-    <input id="new-user-input"/ placeholder="Insert your name">
-    <button id="save-nickname">Save</button>
+    <input 
+      id="new-user-input"
+      placeholder="Insert your name"
+      data-testid="nickname-box"
+    >
+    <button id="save-nickname" data-testid="nickname-button">Save</button>
   </form>
   <ul id="users-list"></ul>
   <br>
   <ul id="message-list"></ul>
   <form id="message-form">
-    <input id="text-input"/>
-    <button id="send-btn">Send</button>
+    <input id="text-input" data-testid="message-box"/>
+    <button id="send-btn" data-testid="send-button">Send</button>
   </form>
 </body>
 <script src="/socket.io/socket.io.js"></script>
@@ -23,15 +27,27 @@
   const userForm = document.getElementById('new-user-form');
   const userInput = document.getElementById('new-user-input');
   const userList = document.getElementById('users-list');
+  const saveName = document.getElementById('save-nickname');
 
   const textForm = document.getElementById('message-form');
   const chatText = document.getElementById('text-input');
   const chatMessages = document.getElementById('message-list');
 
+  let savedName;
+
+  const getName = () => {
+    const socketId = socket.id;
+    const nameArray = socketId.split('')
+      .splice(socketId.length - 16)
+      .join('');
+    return nameArray;
+  }
+
+
   textForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const nickname = savedName;
     const chatMessage = chatText.value.toString();
-    const nickname = socket.id;
     socket.emit('message', { chatMessage, nickname });
     chatText.value = '';
     return false;
@@ -40,6 +56,7 @@
   const createMessage = (msg) => {
     const messageLi = document.createElement('li');
     messageLi.innerText = msg;
+    messageLi.dataset.testid = 'message';
     chatMessages.appendChild(messageLi);
   };
 
@@ -57,12 +74,18 @@
   const createUser = (nickName) => {
     const userLi = document.createElement('li');
     userLi.innerText = nickName;
+    userLi.dataset.testid = "online-user";
     userList.appendChild(userLi);
   }
 
-  socket.on('new-user', (serverReturn) => {
-    createUser(serverReturn.nickName);
+  socket.on('new-connection', (name) => {
+    createUser(getName(name));
+    savedName = getName(name);
   })
 
+  socket.on('new-user', (serverReturn) => {
+    createUser(serverReturn.nickName);
+    savedName = (serverReturn.nickName);
+  })
 </script>
 </html>

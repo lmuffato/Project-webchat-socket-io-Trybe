@@ -11,6 +11,8 @@ const getCurrentDate = () => {
 };
 
 module.exports = (io) => io.on('connection', (socket) => {
+  io.emit('new-connection', socket.id);
+
   socket.on('save-user', (nickName) => {
     io.emit('new-user', { nickName });
   });
