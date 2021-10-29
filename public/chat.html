@@ -5,9 +5,18 @@
     <link rel="stylesheet" href="./chat.css">
   </head>
   <body>
+    <form class="userForm">
+      <header>
+        <input class="nickNameInput" placeholder="Personalize seu Nick! :D " autocomplete="off" data-testid="nickname-box"/>
+        <button data-testid="nickname-button" class='changebtn'>Change NickName</button>
+      </header>
+    </form>
+    <aside>
+      <ul class="usersList"></ul>
+    </aside>
     <ul class="messages"></ul>
     <form class="form" action="">
-      <input class="input" autocomplete="off" /><button>Send</button>
+      <input class="input" autocomplete="off" data-testid='message-box'/><button data-testid="send-button">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>

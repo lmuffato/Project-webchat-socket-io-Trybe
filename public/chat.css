@@ -5,6 +5,38 @@ body {
   padding-bottom: 3rem;
 }
 
+button {
+  background: #333;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  margin: 0.25rem;
+  outline: none;
+  padding: 0 1rem;
+}
+
+header {
+  background: rgba(109, 140, 170, 0.5);
+}
+
+h2 {
+  background-color: rgba(109, 140, 170, 0.5);
+  color: #333;
+}
+
+.nickNameInput {
+  background: darkgray;
+  border: none;
+  border-radius: 2rem;
+  flex-grow: 2;
+  margin: 1.25rem;
+  padding: 0.75rem;
+}
+
+.nickNameInput:focus {
+  outline: none;
+}
+
 .form {
   backdrop-filter: blur(10px);
   background: rgba(0, 0, 0, 0.15);

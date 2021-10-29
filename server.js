@@ -30,6 +30,10 @@ io.on('connection',
     const msgTime = moment().format('DD-MM-yyyy HH:mm'); 
     io.emit('message', `${msgTime} ${nickname} ${chatMessage}`);
   });
+  socket.on('listUser', (user) => {
+    socket.emit('listUser', user);
+    socket.broadcast.emit('listUser', `Usuário ${user} se conectou`);
+  });
 });
 
 server.listen(PORT, () =>
