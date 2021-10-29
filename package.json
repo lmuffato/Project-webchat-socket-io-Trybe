@@ -2,7 +2,7 @@
   "name": "webchat",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --runInBand  --detectOpenHandles --forceExit",
     "test-coverage": "jest --coverage",
@@ -12,7 +12,7 @@
     "lint:styles": "stylelint **/*.css --config .stylelintrc.json --ignore-disables --allow-empty-input"
   },
   "keywords": [],
-  "author": "Luan da silva ramalho | luan.ramalhosilva@gmail.com",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "2.8.5",
