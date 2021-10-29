@@ -17,7 +17,6 @@ const generateSpanUser = (user) => {
   const spanUser = document.getElementById('user');
   const newSpanElement = document.createElement('span');
   newSpanElement.id = 'user-span';
-  newSpanElement.dataset.testid = 'online-user';
   newSpanElement.textContent = user;
   spanUser.appendChild(newSpanElement);
 };
@@ -58,7 +57,7 @@ const generateList = (user) => {
   const ul = document.getElementById('online-users');
   const li = document.createElement('li');
   li.className = 'userList';
-  li.setAttribute('data-testid', 'online-user');
+  li.dataset.testid = 'online-user';
   li.id = user;
   li.textContent = user;
   ul.appendChild(li);
@@ -69,8 +68,8 @@ const createListUsers = (listUser) => {
   const mainUser = sessionStorage.getItem('nickname');
   generateList(mainUser);
 
-  listUser.forEach(({ genericUser }) => {
-    if (genericUser !== mainUser) generateList(genericUser);
+  listUser.forEach(({ genericUser }, i) => {
+    if (genericUser !== mainUser && i > 1) generateList(genericUser);
   });
 };
 
