@@ -4,16 +4,15 @@ const form = document.querySelector('form');
 const inputMessage = document.querySelector('#messageInput');
 const inputNickname = document.querySelector('#userNickname');
 
-const username = undefined;
+const username = sessionStorage.getItem('nickname') === null 
+  ? undefined : sessionStorage.getItem('nickname');
   
 socket.emit('joinChat', { username });
 
-const changeNickname = () => {
-  console.log('Entrei aqui', inputNickname.value === '');
-  
+const changeNickname = () => {  
   if (inputNickname.value === '') return false;
 
-  sessionStorage.setItem('nickName', inputNickname.value);
+  sessionStorage.setItem('nickname', inputNickname.value);
   inputNickname.value = '';
 };
 
@@ -39,8 +38,3 @@ const createMessage = (message) => {
 };
 
 socket.on('serverMessage', (message) => createMessage(message));
-
-/* 
-  Consegui trocar o uso do Qs.parse utilizando o uso do URLSearchParams segundo esse link:
-  https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-*/
