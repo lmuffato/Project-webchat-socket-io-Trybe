@@ -6,9 +6,18 @@ const time = () => {
   return msgTime;
 };
 
-module.exports = (io) => io.on('connection', async (socket) => {
-  time();
-  socket.on('message', async ({ chatMessage, nickname }) => {
-    io.emit('message', `${time()} - ${nickname}: ${chatMessage}`);
+const onlineUsers = {};
+
+module.exports = (io) => io.on('connection', (socket) => {
+  const randomId = socket.id.substr(0, 16);
+  socket.emit('userOnline', randomId);
+  socket.on('changeNickname', (newNickname) => {
+    onlineUsers[socket.id] = newNickname;
+    io.emit('userOnline', onlineUsers[socket.id]);
+  });
+  
+  socket.on('message', ({ chatMessage, nickname }) => {
+    io.emit('message',
+      `${time()} - ${onlineUsers[socket.id] ? onlineUsers[socket.id] : nickname}: ${chatMessage}`);
   });
 });
