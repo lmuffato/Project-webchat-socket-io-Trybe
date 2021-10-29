@@ -9,7 +9,7 @@ const http = require('http').createServer(app);
 
 // app.use(bodyParser.json());
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const { Server } = require('socket.io');
 // const socketIo = require('socket.io');
