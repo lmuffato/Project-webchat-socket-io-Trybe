@@ -45,7 +45,6 @@ const nicknameUpdater = (id, nickname) => {
 
 const clientsManage = async (id) => {
   const client = { id, nickname: '' };
-  // clients.pop();
   clients.push(client);
 };
 
@@ -55,10 +54,13 @@ const clientsDelete = async (id) => {
 };
 
 io.on('connection', (socket) => {
+  // socket.disconnect(0);
   const id = idFormater(socket.id);
   clientsManage(id);
   
-  io.sockets.emit('user', clients);
+  socket.emit('currentUserId', id);
+
+  io.emit('usersList', clients);
 
   socket.on('message', ({ chatMessage, nickname }) => {
     const message = createMessage(chatMessage, nickname, id);
@@ -74,15 +76,13 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     clientsDelete(id);
-    console.log('Bão');
 
-    socket.emit('remove', id);
+    io.emit('removeUser', id);
   });
 });
 
 app.get('/', async (_req, res) => {
   const messages = await messageController.findAll();
-  console.log(clients);
   res.render('index', { clients, messages });
 });
 
