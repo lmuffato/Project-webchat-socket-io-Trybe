@@ -6,7 +6,7 @@ function createMessageBalloon(message) {
   const p = document.createElement('p');
   testPass.setAttribute('data-testid', 'message');
   testPass.append(message);
-  const messageContent = message.split('|')[2];
+  const messageContent = message.split('|')[3];
   p.append(messageContent);
   div.className = 'message';
   div.appendChild(testPass);
