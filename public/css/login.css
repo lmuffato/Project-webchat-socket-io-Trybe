@@ -1,0 +1,113 @@
+/* Referência para este css: https://codepen.io/colorlib/pen/rxddKy */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300') ;
+
+.login-page {
+  margin: auto;
+  padding: 8% 0 0;
+  width: 360px;
+}
+
+.form {
+  background: white;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin: 0 auto 100px;
+  max-width: 360px;
+  padding: 45px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+
+}
+
+.form input , select {
+  background: #f2f2f2;
+  border: 0;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  margin: 0 0 15px;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+}
+
+.form button {
+  background: #d7da39;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  outline: 0;
+  padding: 15px;
+  text-transform: uppercase;
+  transition: all 0.3 ease;
+  width: 100%;
+}
+
+.form button:hover , .form button:active , .form button:focus {
+  background: #d3601d;
+}
+
+.form .message {
+  color: #b3b3b3;
+  font-size: 12px;
+  margin: 15px 0 0;
+}
+
+.form .message a {
+  color: #b64301;
+  text-decoration: none;
+}
+
+.form .register-form {
+  display: none;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 300px;
+  position: relative;
+  z-index: 1;
+}
+
+.container:before , .container:after {
+  clear: both;
+  content: '';
+  display: block;
+}
+
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.container .info h1 {
+  color: #1a1a1a;
+  font-size: 36px;
+  font-weight: 299;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+
+.container .info span a {
+  color: black;
+  text-decoration: none;
+}
+
+.container .info span .fa {
+  color: #7cef3a;
+}
+
+body {
+  background: linear-gradient(to right, #e04a0e, #fa9d24);
+  font-family: Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
