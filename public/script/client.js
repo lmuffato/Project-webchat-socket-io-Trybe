@@ -66,3 +66,10 @@ socket.on('userList', (users) => {
   users.forEach((user) => onlineUsers(user)); 
 });
 socket.on('userName', (userName) => userGreeting(userName));
+
+socket.on('showHistory', (history) => {
+  history.forEach((msg) => {
+    const messages = `${msg.timestamp} ${msg.nickname} diz: ${msg.chatMessage}`;
+    newMessage(messages);
+  });
+});
