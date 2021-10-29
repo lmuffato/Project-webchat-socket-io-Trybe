@@ -61,7 +61,7 @@ describe('3 - Elabore o histórico do chat para que as mensagens persistam', () 
     done();
   });
 
-  it.only('Será validado que todo o histórico de mensagens irá aparecer quando o cliente se conectar', async () => {
+  it('Será validado que todo o histórico de mensagens irá aparecer quando o cliente se conectar', async () => {
     const firstMessageToSend = { chatMessage: chatMessage, nickname: nickname };
     const secondMessageToSend = { chatMessage: anotherChatMessage, nickname: nickname };
     const thirdMessageToSend = { chatMessage: yetAnotherChatMessage, nickname: nickname };

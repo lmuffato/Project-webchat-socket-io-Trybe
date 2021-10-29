@@ -37,10 +37,15 @@ function newData(chatMessage, nickname) {
 }
 
 const newMessageFunc = async ({ chatMessage, nickname }) => {
-      const messageUser = users.find((user) => user.id === nickname);
-      const newMessage = newData(chatMessage, messageUser.nick);
-      await Users.newMessage(chatMessage, messageUser.nick);
-      io.emit('message', newMessage);
+      if (users.length > 0) {
+        const messageUser = users.find((user) => user.id === nickname);
+        const newMessage = newData(chatMessage, messageUser.nick);
+        await Users.newMessage(chatMessage, messageUser.nick);
+        return io.emit('message', newMessage);
+      }
+        const message = newData(chatMessage, nickname);
+        await Users.newMessage(chatMessage, nickname);
+        io.emit('message', message);
 };
 
 function newNickFunc(data, socket) {
