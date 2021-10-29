@@ -86,6 +86,10 @@ const addUser = (user) => {
 const checkSpanUser = () => document.getElementById('user-span');
 const removeSpanUser = () => document.getElementById('user-span').remove();
 
+const removeListUsers = () => {
+  document.getElementById('online-users').innerHTML = '';
+};
+
 const generateSpanUser = (user) => {
   const spanUser = document.getElementById('user');
   const newSpanElement = document.createElement('span');
@@ -102,10 +106,11 @@ const addNewUser = (nick) => {
 };
 
 nickButton.addEventListener('click', () => {
-  removeSpanUser();
   const oldUser = sessionStorage.getItem('nickname');
   const newUser = nickInput.value;
-  addNewUser(nickInput.value);
+  sessionStorage.setItem('nickname', newUser);
+  removeSpanUser();
+  addNewUser(newUser);
   socket.emit('replaceUser', { oldUser, newUser });
   nickInput.value = '';
 });
@@ -126,8 +131,28 @@ const sendMessage = (msg) => {
   messages.appendChild(li);
 };
 
+const generateList = (user) => {
+  const ul = document.getElementById('online-users');
+  const li = document.createElement('li');
+  li.className = 'userList';
+  li.id = user;
+  li.textContent = user;
+  ul.appendChild(li);
+};
+
+const createListUsers = (listUser) => {
+  removeListUsers();
+  const mainUser = sessionStorage.getItem('nickname');
+  generateList(mainUser);
+
+  listUser.forEach(({ genericUser }) => {
+    if (genericUser !== mainUser) generateList(genericUser);
+  });
+};
+
 socket.on('addNewUser', addNewUser);
 socket.on('message', sendMessage);
+socket.on('refreshList', createListUsers);
 
 /* socket.on('message', addMessage);
 socket.on('userList', removeItem) */

@@ -1,4 +1,6 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable max-lines-per-function */
+
 const moment = require('moment');
 
 const messageMoment = moment().format('DD-MM-yyyy HH:mm:ss A');
@@ -14,8 +16,8 @@ module.exports = (io) => {
       genericUser: randomNick,
     });
 
-    console.log(userList);
     io.emit('addNewUser', randomNick);
+    io.emit('refreshList', userList);
 
     socket.on('message', ({ chatMessage, nickname }) => {
       io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
@@ -25,7 +27,7 @@ module.exports = (io) => {
       userList.forEach(({ genericUser }, i) => {
         if (genericUser === oldUser) userList[i].genericUser = newUser;
       });
-      console.log(userList);
+      io.emit('refreshList', userList);
     });
 
     socket.on('disconnect', () => {
