@@ -34,6 +34,8 @@ module.exports = (io) => {
       userList.forEach((user, i) => {
         if (user.id === socket.id) userList.splice(i, 1);
       });
+      console.log(userList);
+      io.emit('refreshList', userList);
     });
   });
 };
