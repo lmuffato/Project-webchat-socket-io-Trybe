@@ -3,6 +3,10 @@ const sendBtn = document.querySelector('#send-button');
 const nicknameBtn = document.querySelector('#nickname-button');
 let nick;
 
+window.onbeforeunload = () => {
+  socket.disconnect();
+};
+
 socket.on('connect', () => {
   nick = socket.id;
 });
@@ -37,11 +41,22 @@ socket.on('nickname', ({ id, nickname }) => {
   nick = nickname;
 });
 
-socket.on('user', (id) => {
+socket.on('user', (clients) => {
   const users = document.querySelector('#online-users');
-  const li = document.createElement('li');
-  li.innerText = id;
-  li.setAttribute('data-testid', 'online-user');
-  li.setAttribute('id', id);
-  users.appendChild(li);
+  console.log('🚀 ~ file: script.js ~ line 46 ~ socket.on ~ users', users);
+  users.innerHTML = '';
+  clients.forEach(({ id, nickname }) => {
+    const li = document.createElement('li');
+    li.innerText = nickname || id;
+    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute('id', id);
+    users.appendChild(li);
+  });
+});
+
+socket.on('remove', (id) => {
+  const users = document.querySelector('#online-users');
+  const removeUser = document.querySelector(`#${id}`);
+
+  users.removeChild(removeUser);
 });

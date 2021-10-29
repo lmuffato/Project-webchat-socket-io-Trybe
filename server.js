@@ -25,45 +25,64 @@ const io = require('socket.io')(http, {
   },
 });
 
-const controller = require('./controller/messageController');
+const messageController = require('./controller/messageController');
 
-// const createMessage = (chatMessage, nickname) => {
-//   const data = moment().format('DD-MM-YYYY hh:mm:ss A');
-//   return `${data} - ${nickname}: ${chatMessage}`;
-// };
+const createMessage = (chatMessage, nickname, id) => {
+  const date = moment().format('DD-MM-YYYY hh:mm:ss A');
+  const formatedId = idFormater(nickname);
+  messageController.insertMessage(id, chatMessage, formatedId, date);
+  return `${date} - ${formatedId}: ${chatMessage}`;
+};
+
+const nicknameUpdater = (id, nickname) => {
+  const clientIndex = clients.findIndex((c) => c.id === id);
+
+  clients.splice(clientIndex, 1);
+  clients.push({ id, nickname });
+
+  messageController.updateNickname(id, nickname);
+};
+
+const clientsManage = async (id) => {
+  const client = { id, nickname: '' };
+  // clients.pop();
+  clients.push(client);
+};
+
+const clientsDelete = async (id) => {
+  const removeClient = clients.findIndex((c) => c.id === id);
+  clients.splice(removeClient, 1);
+};
 
 io.on('connection', (socket) => {
   const id = idFormater(socket.id);
-  const client = { id, nickname: '' };
-  io.emit('user', id);
-
-  clients.push(client);
+  clientsManage(id);
+  
+  io.sockets.emit('user', clients);
 
   socket.on('message', ({ chatMessage, nickname }) => {
-    const formatedId = idFormater(nickname);
-    // const message = createMessage(chatMessage, formatedId);
-    const date = moment().format('DD-MM-YYYY hh:mm:ss A');
-    const message = `${date} - ${formatedId}: ${chatMessage}`;
+    const message = createMessage(chatMessage, nickname, id);
 
     io.emit('message', message);
-
-    controller.insertMessage(id, chatMessage, formatedId, date);
   });
 
   socket.on('nickname', ({ nickname }) => {
-    const clientIndex = clients.findIndex((c) => c.id === id);
-
-    clients.splice(clientIndex, 1);
-    clients.push({ id, nickname });
+    nicknameUpdater(id, nickname);
 
     io.emit('nickname', { id, nickname });
+  });
 
-    controller.updateNickname(id, nickname);
+  socket.on('disconnect', () => {
+    clientsDelete(id);
+    console.log('Bão');
+
+    socket.emit('remove', id);
   });
 });
 
 app.get('/', async (_req, res) => {
-  const messages = await controller.findAll();
+  const messages = await messageController.findAll();
+  console.log(clients);
   res.render('index', { clients, messages });
 });
 
