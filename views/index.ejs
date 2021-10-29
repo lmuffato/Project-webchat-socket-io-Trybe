@@ -25,6 +25,11 @@
     <button type="submit" data-testid="send-button">Send</button>
   </form>
 
+  <h2>Online Users</h2>
+  <ul id="online-clients">
+    <li id="my-nickname" data-testid="online-user"><%= randomNickname %></li>
+  </ul>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/messages.js"></script>  
 </body>
