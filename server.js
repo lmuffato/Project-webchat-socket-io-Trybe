@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 require('./sockets/chat')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/index.html'));
+  res.sendFile(path.join(__dirname, '/chat.html'));
 });
 
 http.listen(3000, () => {
