@@ -24,7 +24,12 @@
     </fieldset>
     <aside className="container-users">
       <ul id="online-users">OnLine Users</ul>
-      <ul class="messages" id="messages"></ul>
+      <ul class="messages" id="messages">
+        <% history.forEach((msg) => { %>
+          <li data-testid="message"><%= msg %></li>
+        <% }) %>
+      </ul>
+      </ul>
     </aside>
     <form class="form" id="form" action="">
       <input

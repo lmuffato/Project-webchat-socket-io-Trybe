@@ -2,6 +2,7 @@
 /* eslint-disable max-lines-per-function */
 
 const moment = require('moment');
+const { saveMsgModel } = require('../models/chatModel');
 
 const messageMoment = moment().format('DD-MM-yyyy HH:mm:ss A');
 const userList = [];
@@ -19,8 +20,9 @@ module.exports = (io) => {
     io.emit('addNewUser', randomNick);
     io.emit('refreshList', userList);
 
-    socket.on('message', ({ chatMessage, nickname }) => {
+    socket.on('message', async ({ chatMessage, nickname }) => {
       io.emit('message', `${messageMoment} - ${nickname}: ${chatMessage}`);
+      await saveMsgModel({ message: chatMessage, nickname, timestamp: messageMoment });
     });
 
     socket.on('replaceUser', ({ oldUser, newUser }) => {
