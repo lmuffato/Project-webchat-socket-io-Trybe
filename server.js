@@ -38,7 +38,6 @@ function newData(chatMessage, nickname) {
 const newMessageFunc = (chatMessage, nickname) => {
       const newMessage = newData(chatMessage, nickname);
       io.emit('message', newMessage);
-
 };
 
 function newNickFunc(data) {
