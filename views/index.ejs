@@ -17,7 +17,13 @@
     <section class="main">
       <div class="side-bar">
         <form action="" id="nickname-form">
-          <input type="text" id="nickname-input" data-testid="nickname-box" placeholder="Digite seu novo nickname..." required />
+          <input
+            type="text"
+            id="nickname-input"
+            data-testid="nickname-box"
+            placeholder="Digite seu novo nickname..."
+            required
+          />
           <button id="change-nickname-btn" data-testid="nickname-button">
             Confirmar
           </button>
@@ -27,18 +33,17 @@
         <div>
           <p>Olá, <span id="nickname" data-testid="online-user"></span>.</p>
         </div>
-        <ul class="chat-messages" id="chat-messages"></ul>
+        <ul class="chat-messages" id="chat-messages">
+          <% messages.forEach(({ nickname, message, timestamp }) => { %>
+          <li data-testid="message"><%= timestamp %> - <%= nickname %>: <%= message %></li>
+          <% }) %>
+        </ul>
         <form
           class="chat-message-form"
           id="chat-message-form"
           action=""
-          onsubmit="return submitForm(event)"
         >
-          <input
-            id="input-message"
-            data-testid="message-box"
-            required
-          />
+          <input id="input-message" data-testid="message-box" required />
           <button id="submit-message" data-testid="send-button">Enviar</button>
         </form>
       </div>

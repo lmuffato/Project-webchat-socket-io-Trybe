@@ -15,6 +15,8 @@ const io = require('socket.io')(server, {
   },
 });
 
+const Chat = require('./models/Chat');
+
 const corsOptions = {
   origin: `http://localhost:${PORT}`,
 };
@@ -29,8 +31,11 @@ app.set('view engine', 'ejs');
 require('./sockets/newUser')(io);
 require('./sockets/chat')(io);
 
-app.get('/', (req, res) => {
-  res.render('index');
+// app.get('/messages', Chat.getMessages());
+
+app.get('/', async (req, res) => {
+  const messages = await Chat.getMessages();
+  res.render('index', { messages });
 });
 
 server.listen(PORT, () => {

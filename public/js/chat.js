@@ -3,19 +3,19 @@ const socket = window.io();
 const inputMessage = document.querySelector('#input-message');
 const nicknameForm = document.querySelector('#nickname-form');
 const nicknameInput = document.querySelector('#nickname-input');
+const messageForm = document.querySelector('#chat-message-form');
 
-// let nickname;
+let nickname;
 
-const insertNewNickname = (value) => {
-  // nickname = value;
+const insertNewNickname = (nick) => {
   const nicknameSpan = document.querySelector('#nickname');
-  nicknameSpan.innerHTML = value;
+  nicknameSpan.innerHTML = nick;
   nicknameInput.value = '';
 };
 
 nicknameForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const nickname = nicknameInput.value;
+  nickname = nicknameInput.value;
   socket.auth = { nickname };
   socket.emit('changeNick', nickname);
 });
@@ -28,18 +28,16 @@ const createMessage = (message) => {
   messagesList.appendChild(li);
 };
 
-function submitForm() {
-  socket.emit('message', { chatMessage: inputMessage.value });
-  inputMessage.value = '';
-  return false;
+function submitForm(e) {
+  e.preventDefault();
+  if (inputMessage.value) {
+    socket.emit('message', { chatMessage: inputMessage.value, nickname });
+    inputMessage.value = '';
+    return false;
+  }
 }
 
-inputMessage.addEventListener('keydown', (e) => {
-  if (e.which === 13) {
-    e.preventDefault();
-    submitForm();
-  }
-});
+messageForm.addEventListener('submit', submitForm);
 
 socket.on('message', (message) => createMessage(message));
 socket.on('serverMessage', ({ message }) => createMessage(message));
