@@ -12,19 +12,25 @@
   <ul id="mensagens"></ul>
 
   <form action="" id="msgForm">
-    <input id="mensagemInput" autocomplete="off" /><button>Enviar</button>
+    <input id="mensagemInput" autocomplete="off" data-testid="message-box" /><button data-testid="send-button">Enviar</button>
   </form>
+
   <form action="" id="nickForm">
-    <input id="nameInput" autocomplete="off" /><button>Alterar</button>
+    <input id="nameInput" autocomplete="off" data-testid="nickname-box" /><button data-testid="nickname-button">Alterar nome</button>
   </form>
+
+  <ul id="users"></ul>
 
     <script>
       const socket = io();
-      
+
       socket.on('setNick', (nick) => {
-        sessionStorage.setItem('nick', JSON.stringify(nick));
+        const randNick = nick.substr(0, 16);
+        const usr = randNick;
+        sessionStorage.setItem('nick', JSON.stringify(randNick));
+        socket.emit('addUser', usr);
       })
-      
+
       const formMsg = document.querySelector('#msgForm');
       const nickForm = document.querySelector('#nickForm');
       const inputMessage = document.querySelector('#mensagemInput');
@@ -44,6 +50,7 @@
       const createMessage = (message) => {
         const messagesUl = document.querySelector('#mensagens');
         const li = document.createElement('li');
+        li.setAttribute("data-testid", "message");
         li.innerText = message;
         messagesUl.appendChild(li);
       }
@@ -52,14 +59,34 @@
 
       nickForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const nickChange = inputName.value
+        const nickChange = inputName.value;
         
-        const changeName = sessionStorage.setItem('nick', JSON.stringify(nickChange))
-        
+        const changeName = sessionStorage.setItem('nick', JSON.stringify(nickChange));
+
+          
         inputName.value = '';
         return false;
       })
-      
+
+      const mountPannel = (usrPannel) => {
+        let index = 0;
+        const userUl = document.querySelector('#users');
+        userUl.innerHTML = '';
+        usrPannel.map((usr) => {
+          const user = usr;
+          const li = document.createElement('li');
+          li.setAttribute("data-testid", "online-user");
+          li.innerText = user;
+          userUl.appendChild(li);
+          index = index + 1;
+        });
+        index = 0;
+      }
+
+      socket.on('userPannel', (usrPannel) => {
+        mountPannel(usrPannel);
+      })
+
       window.onbeforeunload = () => {
         socket.disconnect();
       }; 

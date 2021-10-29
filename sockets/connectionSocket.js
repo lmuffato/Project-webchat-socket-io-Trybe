@@ -1,10 +1,14 @@
 const { consolidateDateAndTime } = require('../middlewares/dateAndTime');
+const { addToUserArray, changeNick } = require('../middlewares/users');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    console.log(`Usuário conectado. ID: ${socket.id}`);
-
     socket.emit('setNick', socket.id);
+
+    socket.on('addUser', (usr) => {
+      const usrPannel = addToUserArray(usr);
+      io.emit('userPannel', usrPannel);
+    });
 
     socket.on('message', (msg) => {
       const { chatMessage, nickname } = msg;
