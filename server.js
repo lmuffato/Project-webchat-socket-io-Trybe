@@ -1,4 +1,3 @@
-// Faça seu código aqui
 const express = require('express');
 const path = require('path');
 
@@ -18,7 +17,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 require('./sockets/chat')(io);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/chat.html'));
+  res.sendFile(path.join(__dirname, 'public/chat.html'));
 });
 
 http.listen(3000, () => {
