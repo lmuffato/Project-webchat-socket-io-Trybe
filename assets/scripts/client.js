@@ -50,3 +50,5 @@ socket.on('show_Users', (data) => {
   const users = data.filter((user) => user !== nick);
   users.forEach((user) => createUsers(user));
 });
+
+module.export = { nick };

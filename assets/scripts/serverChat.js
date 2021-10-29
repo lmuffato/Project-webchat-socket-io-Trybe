@@ -11,8 +11,6 @@ module.exports = (io) => io.on('connection', (socket) => {
   });
   
   Users[socket.id] = socket.id.substring(0, 16);
-  // const user = Object.values(Users).filter((u) => u === socket.id.substring(0, 16));
-  // // console.log(user);
   io.emit('show_Users', Object.values(Users));
 
   socket.on('saveName', (nickname) => {
