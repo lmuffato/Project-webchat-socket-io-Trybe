@@ -73,6 +73,15 @@
 
     messageForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (messageInput.value && !userInput.value) {
+        userName = socket.id.substr(0, 16);
+        sessionStorage.setItem('name', userName);
+      } 
+      if (userInput.value) {
+        userName = userInput.value
+        sessionStorage.setItem('name', userName);
+      }
+      createUser(userName);
       const message = { chatMessage: messageInput.value, nickname: userName }
       socket.emit('message', message);
       messageInput.value = '';
@@ -85,9 +94,9 @@
 
     socket.on('messageList', (messages) => {
       console.log('Ouvindo messageList do front-end ==>', messages);
-      messages.forEach((message) => {
-        messageUl.appendChild(createMessage(message));
-      });
+      // messages.forEach((message) => {
+      //   messageUl.appendChild(createMessage(message));
+      // });
     });
 
   window.onbeforeunload = function(event) {
