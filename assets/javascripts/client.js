@@ -21,7 +21,14 @@ const createMessage = (message) => {
   li.append(liText);
   document.getElementById('board-message').appendChild(li);
 };
+
 socket.on('message', (message) => createMessage(message));
+socket.on('loadMessages', (allMessages) => {
+  console.log(allMessages);
+  allMessages.forEach((message) => {
+    createMessage(Object.values(message));
+  });
+});
 
 const setUserList = (user) => {
   const li = document.createElement('li');
