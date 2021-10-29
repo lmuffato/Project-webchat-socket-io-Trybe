@@ -16,6 +16,7 @@ const removeListUsers = () => {
 const generateSpanUser = (user) => {
   const spanUser = document.getElementById('user');
   const newSpanElement = document.createElement('span');
+  newSpanElement.dataset.testid = 'online-user';
   newSpanElement.id = 'user-span';
   newSpanElement.textContent = user;
   spanUser.appendChild(newSpanElement);
@@ -70,7 +71,7 @@ const createListUsers = (listUser) => {
   generateList(mainUser);
 
   listUser.forEach(({ genericUser }, i) => {
-    if (genericUser !== mainUser && i > 0) generateList(genericUser);
+    if (genericUser !== mainUser && i > 1) generateList(genericUser);
   });
 };
 
