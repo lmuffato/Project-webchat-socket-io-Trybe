@@ -74,14 +74,6 @@ const createListUsers = (listUser) => {
   });
 };
 
-const disconnection = (userList) => {
-  console.log('desconectou');
-  removeSpanUser();
-  sessionStorage.removeItem('nickname');
-  createListUsers(userList);
-};
-
 socket.on('addNewUser', addNewUser);
-socket.on('dis', disconnection);
 socket.on('message', sendMessage);
 socket.on('refreshList', createListUsers);
