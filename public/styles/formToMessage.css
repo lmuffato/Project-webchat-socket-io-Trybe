@@ -1,0 +1,47 @@
+h1 {
+  font-size: 0;
+}
+
+form {
+  display: grid;
+  grid-template-areas: 'n n' 'm b';
+  padding: 25px;
+  gap: 15px;
+  grid-template-rows: auto 50px;
+  grid-template-columns: 1fr 50px;
+  width: 100%;
+}
+
+form i {
+  font-size: 22px;
+}
+
+form input.nickname {
+  color: white;
+  grid-area: n;
+  background: none;
+  border: none;
+}
+
+form input.messageInput {
+  border: 1px solid #cccccc;
+  border-radius: 99px;
+  font-size: 16px;
+  grid-area: m;
+  padding: 0 15px;
+}
+
+form button:not(.send) {
+  width: 0;
+  height: 0;
+}
+
+form button.send {
+  background: #640eaa;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  grid-area: b;
+  height: 50px;
+  width: 50px;
+}

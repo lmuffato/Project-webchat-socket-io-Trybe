@@ -1,9 +1,13 @@
+<link rel="stylesheet" href="./styles/formToMessage.css">
+
 <h1 id="user" data-testid="online-user"></h1>
 <form>
-  <input type="text" data-testid="nickname-box">
+  <input type="text" data-testid="nickname-box" class="nickname">
   <button data-testid="nickname-button" type="button" tabindex="-1" style="opacity: 0;"></button>
-  <input type="text" data-testid="message-box">
-  <button type="submit" data-testid="send-button">Enviar</button>
+  <input type="text" data-testid="message-box" class="messageInput">
+  <button type="submit" data-testid="send-button" class="send">
+    <i class="fas fa-paper-plane" aria-label="Enviar"></i>
+  </button>
 </form>
 
 <script src="./scripts/views/formToMessage.js" defer></script>
