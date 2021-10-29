@@ -32,19 +32,31 @@
   animation: fadeIn 0.2s forwards;
   background: #eee;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
   margin: 15px 0;
   margin-right: auto;
   max-width: 450px;
   padding: 15px 20px;
   position: relative;
-  width: fit-content;
+  text-align: left;
+}
+
+.author-name {
+  border-radius: 10px;
+  color: #24643f;
+  display: inline-block;
+  font-weight: 500;
+  margin-top: 5px;
+  padding: 0 5px;
+  transform: translateY(-50%);
 }
 
 .message p , .author-message p {
   margin: 0;
 }
 
-.message p:nth-child( 1 ) , .author-message p:nth-child( 1 ) {
+.message .hidden , .author-message .hidden {
   font-size: 0;
 }
 
@@ -64,6 +76,7 @@
   color: white;
   margin-left: auto;
   margin-right: initial;
+  text-align: right;
 }
 
 .author-message:before {
