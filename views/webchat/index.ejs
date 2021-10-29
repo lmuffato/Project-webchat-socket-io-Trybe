@@ -18,34 +18,64 @@
     <ul id="message">
 
     </ul>
-    <input id="chatInput" type="text">
-    <button id="sendBtn">Send</button>
+    <input id="chatInput" data-testid="message-box" type="text">
+    <button id="sendBtn" data-testid="send-button">Send</button>
+    <input id="nickInput" data-testid="nickname-box" type="text">
+    <button id="nickBtn" data-testid="nickname-button">Trocar o NickName</button>
   </div>
 
-  <script>
-    const socket = io('http://localhost:3000');
-    socket.on('newUser', () => {
-      const li = document.createElement('li');
-      const liText = document.createTextNode(`New User - ${socket.id}`);
-      console.log(`New User - ${socket.id}`)
-      li.appendChild(liText);
-      document.getElementById('users').appendChild(li);
-    });
+  <script> 
+  window.onbeforeunload = function(event) {
+  socket.disconnect();
+};
 
+
+    const socket = io('http://localhost:3000');
+
+      socket.on('newUser', () => {
+        const id = socket.id.substring(4);
+        socket.emit('newConnect', id);
+
+      });
+
+      socket.on('newConnect', (users) => {
+        const list = document.getElementById('users');
+        list.innerHTML = null;
+        users.forEach((user) => {
+          const li = document.createElement('li')
+          const liText = document.createTextNode(user);
+          li.appendChild(liText);
+          li.setAttribute('data-testid', 'online-user')
+          li.setAttribute('id',user)
+          list.appendChild(li);
+        }); 
+      });
+  
+
+
+    let nick = null;
     const sendBtn = document.getElementById('sendBtn');
     sendBtn.addEventListener("click", function() {
       const messageInput = document.getElementById('chatInput');
       const message = messageInput.value;
-      console.log(message);
-      const nickName = `New User - ${socket.id}`
-      socket.emit('message',{message,nickName});
+      socket.emit('message',{chatMessage:message,nickname:nick||socket.id.substring(4)});
 });
     socket.on('message', (message) => {
       const li = document.createElement('li');
       const liText = document.createTextNode(message);
       li.appendChild(liText);
+      li.setAttribute('data-testid', 'message')
       document.getElementById('message').appendChild(li);
-    })
+    });
+
+
+    const nickBtn = document.getElementById('nickBtn');
+    nickBtn.addEventListener("click", function() {
+      const newNick =  document.getElementById('nickInput').value;
+      nick = newNick;
+      socket.emit('newNick', {newNick,oldNick:socket.id.substring(4)})
+    });
+
   </script>
   <script src='http://localhost:3000/assets/client.js'></script>
 </body>

@@ -24,29 +24,48 @@ const io = require('socket.io')(server, {
 
 const User = require('./models/User');
 
+function newData(chatMessage, nickname) {
+  const data = new Date();
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+  const dataAtual = `${dia}-${mes}-${ano}`;
+  const horaAtual = `${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}`;
+  const newMessage = `${dataAtual} ${horaAtual} ${nickname} : ${chatMessage}`;
+  return newMessage;
+}
+let users = [];
 io.on('connection', (socket) => {
-  console.log(`Conexão- ${socket.id}`);
   io.emit('newUser', socket.id);
-
   socket.on('message', async ({ chatMessage, nickname }) => {
-    const addMessage = await User.newMessage(chatMessage, nickname);
-    if (addMessage) {
-        const data = new Date();
-
-        const dia = String(data.getDate()).padStart(2, '0');
-
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-
-        const ano = data.getFullYear();
-
-        const dataAtual = `${dia}-${mes}-${ano}`;
-        const horaAtual = `${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}`;
-
-        const newMessage = `${dataAtual} ${horaAtual} ${nickname} : ${chatMessage}`;
-        console.log(newMessage);
+      console.log(nickname);
+      await User.newMessage(chatMessage, nickname);
+      const find = users.find((user) => user === nickname);
+      if (find) {
+        const newMessage = newData(chatMessage, nickname);
         io.emit('message', newMessage);
-    }
+      }
 });
+  socket.on('newNick', async ({ newNick, oldNick }) => {
+    await User.updateNick(newNick, oldNick);
+    const xablau = users.map((user) => {
+      if (user === oldNick) return newNick;
+      return user;
+    });
+    users = xablau;
+    io.emit('newConnect', users);
+  });
+  socket.on('newConnect', (id) => {
+    users.push(id);
+    console.log(users);
+    socket.emit('newConnect', users);
+  });
+
+  socket.on('disconnect', () => {
+    const newArr = users.filter((user) => user !== socket.id.substring(4));
+    users = newArr;
+    io.emit('newConnect', users);
+  });
 });
 
 app.get('/user', async (_req, res) => {
