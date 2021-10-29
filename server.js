@@ -9,6 +9,13 @@ const http = require('http').createServer(app);
 
 const bodyParser = require('body-parser');
 
+const io = require('socket.io')(http, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  } });
+const messagesController = require('./controllers/message');
+
 const { PORT } = process.env;
 
 app.use(bodyParser.json());
@@ -28,12 +35,6 @@ const formatedDate = `${dateInteger
 const formatedHours = `${dateInteger
   .getHours()}:${dateInteger.getMinutes()}:${dateInteger.getSeconds()}`;
 
-const io = require('socket.io')(http, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
-  } });
-
 io.on('connection', (socket) => {
   socket.emit('wellcome', () => {
     console.log(`Usuário ${socket.id} seja bem-vindo`);
@@ -48,6 +49,8 @@ io.on('connection', (socket) => {
 app.get('/', (_req, res) => {
   res.render('view.html');
 });
+
+app.get('/messages', messagesController.getAllMessages);
 
 http.listen(PORT, () => {
   console.log(`Socket conectado na porta ${PORT}`);
