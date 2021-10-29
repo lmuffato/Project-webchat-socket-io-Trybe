@@ -1,17 +1,53 @@
 const client = window.io();
 
 const button = document.querySelector('#button-teste');
+const nickButton = document.querySelector('#nickButton');
+const users = document.querySelector('#users');
+const ul = document.querySelector('.listMessages');
+const author = document.querySelector('#username');
+const message = document.querySelector('#message-teste');
+
+const saveNickname = () => {
+  if (author) {
+    sessionStorage.setItem('nickname', author.value);
+  }
+  author.innerText = '';
+};
+
+const getNick = () => {
+  const nickname = sessionStorage.getItem('nickname');
+  return nickname;
+};
+
+const createMessage = (msg) => {
+  const li = document.createElement('li');
+  li.setAttribute('data-testid', 'message');
+  li.innerText = msg;
+  ul.appendChild(msg);
+};
+
+const newUsers = (id) => {
+  const li = document.createElement('li');
+  li.setAttribute('data-testid', 'online-user');
+  li.innerText = id;
+  users.appendChild(li);
+};
 
 button.addEventListener('click', () => {
-  const author = document.querySelector('#username').value;
-  const message = document.querySelector('#message-teste').value;
-
-  if (author.length && message.length) {
+  if (author.value) {
+    const nickname = getNick() || client.id.substring(0, 16);
     const newMsg = {
-      chatMessage: message,
-      nickname: author,
+      chatMessage: message.value,
+      nickname,
     };
-    console.log(newMsg);
     client.emit('message', newMsg);
   }
+});
+
+nickButton.addEventListener('click', saveNickname);
+
+client.on('message', (msg) => createMessage(msg));
+client.on('newUser', (allUsers) => {
+  users.innerText = '';
+  allUsers.forEach((id) => newUsers(id));
 });
