@@ -23,8 +23,14 @@ require('./sockets/webchat')(io);
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(cors());
 
+// setando a view eng
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 // declarando rota
-app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '/index.html')));
+app.get('/', (_req, res) => {
+  return res.render('index.ejs');
+});
 
 // criando conexão
 const { env: { PORT } } = process;

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Webchat</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Vini Chat!!!</h1>
+    <div class="middle-items">
+      <div class="side-intems">
+        <form action="" class="nickname-form">
+          <input type="text" placeholder="Digite seu nickname">
+          <button id="nicknameButton" type="button">Save</button>
+        </form>
+        <div class="user-list">
+          <ul>
+          </ul>
+        </div>
+      </div>
+      <ul class="chat"></ul>
+    </div>
+    <form action="" class="form-msg">
+      <input class="msgInput" type="text"/><button class="sendButton" type="button">Send</button>
+    </form>
+    <script src='/scripts/chat.js'></script>
+  </body>
+</html>
