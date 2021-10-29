@@ -37,31 +37,33 @@ function newData(chatMessage, nickname) {
 }
 
 const newMessageFunc = async ({ chatMessage, nickname }) => {
-      const newMessage = newData(chatMessage, nickname);
-      await Users.newMessage(chatMessage, nickname);
+      const messageUser = users.find((user) => user.id === nickname);
+      const newMessage = newData(chatMessage, messageUser.nick);
+      await Users.newMessage(chatMessage, messageUser.nick);
       io.emit('message', newMessage);
 };
 
-function newNickFunc(data) {
+function newNickFunc(data, socket) {
   const newArr = users.map((user) => {
-    if (user === data.oldNick) return data.newNick;
+    if (user.id === socket.id.substring(4)) return { ...user, nick: data.newNick };
     return user;
   });
   users = newArr;
   io.emit('newConnect', users);
+  console.log(users);
 }
 io.on('connection', (socket) => {
   // socket.disconnect(0);
   io.emit('newUser', socket.id);
   socket.on('message', (data) => newMessageFunc(data));
-  socket.on('newNick', (data) => newNickFunc(data));
-  socket.on('newConnect', (id) => {
-    users.push(id);
-    console.log(users);
+  socket.on('newNick', (data) => newNickFunc(data, socket));
+  socket.on('newConnect', (newConnetion) => {
+    users.push({ nick: newConnetion, id: socket.id.substring(4) });
+    
     io.emit('newConnect', users);
   });
   socket.on('disconnect', () => {
-    const newArr = users.filter((user) => user !== socket.id.substring(4));
+    const newArr = users.filter((user) => user.id !== socket.id.substring(4));
     users = newArr;
     io.emit('newConnect', users);
   });

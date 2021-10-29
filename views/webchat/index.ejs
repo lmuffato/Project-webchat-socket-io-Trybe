@@ -27,10 +27,11 @@
   </div>
 
   <script> 
+    let nick = null;
   window.onbeforeunload = function(event) {
   socket.disconnect();
 };
-    let identifica = '';
+  
 
     const socket = io('http://localhost:3000');
       
@@ -38,7 +39,6 @@
 
       socket.on('newUser', (id) => {
         const newId = id.substring(4);
-        identifica = newId;
         socket.emit('newConnect', newId);
 
       });
@@ -61,22 +61,22 @@
         list.innerHTML = null;
         users.forEach((user) => {
           const li = document.createElement('li')
-          const liText = document.createTextNode(user);
+          const liText = document.createTextNode(user.nick);
           li.appendChild(liText);
           li.setAttribute('data-testid', 'online-user')
-          li.setAttribute('id',user)
+          li.setAttribute('id',user.id)
           list.appendChild(li);
         }); 
       });
   
 
 
-    let nick = null;
+   
     const sendBtn = document.getElementById('sendBtn');
     sendBtn.addEventListener("click", function() {
       const messageInput = document.getElementById('chatInput');
       const message = messageInput.value;
-      socket.emit('message',{chatMessage:message,nickname:nick||identifica});
+      socket.emit('message',{chatMessage:message,nickname:socket.id.substring(4)});
 });
     socket.on('message', (message) => {
       const li = document.createElement('li');
@@ -90,8 +90,7 @@
     const nickBtn = document.getElementById('nickBtn');
     nickBtn.addEventListener("click", function() {
       const newNick =  document.getElementById('nickInput').value;
-      nick = newNick;
-      socket.emit('newNick', {newNick,oldNick:socket.id.substring(4)})
+      socket.emit('newNick', {newNick})
     });
 
   </script>
