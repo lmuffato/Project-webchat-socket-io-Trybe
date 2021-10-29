@@ -69,8 +69,8 @@ const createListUsers = (listUser) => {
 
   generateList(mainUser);
 
-  listUser.forEach(({ genericUser }, i) => {
-    if (genericUser !== mainUser && i > 1) generateList(genericUser);
+  listUser.forEach(({ genericUser }) => {
+    if (genericUser !== mainUser) generateList(genericUser);
   });
 };
 
