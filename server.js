@@ -1,15 +1,14 @@
 const express = require('express');
+
 const app = express();
 const http = require('http').createServer(app);
-//const cors = require('cors');
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:3000', // url aceita pelo cors
-    methods: ['GET', 'POST'], // Métodos aceitos pela url
-  }});
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  },
+});
 require('./chat')(io);
-
-//app.use(express.static('./view'));
 
 app.set('view engine', 'ejs');
 
