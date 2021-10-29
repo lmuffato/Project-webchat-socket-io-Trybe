@@ -5,9 +5,17 @@
     <link rel="stylesheet" href="./css/chat.css">
   </head>
   <body>
+    <div>
+      <label>
+        Nickname:
+        <input id="userNickname" data-testid="nickname-box" autocomplete="off" />
+      </label>
+      <button id="saveNickname" data-testid="nickname-button">Salvar</button>
+    </div>
     <ul class="messages"></ul>
     <form action="">
-      <input id="messageInput" autocomplete="off" /><button>Enviar</button>
+      <input id="messageInput" autocomplete="off" />
+      <button>Enviar</button>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
     integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
