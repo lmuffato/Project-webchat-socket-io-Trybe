@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <title>Trybe Webchat</title>
+</head>
+
+<body>
+  <h1>Trybe Webchat</h1>
+  <main class="container">
+    <div class="sub-container">
+      <div class="users-board-container">
+        <form id="user-form" class="users-board-input-container">
+          <input id="user-input" type="text" data-testid="nickname-box" />
+          <button id="user-button" type="submit" data-testid="nickname-button">Salvar</button>
+        </form>
+        <div class="users-board">
+          <ul id="users-ul" data-testid="nickname-box"></ul>
+        </div>
+      </div>
+      <div class="messages">
+        <div class="messages-board">
+          <ul id="messages-ul"></ul>
+        </div>
+      </div>
+    </div>
+    <form id="send-message" class="send-message">
+      <input type="text" id="message-input" data-testid="message-box" />
+      <button type="submit" data-testid="send-button">Enviar</button>
+    </form>
+  </main>
+  <script>
+    const socket = io();
+
+    const messageForm = document.querySelector('#send-message');
+    const messageInput = document.querySelector('#message-input');
+    const messageUl = document.querySelector('#messages-ul');
+
+    const userForm = document.querySelector('#user-form');
+    const userInput = document.querySelector('#user-input');
+    const userUl = document.querySelector('#users-ul');
+
+    let userName;
+
+    const createUser = (user) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-testid', 'online-user');
+      li.innerHTML = user;
+      userUl.appendChild(li);
+    };
+
+    userForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      userName = userInput.value;
+      createUser(userName);
+      userInput.value = '';
+    });
+
+    const createMessage = (message) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-testid', 'message');
+      li.innerHTML = message;
+      return li;
+    };
+
+    messageForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = { chatMessage: messageInput.value, nickname: userName }
+      socket.emit('message', message);
+      messageInput.value = '';
+    });
+    
+    socket.on('message', (message) => {
+      console.log('Ouvindo message do front-end ==>', message);
+      messageUl.appendChild(createMessage(message));
+    });
+
+    socket.on('messageList', (messages) => {
+      console.log('Ouvindo messageList do front-end ==>', messages);
+      messages.forEach((message) => {
+        messageUl.appendChild(createMessage(message));
+      });
+    });
+
+  window.onbeforeunload = function(event) {
+    socket.disconnect();
+};
+  </script>
+</body>
+
+</html>
