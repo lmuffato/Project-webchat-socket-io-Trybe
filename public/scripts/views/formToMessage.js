@@ -43,9 +43,12 @@ function newMessage(event) {
   const { socket } = window;
   const { nameInput, messageInput } = form;
   if (nameInput.value === '') nameInput.value = nickname;
-  socket.emit('message', { 
-    nickname: nameInput.value, chatMessage: messageInput.value,
-  });
+  if (messageInput.value !== '') {
+    socket.emit('message', { 
+      nickname: nameInput.value, chatMessage: messageInput.value,
+    });
+    messageInput.value = '';
+  }
 }
 
 document.forms[0].onsubmit = newMessage;
