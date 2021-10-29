@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body style="background: rgba(15, 15, 15, 0.9); color: whitesmoke;">
+  <header>
+    <%- include('../partials/header') %>
+  </header>
+  <p data-testid="online-user"><%= nickname %></p>
+  <ul id="messages"></ul>
+  <form action="">
+    <input
+      id="messageInput"
+      autocomplete="off"
+      data-testid="message-box"
+      placeholder="Digite uma mensagem..." />
+    <button id="send-button" data-testid="send-button">Enviar</button>
+  </form>
+  <footer>
+    <%- include('../partials/footer') %>
+  </footer>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./assets/js/chat.js"></script>
+</body>
+</html>

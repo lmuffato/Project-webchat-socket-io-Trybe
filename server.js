@@ -9,22 +9,28 @@ const server = require('http').createServer(app);
 
 const io = require('socket.io')(server, {
   cors: {
-    // origin: `http://localhost:${PORT}`,
-    origin: 'http://localhost:3000',
+    origin: `http://localhost:${PORT}`,
     methods: ['GET', 'POST'],
   },
 });
 
-app.use(express.static(path.join(__dirname, '/public')));
-// app.use('/', express.static('./public'));
+require('./sockets/chatSocket')(io);
 
-require('./sockets/chat')(io);
+app.use(express.static(path.join(__dirname, '/views')));
+
+app.set('view engine', 'ejs');
+app.set('views', './views/pages');
+
+const chatController = require('./controllers/chatController');
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: `http://localhost:${PORT}`,
 };
 
 app.use(cors(corsOptions));
+
+app.get('/', chatController.renderWebchat);
+// app.get('/', chatController.getUsers);
 
 // app.get('/', (req, res) => {
 //  res.sendFile(path.join(__dirname, './public', 'index.html'));
