@@ -1,8 +1,11 @@
 @keyframes fadeIn {
+
   from {
     opacity: 0;
     transform: translateY(10%);
-  } to {
+  }
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -13,20 +16,20 @@
   display: flex;
   flex-direction: column-reverse;
   height: 100%;
-  padding-right: 15px;
   overflow-y: scroll;
+  padding-right: 15px;
   scrollbar-color: transparent transparent;
 }
 
-#messagesDisplay {
+.messagesDisplay {
   display: flex;
   flex-direction: column;
   justify-content: center;
   z-index: -1;
 }
 
-.message, .author-message {
-  animation: fadeIn .2s forwards;
+.message , .author-message {
+  animation: fadeIn 0.2s forwards;
   background: #eee;
   border-radius: 15px;
   margin: 15px 0;
@@ -37,23 +40,23 @@
   width: fit-content;
 }
 
-.message p, .author-message p {
+.message p , .author-message p {
   margin: 0;
 }
 
-.message p:nth-child(1), .author-message p:nth-child(1) {
+.message p:nth-child( 1 ) , .author-message p:nth-child( 1 ) {
   font-size: 0;
 }
 
-.message::after {
-  bottom: -8px;
-  border-top: 20px solid #eee;
+.message:after {
   border-right: 30px solid transparent;
-  left: 0px;
+  border-top: 20px solid #eee;
+  bottom: -8px;
   content: '';
-  height: 0px;
+  height: 0;
+  left: 0;
   position: absolute;
-  width: 0px;
+  width: 0;
 }
 
 .author-message {
@@ -63,13 +66,13 @@
   margin-right: initial;
 }
 
-.author-message::before {
-  bottom: -8px;
-  border-top: 20px solid #44ad70;
+.author-message:before {
   border-left: 30px solid transparent;
-  right: 0px;
+  border-top: 20px solid #44ad70;
+  bottom: -8px;
   content: '';
-  height: 0px;
+  height: 0;
   position: absolute;
-  width: 0px;
+  right: 0;
+  width: 0;
 }

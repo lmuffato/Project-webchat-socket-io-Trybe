@@ -4,11 +4,10 @@ h1 {
 
 form {
   display: grid;
+  gap: 15px;
+  grid-template: 1fr 50px auto 50px;
   grid-template-areas: 'n n' 'm b';
   padding: 25px;
-  gap: 15px;
-  grid-template-rows: auto 50px;
-  grid-template-columns: 1fr 50px;
   width: 100%;
 }
 
@@ -16,27 +15,27 @@ form i {
   font-size: 22px;
 }
 
-form input.nickname {
-  color: white;
-  grid-area: n;
+form .nickname {
   background: none;
   border: none;
+  color: white;
+  grid-area: n;
 }
 
-form input.messageInput {
-  border: 1px solid #cccccc;
+form .messageInput {
+  border: 1px solid #ccc;
   border-radius: 99px;
   font-size: 16px;
   grid-area: m;
   padding: 0 15px;
 }
 
-form button:not(.send) {
-  width: 0;
+form button:not( .send ) {
   height: 0;
+  width: 0;
 }
 
-form button.send {
+form .send {
   background: #640eaa;
   border: none;
   border-radius: 50%;

@@ -1,16 +1,16 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: linear-gradient(#121e47 20%, #2d194d8f),
-  no-repeat url('../../bg.png') center / cover,
-  #2d194d;
+    no-repeat url('../../bg.png') center / cover,
+    #2d194d;
   display: grid;
   grid-template-rows: 1fr auto 121px;
-  padding: 30px;
   height: 100vh;
+  padding: 30px;
 }
