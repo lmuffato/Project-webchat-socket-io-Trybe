@@ -36,8 +36,7 @@ html.messageForm.addEventListener('submit', (e) => {
   }
 });
 
-function addNewUser(data) {
-  console.log(data);
+function addNewUser(_data) {
 }
 
 function handleOnMessage(chatMessage) {
@@ -48,8 +47,7 @@ function handleOnMessage(chatMessage) {
   html.listMessage.appendChild(message);
 }
 
-function createListUsers(userArrayList) {
-  console.log(userArrayList);
+function createListUsers(_userArrayList) {
 }
 
 function makeRandomUser(length) {
@@ -74,6 +72,10 @@ socket.on('addNewUser', addNewUser);
 socket.on('message', handleOnMessage);
 socket.on('refreshList', createListUsers);
 socket.on('connect', gerateUserID);
+socket.on('get-storaged-messages', (data) => {
+  html.listMessage.innerHTML = '';
+  data.map((message) => handleOnMessage(message.message));
+});
 
 window.onload = () => {
   const nickname = sessionStorage.getItem('nickname');
