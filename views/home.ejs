@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script  src="/socket.io/socket.io.js"></script>
+    <title>Web Chat</title>
+</head>
+<body>
+    <h1>Web Chat</h1>
+
+
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="name" placeholder="Digite seu nome"  />
+      <input id="messageInput" autocomplete="off" /><button>Enviar</button>
+    </form>
+    
+
+    
+    
+</body>
+<script>
+    const socket = io();
+
+    const form = document.querySelector('form');
+const inputMessage = document.querySelector('#messageInput');
+const inputName = document.querySelector('#name');
+const ulMessage = document.querySelector('#messages');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  socket.emit('message', {chatMessage: inputMessage.value, nickname: inputName.value});
+  inputMessage.value = '';
+  return false;
+});
+ 
+const renderLi = (message) => {
+    const li = document.createElement('li');
+    li.innerText = message;
+    ulMessage.appendChild(li);
+}
+
+
+socket.on('message', (message) =>  renderLi(message) )
+
+
+</script>
+
+<style>
+     body {
+    font: 25px Helvetica, Arial;
+  }
+  
+  form {
+    border: 1px solid black;
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  form input {
+    padding: 50px;
+    width: 90%;
+    margin-right: 0.5%;
+    font-size: 30px;
+  }
+  
+  form button {
+    width: 20%;
+    background: rgb(83, 85, 85);
+    border: none;
+    padding: 50px;
+    cursor: pointer;
+    font-size: 30px;
+  }
+  
+  #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #messages li {
+    padding: 5px 10px;
+  }
+  
+  #messages li:nth-child(odd) {
+    background: #eee;
+  }
+ 
+
+</style>
+</html>
