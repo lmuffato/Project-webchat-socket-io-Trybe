@@ -1,5 +1,6 @@
 module.exports = (io) => io.on('connection', (socket) => {
   socket.on('joinChat', ({ username }) => {
+    // const activeUser = username === undefined ? socket.id.slice(-16) : username;
     const activeUser = username === undefined ? socket.id.slice(-16) : username;
     
     socket.emit('serverMessage', 'Bem-vindo ao chat público!');
