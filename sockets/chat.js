@@ -10,7 +10,7 @@ module.exports = (io) => io.on('connection', (socket) => {
     socket.on('message', ({ chatMessage, nickname }) => {
       const messageUser = nickname === undefined ? socket.id.slice(-16) : nickname;
 
-      io.emit('serverMessage', `${messageUser}: ${chatMessage}`);
+      io.emit('serverMessage', `${new Date()}${messageUser}: ${chatMessage}`);
     });
   });
 });
