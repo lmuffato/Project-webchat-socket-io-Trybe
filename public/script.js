@@ -59,6 +59,16 @@ form.addEventListener('submit', (e) => {
   }
 });
 
+socket.on('dbMessages', (msgs) => {
+  msgs.forEach(({ data: { message, nickname: nick, timestamp } }) => {
+    const li = document.createElement('li');
+    li.textContent = `${timestamp} ${nick} ${message}`;
+    li.setAttribute(DATATESTID, 'message');
+    messages.append(li);
+  });
+  window.scrollTo(0, document.body.scrollHeight);
+});
+
 socket.on('message', (msg) => {
 const li = document.createElement('li');
 li.textContent = msg;
