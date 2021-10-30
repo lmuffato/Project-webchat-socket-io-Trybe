@@ -20,6 +20,18 @@
       const addNickname = document.querySelector('#addNickname');
       const nickname = document.querySelector('h3');
 
+      socket.on('listMessages', (messages) => {
+        messages.forEach(({ chatMessage, nickname, dateAndOur }) => {
+          const messagesUl = document.querySelector('#messages');
+          const li = document.createElement('li');
+          li.setAttribute('data-testid', 'message');
+          const message = `${dateAndOur} - ${nickname}: ${chatMessage}`;
+          li.innerText = message;
+          messagesUl.appendChild(li);
+        });
+        return false;
+      });
+
       socket.on('idNickname', (id) => {
         nickname.innerText = id;
         return false;
