@@ -2,7 +2,7 @@ const socket = window.io();
 
 // const changeCurrentNickname = document.getElementById('changeCurrentNickname');
 const usersLogged = document.getElementById('usersLogged');
-let nickWithNumbers;
+// let nickWithNumbers;
 
 socket.emit('initConnection');
 
@@ -20,7 +20,7 @@ const insertNicknameUserLogged = (nickname) => {
 };
 
 socket.on('showNicknamesOfUsersLoggeds', (newNicknName) => {
-  nickWithNumbers = newNicknName;
+  // nickWithNumbers = newNicknName;
   insertNicknameUserLogged(newNicknName);
 });
 
