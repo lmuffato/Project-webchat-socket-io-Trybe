@@ -7,7 +7,6 @@ module.exports = (io) => io.on('connection',
 (socket) => {
   socket.emit('usersOnline', usersOnline);
   socket.on('disconnect', () => {
-    console.log('Ta rolando...');
     const loggoutUserIndex = usersOnline.indexOf(socket.id);
     usersOnline.splice(loggoutUserIndex, 1);
     io.emit('usersOnline', usersOnline);

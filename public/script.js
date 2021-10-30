@@ -82,7 +82,6 @@ socket.on('disconnectUser', (userDisconnected) => {
   const userList = document.querySelector(USERLIST).children;
   const userLoggedOut = [...userList].find((user) => user.textContent === userDisconnected);
 userLoggedOut.remove();
-console.log('📓 ~ file: script.js ~ line 82 ~ socket.on ~ userLoggedOut', userLoggedOut);
 });
 
 socket.on('message', (msg) => {
