@@ -20,21 +20,10 @@ function makeid(length) {
   return result;
 }
 
-let nickname = makeid(16);
+let nickname = sessionStorage.getItem('nickName') || makeid(16);
 
 socket.emit('listUser', nickname);
-
-function changeNickName() {
-  const changeName = document.querySelector('.userForm');
-  changeName.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nickNameInput = document.querySelector('.nickNameInput');
-    nickNameInput.setAttribute(DATATESTID, 'online-user');
-    sessionStorage.setItem('nickName', nickNameInput.value);
-    nickname = nickNameInput.value;
-    nickNameInput.value = '';
-  });
-}
+// 1 envio o nickname para o backend
 
 const createUserLi = (user) => {
   const listUser = document.querySelector(USERLIST);
@@ -44,19 +33,40 @@ const createUserLi = (user) => {
   listUser.append(li);
 };
 
+socket.on('listUser', createUserLi);
+// 4 com o usuario que eu mandei na linha 26, passando pelo backend, ele me retorna para que eu possa utiliza-lo na função acima - aparentemente é o fim do pingpong do listuser
+
 socket.on('usersOnline', (users) => {
+  // 6 aqui recebemos o array novamente, possivelmente atualizado.
   const listUser = document.querySelector(USERLIST);
   listUser.innerHTML = '';
   users.forEach((user) => createUserLi(user));
+  // 7 aqui, populamos a nossa lista com os novos usuários logados!
 });
 
-socket.on('listUser', createUserLi);
+function changeNickName() {
+  const changeName = document.querySelector('.userForm');
+  changeName.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nickNameInput = document.querySelector('.nickNameInput');
+    sessionStorage.setItem('nickName', nickNameInput.value);
+    nickname = nickNameInput.value;
+    nickNameInput.value = '';
+    socket.emit('changeUserName', nickname);
+  });// 9 Aqui, estamos obtendo o a string que irá substituir o ID aleatório que será criado no passo #1
+}
 
 changeNickName();
 
+socket.on('changeUserName', ([oldName, newName]) => {
+  const listUser = document.querySelector(USERLIST);
+  const liUserChanging = [...listUser.children].find((element) => element.textContent === oldName);
+  liUserChanging.textContent = newName;
+});
+
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
   const msg = {
     chatMessage: input.value,
     nickname,
@@ -78,16 +88,19 @@ socket.on('dbMessages', (msgs) => {
   window.scrollTo(0, document.body.scrollHeight);
 });
 
-socket.on('disconnectUser', (userDisconnected) => { 
-  const userList = document.querySelector(USERLIST).children;
-  const userLoggedOut = [...userList].find((user) => user.textContent === userDisconnected);
-userLoggedOut.remove();
-});
+// aqui eu percebi que é um evento que ouve nada de ninguém, exercendo a mesma função do evento disconnect do backend!
+// socket.on('disconnectUser', (userDisconnected) => {
+//   const userList = document.querySelector(USERLIST).children;
+//   const userLoggedOut = [...userList].find(
+//     (user) => user.textContent === userDisconnected,
+//   );
+//   userLoggedOut.remove();
+// });
 
 socket.on('message', (msg) => {
-const li = document.createElement('li');
-li.textContent = msg;
-li.setAttribute(DATATESTID, 'message');
-messages.append(li);
-window.scrollTo(0, document.body.scrollHeight);
+  const li = document.createElement('li');
+  li.textContent = msg;
+  li.setAttribute(DATATESTID, 'message');
+  messages.append(li);
+  window.scrollTo(0, document.body.scrollHeight);
 });
