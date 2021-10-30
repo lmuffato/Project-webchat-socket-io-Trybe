@@ -12,7 +12,6 @@ const io = require('socket.io')(socketIoServer, {
   },
 });
 
-const { random } = require('lodash');
 const MessageController = require('./controllers/message');
 
 const getCurrentDate = () => {
@@ -33,7 +32,7 @@ app.use(express.static(`${__dirname}/public`));
 app.set('view engine', 'ejs');
 app.set('views', './public/views');
 
-app.get('/', (req, res) => {
+app.use('/', async (req, res) => {
   res.render('webchat');
 });
 
