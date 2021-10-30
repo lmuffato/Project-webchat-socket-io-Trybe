@@ -2,9 +2,7 @@ const onlineUsers = {};
 
 const moment = require('moment');
 
-// const modelMessages = require('../../models/messages');
-
-// const generateTimeStamp = require('../utils/generateTimeStamp');
+const modelMessages = require('../models/messages');
 
 module.exports = (io) => io.on('connection', (socket) => {
   socket.on('updateUserList', (nickname) => {
@@ -16,8 +14,8 @@ module.exports = (io) => io.on('connection', (socket) => {
     io.emit('updateUserList', onlineUsers);
   });
   socket.on('message', async ({ chatMessage, nickname }) => {
-    const timeStamp = moment().format('YYYY-MM-DD h:mm:ss A');
- //   await modelMessages.create({ timeStamp, nickname, chatMessage });
+    const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss');
+    await modelMessages.create({ message: chatMessage, nickname, timeStamp });
     const message = `${timeStamp} - ${nickname}: ${chatMessage}`;
     io.emit('message', message);
   });

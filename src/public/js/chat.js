@@ -44,8 +44,9 @@ const addNewMessage = (message) => {
 };
 
 const updateUserList = (userList) => {
+  const userListOrderly = Object.values(userList).reverse();
   userListContainer.innerHTML = '';
-  Object.values(userList).forEach((userNickname) => {
+  userListOrderly.forEach((userNickname) => {
     const newUser = document.createElement('li');
     newUser.innerText = userNickname;
     newUser.classList.add('message');

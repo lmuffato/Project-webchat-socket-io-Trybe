@@ -39,6 +39,12 @@
         <ul
           id="messages-container"
         >
+          <% messages.forEach(({ message, nickname, timeStamp }) => { %>
+            <li
+              class="message"
+              data-testid="message"
+            ><%=`${timeStamp} - ${nickname}: ${message}`%></li>
+          <% }) %>
         </ul>
       </section>
     </div>
