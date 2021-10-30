@@ -8,6 +8,7 @@ const socket = window.io();
 
 const state = {
   nickname: '',
+  id: '',
 };
 
 // listando os elementos
@@ -17,6 +18,7 @@ const msgInput = document.querySelector('.msgInput');
 const sendButton = document.querySelector('.sendButton');
 const nicknameInput = document.querySelector('.nickInput');
 const nicknameButton = document.querySelector('.nicknameButton');
+const onlineUsersList = document.querySelector('.userList');
 
 // função para add msg na UL
 const createMessage = (message) => {
@@ -26,6 +28,12 @@ const createMessage = (message) => {
   li.innerText = message;
   chat.appendChild(li);
 };
+
+// função para listar os online Users
+
+const listOnlineUsers = (users) => {
+
+}
 
 // funções util para setar nickname e id user
 
@@ -43,6 +51,7 @@ nicknameButton.addEventListener('click', (e) => {
   const { value } = nicknameInput;
   e.preventDefault();
   state.nickname = value;
+  socket.emit('newUserName', { nickName: value, id: state.id });
   setUser(value);
   sessionStorage.setItem('nickname', value);
 });
@@ -65,4 +74,14 @@ socket.on('message', (msg) => {
 socket.on('userData', (data) => {
   setUser(data.nickname);
   setId(data.nickname);
+  state.id = data.id;
 });
+
+socket.on('usersOnline', (users) => {
+  const arrUsers = Object.values(users);
+  console.log(arrUsers);
+});
+
+window.onbeforeunload = () => {
+  socket.disconnect();
+};
