@@ -28,8 +28,10 @@ const createMessage = (message) => {
 // add evento no save
 
 nicknameButton.addEventListener('click', (e) => {
+  const { value } = nicknameInput;
   e.preventDefault();
-  state.nickname = nicknameInput.value;
+  state.nickname = value;
+  sessionStorage.setItem('nickname', value);
 });
 
 // add evento no sendButton
