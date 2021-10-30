@@ -47,5 +47,8 @@ module.exports = (io) => io.on('connection', async (socket) => {
       io.emit('message', newMessage);
       await messageController.saveMessages({ message: chatMessage, nickname, timestamp: date });
     });
-    //socket.disconnect(0);
+
+    socket.on('disconnect', () => {
+      io.emit('exitConnection', newNicknName);
+    });
 });

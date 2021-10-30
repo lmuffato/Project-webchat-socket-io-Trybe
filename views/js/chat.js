@@ -1,5 +1,7 @@
 const socket = window.io();
 
+const DATA_TEST_ID = 'data-testid';
+
 const formToChoiceNickname = document.getElementById('formToChoiceNickname');
 const usersLogged = document.getElementById('usersLogged');
 const formMessages = document.getElementById('formMessages');
@@ -10,7 +12,7 @@ socket.emit('initConnection');
 const insertNicknameUserLogged = (nickname) => {
   const newUserLogged = document.createElement('li');
   newUserLogged.innerText = nickname;
-  newUserLogged.setAttribute('data-testid', 'online-user');
+  newUserLogged.setAttribute(DATA_TEST_ID, 'online-user');
   newUserLogged.id = nickname;
   newUserLogged.className = 'users';
   usersLogged.appendChild(newUserLogged);
@@ -28,7 +30,7 @@ socket.on('listOldUsers', (users) => {
   for (let i = 0; i < users.length; i += 1) {
     const newUserLogged = document.createElement('li');
     newUserLogged.innerText = users[i].innerText;
-    newUserLogged.setAttribute('data-testid', 'online-user');
+    newUserLogged.setAttribute(DATA_TEST_ID, 'online-user');
     newUserLogged.id = users[i].id;
     usersLogged.appendChild(newUserLogged);
   }
@@ -57,7 +59,12 @@ formMessages.addEventListener('submit', (e) => {
 
 socket.on('message', (msg) => {
   const newMessage = document.createElement('li');
-  newMessage.setAttribute('data-testid', 'message');
+  newMessage.setAttribute(DATA_TEST_ID, 'message');
   newMessage.innerText = msg;
   messagesList.appendChild(newMessage);
+});
+
+socket.on('exitConnection', (idUser) => {
+  const user = document.getElementById(`${idUser}`);
+  usersLogged.removeChild(user);
 });
