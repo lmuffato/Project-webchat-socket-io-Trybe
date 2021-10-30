@@ -1,5 +1,5 @@
 const { dateConvertBrasilAMPM } = require('./dateFunctions.js');
-const { create } = require('../../models/messages/messageModels.js');
+const { create, getAll } = require('../../models/messages/messageModels.js');
 
 // Recupera o nickName da lista de usuários conectados
 const getNickName = (arr, sockedId) => {
@@ -15,6 +15,12 @@ const saveMessageOnDataBase = (nickName, userMsg) => {
     timestamp: dateConvertBrasilAMPM(),
   };
   create(obj);
+};
+
+// recuperar as mensagens do banco de dados
+const recoveryMsgOnDataBase = () => {
+  const oldMsg = getAll();
+  return oldMsg;
 };
 
 // Cria o nick aleatório através do socket.id
@@ -67,4 +73,5 @@ module.exports = {
   addUserConnected,
   changenickName,
   saveMessageOnDataBase,
+  recoveryMsgOnDataBase,
  };

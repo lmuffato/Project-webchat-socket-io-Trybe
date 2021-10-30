@@ -67,8 +67,8 @@ form button {
   border: 1px solid #666;
   min-height: 200px;
   overflow: auto;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
   width: 80%;
 }
 
@@ -77,7 +77,3 @@ form button {
   margin: 0;
   padding: 0;
 }
-
-
-
-
