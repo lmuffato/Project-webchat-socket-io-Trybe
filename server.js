@@ -16,6 +16,8 @@ const io = require('socket.io')(server, {
   },
 });
 
+const chatModel = require('./models/chatModel');
+
 // call sockets
 require('./sockets/webchat')(io);
 
@@ -28,7 +30,10 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // declarando rota
-app.get('/', (_req, res) => res.render('index.ejs'));
+app.get('/', async (_req, res) => {
+  const messageHistory = await chatModel.getMsg();
+  return res.render('index.ejs', { messageHistory });
+});
 
 // criando conexão
 const { env: { PORT } } = process;

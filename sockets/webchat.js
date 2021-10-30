@@ -1,4 +1,5 @@
 const moment = require('moment');
+const chatModel = require('../models/chatModel');
 
 module.exports = (io) => io.on('connection', (socket) => {
   const { id } = socket;
@@ -15,6 +16,13 @@ module.exports = (io) => io.on('connection', (socket) => {
 
     // enviando server msg for client
     io.emit('message', `${date} - ${nickname}: ${chatMessage}`);
+
+    // salvando msg no DB
+    chatModel.createMsg({
+      message: chatMessage,
+      nickname,
+      timestamp: date,
+    });
   });
   
   // caso disconnect 
