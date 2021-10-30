@@ -13,19 +13,25 @@ const users = [];
 
 module.exports = (io) => {
   io.on('connection', async (socket) => {
+    console.log(socket.id);
+  
     users[socket.id.slice(0, 16)] = socket.id.slice(0, 16);
-    const usersNick = Object.values(users);
-    const nick = usersNick.filter((n) => n === socket.id.slice(0, 16));
-    socket.emit('userName', nick);
-    socket.emit('showHistory', await messagesHistory());
-    io.emit('userList', Object.values(users));
+    
     socket.on('message', async ({ chatMessage, nickname }) => {
       await saveHistory({ timestamp, nickname, chatMessage });
       io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
     });
     
+    socket.emit('showHistory', await messagesHistory());
+    io.emit('userList', Object.values(users));
+
     socket.on('newNickname', (nickname) => {
       users[socket.id.slice(0, 16)] = nickname;
+      io.emit('userList', Object.values(users));
+    });
+
+    socket.on('disconnect', () => {
+      delete users[socket.id.slice(0, 16)];
       io.emit('userList', Object.values(users));
     });
   });

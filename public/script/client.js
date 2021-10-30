@@ -7,34 +7,22 @@ const inputNickname = document.querySelector('#nicknameBox');
 
 const DATA_TESTID = 'data-testid';
 const ID = 'id';
-const TITLE = 'title';
+
+let nick = '';
 
 sendButton.addEventListener('click', (e) => {
   e.preventDefault();
-  const nick = document.getElementById(socket.id.slice(0, 16)).title;
-  socket.emit('message', { chatMessage: inputMessage.value, nickname: nick });
+  const nickname = nick || socket.id.slice(0, 16);
+  socket.emit('message', { chatMessage: inputMessage.value, nickname });
   inputMessage.value = '';
 });
 
 saveButton.addEventListener('click', (e) => {
   e.preventDefault();
-  if (inputNickname.value) {
-    const newNickname = inputNickname.value;
-    const greeting = document.querySelector('#greeting').firstChild;
-    greeting.innerText = `Olá, ${newNickname}!`;
-    greeting.setAttribute(TITLE, newNickname);
+    nick = inputNickname.value;
+    socket.emit('newNickname', nick);
     inputNickname.value = '';
-    socket.emit('newNickname', newNickname);
-  }
 });
-
-const userGreeting = (userName) => {
-  const userSpan = document.querySelector('#greeting');
-  const p = document.createElement('p');
-  p.setAttribute(ID, userName);
-  p.innerText = `Olá, ${userName}!`;
-  userSpan.appendChild(p);
-};
 
 const newMessage = (message) => {
   const messagesUl = document.querySelector('#messages');
@@ -65,7 +53,6 @@ socket.on('userList', (users) => {
   }
   users.forEach((user) => onlineUsers(user)); 
 });
-socket.on('userName', (userName) => userGreeting(userName));
 
 socket.on('showHistory', (history) => {
   history.forEach((msg) => {
@@ -73,3 +60,7 @@ socket.on('showHistory', (history) => {
     newMessage(messages);
   });
 });
+
+window.onbeforeunload = () => {
+  socket.disconnect();
+};
