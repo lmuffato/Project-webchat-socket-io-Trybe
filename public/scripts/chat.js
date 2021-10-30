@@ -56,7 +56,7 @@ sendButton.addEventListener('click', (e) => {
   msgInput.value = '';
 });
 
-// listen event
+// listen event on socket
 socket.on('message', (msg) => {
   createMessage(msg);
   console.log(msg);
