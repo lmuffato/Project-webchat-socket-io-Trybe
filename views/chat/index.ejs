@@ -16,8 +16,9 @@
       type="text" 
       placeholder="Insira o seu nickname"
       class="nickname__input"
+      data-testid="nickname-box"
     >
-    <button type="button" class="nickname__btn">
+    <button type="button" class="nickname__btn" data-testid="nickname-button">
       Salvar
     </button>
 </div>
@@ -37,10 +38,12 @@
     type="text"
     placeholder="Digite uma nova mensagem aqui"
     class="mensagem__input"
+    data-testid="message-box"
   >
   <button 
     type="button" 
     class="mensagem__btn"
+    data-testid="send-button"
   >
     Enviar
   </button>
