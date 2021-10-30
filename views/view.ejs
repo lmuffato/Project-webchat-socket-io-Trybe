@@ -5,9 +5,15 @@
     <link rel="stylesheet" href="./css/chat.css">
   </head>
   <body>
+    <section>Usuários online:
+      <ul id="online-users">
+      </ul>
+      <input type="text" id="nickname-input" data-testid="nickname-box">
+      <button id='nickname-button' data-testid="nickname-button">Mudar nick</button>
+    </section>
     <ul class="messages"></ul>
     <form action="">
-      <input class="messageInput" autocomplete="off" /><button>Send</button>
+      <input class="messageInput" autocomplete="off" data-testid="message-box" /><button data-testid="send-button">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src='./js/chat.js'></script>
