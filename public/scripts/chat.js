@@ -11,6 +11,8 @@ const state = {
 };
 
 // listando os elementos
+const header = document.querySelector('.header');
+const idP = document.querySelector('.userID');
 const msgInput = document.querySelector('.msgInput');
 const sendButton = document.querySelector('.sendButton');
 const nicknameInput = document.querySelector('.nickInput');
@@ -25,12 +27,23 @@ const createMessage = (message) => {
   chat.appendChild(li);
 };
 
+// funções util para setar nickname e id user
+
+const setId = (id) => {
+  idP.innerText = id;
+};
+
+const setUser = (user) => {
+  header.innerText = `Hello, ${user}!!`;
+};
+
 // add evento no save
 
 nicknameButton.addEventListener('click', (e) => {
   const { value } = nicknameInput;
   e.preventDefault();
   state.nickname = value;
+  setUser(value);
   sessionStorage.setItem('nickname', value);
 });
 
@@ -47,4 +60,9 @@ sendButton.addEventListener('click', (e) => {
 socket.on('message', (msg) => {
   createMessage(msg);
   console.log(msg);
+});
+
+socket.on('userData', (data) => {
+  setUser(data.nickname);
+  setId(data.nickname);
 });

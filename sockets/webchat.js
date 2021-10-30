@@ -1,7 +1,10 @@
 const moment = require('moment');
 
 module.exports = (io) => io.on('connection', (socket) => {
-  console.log(`Usuário conectado. ID: ${socket.id} `);
+  const { id } = socket;
+  const defaultNick = id.slice(0, 16);
+  console.log(`Usuário conectado: ${defaultNick}`);
+  socket.emit('userData', { id, nickname: defaultNick });
 
   // lidando com as msg
   socket.on('message', (data) => {
