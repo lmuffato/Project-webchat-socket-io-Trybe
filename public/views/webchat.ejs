@@ -28,7 +28,11 @@
       </div>
       <div class="messages">
         <div class="messages-board">
-          <ul id="messages-ul"></ul>
+          <ul id="messages-ul">
+            <% messages.forEach(({ timestamp, nickname,chatMessage }) => { %>
+              <li data-testid="message"><%= `${timestamp} - ${nickname}: ${chatMessage}` %></li>
+            <% }) %>
+          </ul>
         </div>
       </div>
     </div>
@@ -49,10 +53,12 @@
     const userUl = document.querySelector('#users-ul');
 
     let userName;
+    const currentNickname = sessionStorage.getItem('name');
 
     const createUser = (user) => {
       const li = document.createElement('li');
       li.setAttribute('data-testid', 'online-user');
+      li.setAttribute('id', 'session-online-user');
       li.innerHTML = user;
       userUl.appendChild(li);
     };
@@ -61,7 +67,11 @@
       event.preventDefault();
       userName = userInput.value;
       sessionStorage.setItem('name', userName);
-      createUser(userName);
+      const sessionOnlineUser = document.querySelector('#session-online-user');
+      console.log(sessionOnlineUser.innerHTML);
+      if (sessionOnlineUser.innerHTML !== currentNickname) {
+        sessionOnlineUser.innerHTML = userName;
+      }
       userInput.value = '';
     });
 
@@ -74,6 +84,11 @@
 
     messageForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      
+        if (userName === undefined || userName === null || userName === '') {
+          userName = currentNickname;
+        }
+      
       const message = { chatMessage: messageInput.value, nickname: userName }
       socket.emit('message', message);
       messageInput.value = '';
@@ -91,14 +106,11 @@
 
     socket.on('messageList', (messages) => {
       console.log('Ouvindo messageList do front-end ==>', messages);
-      // messages.forEach((message) => {
-      //   messageUl.appendChild(createMessage(message));
-      // });
     });
 
   window.onbeforeunload = function(event) {
     socket.disconnect();
-};
+  };
   </script>
 </body>
 

@@ -33,7 +33,7 @@ app.set('view engine', 'ejs');
 app.set('views', './public/views');
 
 app.use('/', async (req, res) => {
-  res.render('webchat');
+  res.render('webchat', { messages: await MessageController.getAll() });
 });
 
 // socket back-end
@@ -54,7 +54,6 @@ io.on('connection', async (socket) => {
     const newMessage = `${timestamp} - ${nickname}: ${chatMessage}`;
     await MessageController.create({ ...message, timestamp });
     io.emit('message', newMessage);
-    console.log('Ouvindo message do back-end ==>', message);
   });
 
   const getAllMessages = await MessageController.getAll();
