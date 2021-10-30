@@ -5,6 +5,11 @@ const getAllMessages = async (_req, res) => {
   res.render('chat', { oldMessages });
 };
 
+const saveMessages = async (dataMessage) => {
+  await chatModels.saveMessages(dataMessage);
+};
+
 module.exports = {
   getAllMessages,
+  saveMessages,
 };

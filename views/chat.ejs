@@ -20,9 +20,11 @@
 
     <div>
       <ul id="messagesList">
-        <% oldMessages.forEach((oldMessage) => { %>
-          <li data-testid="message"><%= oldMessage %></li>
-        <% }) %>
+        <% if(oldMessages.length > 0){%>
+          <% oldMessages.forEach((oldMessage) => { %>
+            <li data-testid="message"><%= oldMessage %></li>
+          <% }) %>
+        <% }%>
       </ul>
     </div>
 

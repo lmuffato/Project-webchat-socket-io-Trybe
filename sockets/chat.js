@@ -1,4 +1,5 @@
 const moment = require('moment');
+const messageController = require('../controllers/chat');
 
 const date = moment().format('DD-MM-YYYY HH:mm:ss'); // https://momentjs.com/
 const users = [];
@@ -37,8 +38,9 @@ module.exports = (io) => io.on('connection', async (socket) => {
 
     changeNickname(io, socket);
     
-    socket.on('message', ({ chatMessage, nickname }) => {
+    socket.on('message', async ({ chatMessage, nickname }) => {
       const newMessage = `${date} - ${nickname}: ${chatMessage}`;
       io.emit('message', newMessage);
+      await messageController.saveMessages({ message: chatMessage, nickname, timestamp: date });
     });
 });
