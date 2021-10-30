@@ -32,21 +32,25 @@ app.use('/', (req, res) => {
 const dataHora = new Date();
 const dataFormat = `${dataHora.getDay()}-${dataHora.getMonth()}-${dataHora.getFullYear()}`;
 const horaFormat = `${dataHora.getHours()}:${dataHora.getMinutes()}:${dataHora.getSeconds()}`;
+const timestamp = `${dataFormat} ${horaFormat}`; 
+
+let nickName = '';
 
 io.on('connection', (socket) => { // socket
-  console.log(`Alguém se conectou: ${socket.id}`);
+  const ID_ALEATORIO = socket.id.substring(0, 16);
+  io.emit('newUser', ID_ALEATORIO);
 
   socket.on('message', ({ chatMessage, nickname }) => {
-    console.log({ chatMessage, nickname });
+    nickName = nickname || ID_ALEATORIO;
 
-    io.emit('message', `${dataFormat} ${horaFormat} PM - ${nickname}: ${chatMessage}`);
+    io.emit('message', `${timestamp} - ${nickName}: ${chatMessage}`);
   });
 });
 
-// app.get('/teste', (req, res) => {
-//   res.sendFile(`${__dirname}/index.html`);
-// });
+app.get('/', (_req, res) => {
+  res.render('index.html');
+});
 
-server.listen(3000, () => {
-  console.log('Servidor ouvindo na porta 3000');
+server.listen(EXPRESS_PORT, () => {
+  console.log(`Servidor ouvindo na porta ${EXPRESS_PORT}`);
 });
