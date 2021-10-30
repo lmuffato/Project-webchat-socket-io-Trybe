@@ -44,8 +44,6 @@ socket.on('message', (message) => {
 });
 socket.on('randomNickname', (randomUser) => {
   userList.textContent = '';
-  createRandomUser(randomUser);
-
   if (!newListUsers) {
     newListUsers = randomUser[randomUser.length - 1];
   }
