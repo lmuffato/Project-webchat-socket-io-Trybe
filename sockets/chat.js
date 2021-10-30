@@ -13,7 +13,6 @@ const users = [];
 
 module.exports = (io) => {
   io.on('connection', async (socket) => {
-    socket.disconnect(0);
     users[socket.id.slice(0, 16)] = socket.id.slice(0, 16);
     socket.on('message', async ({ chatMessage, nickname }) => {
       await saveHistory({ timestamp, nickname, chatMessage });

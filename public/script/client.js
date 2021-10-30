@@ -7,6 +7,7 @@ const inputNickname = document.querySelector('#nicknameBox');
 
 const DATA_TESTID = 'data-testid';
 const ID = 'id';
+const CLASS = 'class';
 
 let nick = '';
 
@@ -26,8 +27,9 @@ saveButton.addEventListener('click', (e) => {
 
 const newMessage = (message) => {
   const messagesUl = document.querySelector('#messages');
-  const li = document.createElement('li');
+  const li = document.createElement('p');
   li.setAttribute(DATA_TESTID, 'message');
+  li.setAttribute(CLASS, 'fs-6 fw-lighter color rounded');
   li.innerText = message;
   messagesUl.appendChild(li);
 };
@@ -36,8 +38,9 @@ socket.on('message', (chatMessage) => newMessage(chatMessage));
 
 const onlineUsers = (user) => {
   const userUl = document.querySelector('#userList');
-  const li = document.createElement('li');
+  const li = document.createElement('p');
   li.setAttribute(DATA_TESTID, 'online-user');
+  li.setAttribute(CLASS, 'fs-6 fw-lighter');
   li.setAttribute(ID, user);
   li.innerText = user;
   userUl.appendChild(li);
