@@ -28,9 +28,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // declarando rota
-app.get('/', (_req, res) => {
-  return res.render('index.ejs');
-});
+app.get('/', (_req, res) => res.render('index.ejs'));
 
 // criando conexão
 const { env: { PORT } } = process;

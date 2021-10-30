@@ -10,8 +10,19 @@
     <div class="middle-items">
       <div class="side-intems">
         <form action="" class="nickname-form">
-          <input type="text" placeholder="Digite seu nickname">
-          <button id="nicknameButton" type="button">Save</button>
+          <input
+            type="text"
+            placeholder="Digite seu nickname"
+            class="nickInput"
+            data-testid="nickname-box"
+          >
+          <button
+            class="nicknameButton"
+            type="button"
+            data-testid="nickname-button"
+          >
+            Save
+          </button>
         </form>
         <div class="user-list">
           <ul>
@@ -21,7 +32,18 @@
       <ul class="chat"></ul>
     </div>
     <form action="" class="form-msg">
-      <input class="msgInput" type="text"/><button class="sendButton" type="button">Send</button>
+      <input
+        class="msgInput"
+        type="text"
+        data-testid="message-box"
+      />
+      <button
+        class="sendButton"
+        type="button"
+        data-testid="send-button"
+      >
+        Send
+      </button>
     </form>
     <script src='/scripts/chat.js'></script>
   </body>

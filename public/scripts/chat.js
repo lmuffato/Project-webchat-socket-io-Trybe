@@ -4,23 +4,39 @@
 // add socket
 const socket = window.io();
 
+// estado da tela
+
+const state = {
+  nickname: '',
+};
+
 // listando os elementos
 const msgInput = document.querySelector('.msgInput');
 const sendButton = document.querySelector('.sendButton');
+const nicknameInput = document.querySelector('.nickInput');
+const nicknameButton = document.querySelector('.nicknameButton');
 
 // função para add msg na UL
 const createMessage = (message) => {
   const chat = document.querySelector('.chat');
   const li = document.createElement('li');
+  li.setAttribute('data-testid', 'message');
   li.innerText = message;
   chat.appendChild(li);
 };
+
+// add evento no save
+
+nicknameButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  state.nickname = nicknameInput.value;
+});
 
 // add evento no sendButton
 sendButton.addEventListener('click', (e) => {
   e.preventDefault();
   const chatMessage = msgInput.value;
-  const nickname = 'vin';
+  const { nickname } = state;
   socket.emit('message', { chatMessage, nickname });
   msgInput.value = '';
 });
