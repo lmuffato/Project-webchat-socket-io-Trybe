@@ -6,7 +6,7 @@
 
 body {
   font: 13px;
-  font-family: Helvetica, Arial;
+  font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif;
 }
 
 form {
@@ -38,8 +38,16 @@ form button {
   padding: 0;
 }
 
+#clients li {
+  padding: 5px 10px;
+}
+
 #mensagem li {
   padding: 5px 10px;
+}
+
+#clients li:nth-child( odd ) {
+  background: #eee;
 }
 
 #mensagem li:nth-child( odd ) {
@@ -58,8 +66,8 @@ form button {
 #box-clients {
   border: 1px solid #666;
   min-height: 200px;
-  overflow-y: auto;
   overflow: auto;
+  overflow-y: auto;
   overflow-x: hidden;
   width: 80%;
 }
@@ -70,10 +78,6 @@ form button {
   padding: 0;
 }
 
-#clients li {
-  padding: 5px 10px;
-}
 
-#clients li:nth-child( odd ) {
-  background: #eee;
-}
+
+

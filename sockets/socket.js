@@ -36,8 +36,8 @@ module.exports = (io) => io.on('connection', (socket) => {
     // Manda a mensagem de volta para todos os usuários conectados
     // const user = getNickName(activeUsers, socket.id);
     // io.emit('message', messageToReturn(user, chatMessage));
-    io.emit('message', messageToReturn(nickname, chatMessage));
     saveMessageOnDataBase(nickname, chatMessage);
+    io.emit('message', messageToReturn(nickname, chatMessage));
   });
 
   // Manda uma mensagem de boas vindas apenas pra quem chegou na sala;

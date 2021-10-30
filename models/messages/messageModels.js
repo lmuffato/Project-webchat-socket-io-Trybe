@@ -7,7 +7,7 @@ const connection = require('../connection');
 const app = express();
 app.use(bodyParser.json());
 
-const TABLE_NAME = 'message'; // Tabela do mongodb
+const TABLE_NAME = 'messages'; // Tabela do mongodb
 
 // Retorna todas as mensagens
 const getAll = async () => {
