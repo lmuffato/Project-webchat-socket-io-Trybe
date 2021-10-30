@@ -1,8 +1,8 @@
 const socket = window.io();
 
-// const changeCurrentNickname = document.getElementById('changeCurrentNickname');
+const formToChoiceNickname = document.getElementById('formToChoiceNickname');
 const usersLogged = document.getElementById('usersLogged');
-// let nickWithNumbers;
+let nickWithNumbers;
 
 socket.emit('initConnection');
 
@@ -20,8 +20,8 @@ const insertNicknameUserLogged = (nickname) => {
 };
 
 socket.on('showNicknamesOfUsersLoggeds', (newNicknName) => {
-  // nickWithNumbers = newNicknName;
   insertNicknameUserLogged(newNicknName);
+  nickWithNumbers = newNicknName;
 });
 
 socket.on('listOldUsers', (users) => {
@@ -34,9 +34,15 @@ socket.on('listOldUsers', (users) => {
   }
 });
 
-// changeCurrentNickname.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const nicknameBox = document.getElementById('nickname-box');
-//   const currentUser = document.getElementById(nickWithNumbers);
-//   currentUser.innerText = nicknameBox.value;
-// });
+formToChoiceNickname.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nicknameBox = document.getElementById('nickname-box');
+  const currentUser = usersLogged.firstElementChild;
+  currentUser.innerText = nicknameBox.value;
+  socket.emit('newNickname', { newNickname: currentUser.innerText, id: currentUser.id });
+});
+
+socket.on('changeNickname', ({ newNickname, id }) => {
+  const nickNameToChange = document.getElementById(id);
+  nickNameToChange.innerText = newNickname;
+});
