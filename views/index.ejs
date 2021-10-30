@@ -11,14 +11,16 @@
 
 <body>
   <h1>Bem vindo ao chat</h1>
-    <ul id='users-list'></ul>
+  <input id="nick-name" type="text" data-testid="nickname-box" />
+  <button id="nick-name_button" data-testid="nickname-button" type="button">Alterar Nickname</button>
+  <ul id='users-list'></ul>
 
-    <ul id="messages"></ul>
+  <ul id="messages"></ul>
 
-    <form action="">
-      <input id="message-input" autocomplete="off" data-testid="message-box" />
-      <button data-testid="send-button">Send</button>
-    </form>
+  <form action="">
+    <input id="message-input" autocomplete="off" data-testid="message-box" />
+    <button data-testid="send-button">Send</button>
+  </form>
 
 
   <script src='index.js'> </script>

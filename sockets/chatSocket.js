@@ -1,13 +1,19 @@
 const chatModel = require('../models/chatModel');
 
+const users = {};
+
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    console.log(`alguém conectou ${socket.id}`);
+    users[socket.id] = socket.id.slice(0, 16);
+    io.emit('randomNickname', Object.values(users));
 
     socket.on('message', async (chatInfo) => {
       const message = await chatModel.chatMessages(chatInfo);
-      console.log(message);
       io.emit('message', message);
+    });
+    socket.on('newUserList', (newUsers) => {
+      users[socket.id] = newUsers;
+      io.emit('randomNickname', Object.values(users));
     });
   });
 };
