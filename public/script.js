@@ -35,13 +35,19 @@ function changeNickName() {
   });
 }
 
-socket.on('listUser', (user) => {
+const createUserLi = (user) => {
   const listUser = document.querySelector('.usersList');
   const li = document.createElement('li');
   li.textContent = user;
   li.setAttribute(DATATESTID, 'online-user');
   listUser.append(li);
-  });
+};
+
+socket.on('usersOnline', (users) => {
+  users.forEach((user) => createUserLi(user));
+});
+
+socket.on('listUser', createUserLi);
 
 changeNickName();
 
@@ -69,10 +75,24 @@ socket.on('dbMessages', (msgs) => {
   window.scrollTo(0, document.body.scrollHeight);
 });
 
+socket.on('disconnectUser', (userDisconnected) => { 
+  console.log(userDisconnected);
+  const userList = document.querySelector('.usersList').children;
+  const userLoggedOut = [...userList].find((user) => {
+    console.log(user.textContent);
+    return user.textContent === userDisconnected;
+  });
+userLoggedOut.remove();
+});
+
 socket.on('message', (msg) => {
 const li = document.createElement('li');
 li.textContent = msg;
 li.setAttribute(DATATESTID, 'message');
 messages.append(li);
 window.scrollTo(0, document.body.scrollHeight);
+});
+
+window.addEventListener('unload', () => {
+  socket.emit('disconnectUser', nickname);
 });
