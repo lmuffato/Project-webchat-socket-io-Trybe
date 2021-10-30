@@ -17,7 +17,7 @@ module.exports = (io) => {
     });
     socket.on('disconnect', () => {
       delete usersId[socket.id];
-      io.emit('usersOnline', Object.values(usersId));
+      io.emit('randomNickname', Object.values(usersId));
     });
   });
 };
