@@ -12,7 +12,11 @@
     <h3 data-testid="online-user" id="nick"></h3>
 
 
-    <ul id="messages"></ul>
+    <ul id="messages">
+        <% allMessages.forEach(({message, nickname, timestamp}) => { %>
+            <li data-testid="message"> <%= `${timestamp} - ${nickname}: ${message}` %> </li>
+      <% } ) %>  
+    </ul>
     <form action="">
       <input data-testid="nickname-box" id="name" placeholder="Digite seu nome"  />
       <button id="nickName" data-testid="nickname-button">Nickname</button>
@@ -32,12 +36,26 @@
     const inputName = document.querySelector('#name');
     const ulMessage = document.querySelector('#messages');
     const buttonName = document.querySelector('#nickName');
-    const nick = document.querySelector('#nick')
+    const nick = document.querySelector('#nick');
+
+    const aleatoreNick = () => {
+    let nick = '';
+    const str = 'abcdefghijklmnopqrstuvwyz';
+   for (let index = 0; index < 16; index += 1) {
+    nick += str[(Math.floor(Math.random() * str.length))];
+   }
+   return nick;
+};
+
+
+
 
     let nickName = ''; 
 
     // button nickName
     buttonName.addEventListener('click', (e) => {
+        e.preventDefault();
+        nick.innerHTML = inputName.value;
         nickName = inputName.value;
     })
 
@@ -61,17 +79,9 @@ const renderLi = (message) => {
 
 socket.on('message', (message) =>  renderLi(message) )
 
-const aleatoreNick = () => {
-    let nick = '';
-    const str = 'abcdefghijklmnopqrstuvwyz';
-   for (let index = 0; index < 16; index += 1) {
-    nick += str[(Math.floor(Math.random() * str.length))];
-   }
-   return nick;
-};
 
-nick.innerHTML = aleatoreNick();
 
+nick.innerHTML =  aleatoreNick();
 
 </script>
 
@@ -89,7 +99,7 @@ nick.innerHTML = aleatoreNick();
   }
   
   form input {
-    padding: 50px;
+    padding: 10px;
     width: 90%;
     margin-right: 0.5%;
     font-size: 30px;
@@ -99,7 +109,7 @@ nick.innerHTML = aleatoreNick();
     width: 20%;
     background: rgb(83, 85, 85);
     border: none;
-    padding: 50px;
+    padding: 10px;
     cursor: pointer;
     font-size: 30px;
   }
