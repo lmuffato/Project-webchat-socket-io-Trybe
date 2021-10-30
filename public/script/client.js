@@ -34,13 +34,14 @@ const newMessage = (message) => {
 
 socket.on('message', (chatMessage) => newMessage(chatMessage));
 
-const onlineUsers = (users) => {
+const onlineUsers = (user) => {
   const userUl = document.querySelector('#userList');
   const li = document.createElement('li');
   li.setAttribute(DATA_TESTID, 'online-user');
-  li.setAttribute(ID, users);
-  li.innerText = users;
+  li.setAttribute(ID, user);
+  li.innerText = user;
   userUl.appendChild(li);
+  return li;
 };
 
 socket.on('userList', (users) => {
@@ -51,7 +52,10 @@ socket.on('userList', (users) => {
       userUl.removeChild(userUl.lastChild);
     }
   }
-  users.forEach((user) => onlineUsers(user)); 
+  if (!nick) nick = users[users.length - 1];
+  userUl.appendChild(onlineUsers(nick));
+  const newUsers = users.filter((user) => user !== nick);
+  newUsers.forEach((user) => onlineUsers(user));
 });
 
 socket.on('showHistory', (history) => {
