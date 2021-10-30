@@ -1,6 +1,6 @@
 const socket = window.io();
 
-const changeCurrentNickname = document.getElementById('changeCurrentNickname');
+// const changeCurrentNickname = document.getElementById('changeCurrentNickname');
 const usersLogged = document.getElementById('usersLogged');
 let nickWithNumbers;
 
@@ -11,30 +11,32 @@ const insertNicknameUserLogged = (nickname) => {
   newUserLogged.innerText = nickname;
   newUserLogged.setAttribute('data-testid', 'online-user');
   newUserLogged.id = nickname;
+  newUserLogged.className = 'users';
   usersLogged.appendChild(newUserLogged);
-  socket.emit('userNickname', {
+  socket.emit('saveUserOnArray', {
      id: newUserLogged.id, 
      innerText: newUserLogged.innerText,
     });
 };
 
-socket.on('addNickinameInOtherUser', (newUserLogged) => {
-  const otherUser = document.createElement('li');
-  otherUser.innerText = newUserLogged.innerText;
-  otherUser.id = newUserLogged.id;
-  otherUser.setAttribute('data-testid', 'online-user');
-
-  usersLogged.appendChild(otherUser);
+socket.on('showNicknamesOfUsersLoggeds', (newNicknName) => {
+  nickWithNumbers = newNicknName;
+  insertNicknameUserLogged(newNicknName);
 });
 
-socket.on('showNicknamesOfUsersLoggeds', (newNicknameFormated) => {
-  nickWithNumbers = newNicknameFormated;
-  insertNicknameUserLogged(newNicknameFormated);
+socket.on('listOldUsers', (users) => {
+  for (let i = 0; i < users.length; i += 1) {
+    const newUserLogged = document.createElement('li');
+    newUserLogged.innerText = users[i].innerText;
+    newUserLogged.setAttribute('data-testid', 'online-user');
+    newUserLogged.id = users[i].id;
+    usersLogged.appendChild(newUserLogged);
+  }
 });
 
-changeCurrentNickname.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const nicknameBox = document.getElementById('nickname-box');
-  const currentUser = document.getElementById(nickWithNumbers);
-  currentUser.innerText = nicknameBox.value;
-});
+// changeCurrentNickname.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const nicknameBox = document.getElementById('nickname-box');
+//   const currentUser = document.getElementById(nickWithNumbers);
+//   currentUser.innerText = nicknameBox.value;
+// });
