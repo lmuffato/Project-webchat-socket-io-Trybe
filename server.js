@@ -8,6 +8,10 @@ const { Server } = require('socket.io');
 
 const io = new Server(server);
 
+setInterval(async () => {
+  console.log(await io.allSockets());
+}, 1000);
+
 const PORT = 3000;
 
 app.use(express.static('./public'));

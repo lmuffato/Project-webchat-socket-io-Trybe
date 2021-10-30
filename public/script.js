@@ -7,6 +7,7 @@ const form = document.querySelector('.form');
 const input = document.querySelector('.input');
 const messages = document.querySelector('.messages');
 const DATATESTID = 'data-testid';
+const USERLIST = '.usersList';
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 function makeid(length) {
@@ -36,7 +37,7 @@ function changeNickName() {
 }
 
 const createUserLi = (user) => {
-  const listUser = document.querySelector('.usersList');
+  const listUser = document.querySelector(USERLIST);
   const li = document.createElement('li');
   li.textContent = user;
   li.setAttribute(DATATESTID, 'online-user');
@@ -44,6 +45,8 @@ const createUserLi = (user) => {
 };
 
 socket.on('usersOnline', (users) => {
+  const listUser = document.querySelector(USERLIST);
+  listUser.innerHTML = '';
   users.forEach((user) => createUserLi(user));
 });
 
@@ -76,13 +79,10 @@ socket.on('dbMessages', (msgs) => {
 });
 
 socket.on('disconnectUser', (userDisconnected) => { 
-  console.log(userDisconnected);
-  const userList = document.querySelector('.usersList').children;
-  const userLoggedOut = [...userList].find((user) => {
-    console.log(user.textContent);
-    return user.textContent === userDisconnected;
-  });
+  const userList = document.querySelector(USERLIST).children;
+  const userLoggedOut = [...userList].find((user) => user.textContent === userDisconnected);
 userLoggedOut.remove();
+console.log('📓 ~ file: script.js ~ line 82 ~ socket.on ~ userLoggedOut', userLoggedOut);
 });
 
 socket.on('message', (msg) => {
@@ -91,8 +91,4 @@ li.textContent = msg;
 li.setAttribute(DATATESTID, 'message');
 messages.append(li);
 window.scrollTo(0, document.body.scrollHeight);
-});
-
-window.addEventListener('unload', () => {
-  socket.emit('disconnectUser', nickname);
 });

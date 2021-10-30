@@ -6,11 +6,11 @@ module.exports = (io) => io.on('connection',
  */
 (socket) => {
   socket.emit('usersOnline', usersOnline);
-  // socket.disconnect(0);
-  socket.on('disconnectUser', (user) => {
-    const loggoutUserIndex = usersOnline.indexOf(user);
+  socket.on('disconnect', () => {
+    console.log('Ta rolando...');
+    const loggoutUserIndex = usersOnline.indexOf(socket.id);
     usersOnline.splice(loggoutUserIndex, 1);
-    socket.broadcast.emit('disconnectUser', user);
+    io.emit('usersOnline', usersOnline);
   });
   socket.on('listUser', (user) => {
     usersOnline.push(user);
