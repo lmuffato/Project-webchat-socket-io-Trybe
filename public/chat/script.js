@@ -35,12 +35,16 @@ nicknameBtn.addEventListener('click', (event) => {
 });
 
 const nicknameList = (users) => {
+  const fisrtUserName = socket.id.slice(0, 16);
   const nicknameUlList = document.querySelector('.nickname__list');
   nicknameUlList.innerHTML = '';
   users.forEach((element) => {
-    const li = document.createElement('li');
-    li.setAttribute(dataTesteId, 'online-user');
-    li.innerText = element;
+  const li = document.createElement('li');
+  li.setAttribute(dataTesteId, 'online-user');
+  li.innerText = element;
+    if (element === nick || element === fisrtUserName) {
+      return nicknameUlList.prepend(li);
+    }
     nicknameUlList.appendChild(li);
   });
 };
@@ -61,3 +65,5 @@ socket.on('historyMsg', (msgFromDb) => renderMsgFromDB(msgFromDb));
 socket.on('message', (chatMessage) => sentMsg(chatMessage));
 
 socket.on('usersList', (users) => nicknameList(users));
+
+socket.on('usersOnline', (users) => nicknameList(users));

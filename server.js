@@ -32,7 +32,6 @@ const timestamp = moment().format('DD-MM-YYYY hh:mm:ss');
 
 const users = {};
 io.on('connection', async (socket) => { 
-  // console.log(`O CLiente ${socket.id} está online`);
   users[socket.id] = socket.id.slice(0, 16);
   
   socket.on('message', async ({ chatMessage, nickname }) => {
@@ -42,18 +41,20 @@ io.on('connection', async (socket) => {
 
   socket.on('newNickname', (nickname) => {
     users[socket.id] = nickname;
-    // console.log(users);
     io.emit('usersList', Object.values(users));
   });
 
   io.emit('usersList', Object.values(users));
 
-  const historyMsg = async () => {
-    const messagesFromDB = await getAllChatMessages();
-    return messagesFromDB;
-  };
-
+  const historyMsg = async () => getAllChatMessages().then((data) => data);
+    // const messagesFromDB = await getAllChatMessages();
+    // return messagesFromDB;
   io.emit('historyMsg', await historyMsg());
+
+  socket.on('disconnect', () => {
+    delete users[socket.id];
+    io.emit('usersOnline', Object.values(users));
+  });
 });
 
 app.get('/', (_req, res) => res.render('chat/index'));
@@ -62,4 +63,4 @@ http.listen(PORT, () => {
   console.log(`Socket online na ${PORT}, acessar: http://localhost:3000`);
 });
 
-// Requisito 2 foi realizado com ajuda de Anderson Nasimento turma 10 A
+// Este projeto foi realizado com ajuda de Anderson Nasimento turma 10 e olhadinhas no PR de Marília!! Obrigado colegas queridos do meu coração
