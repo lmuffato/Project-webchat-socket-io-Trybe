@@ -1,29 +1,5 @@
-/* Objeto padrão da lista de clients:
-let activeUsers = [
-  { id: '1K1zAslD6JAcOu06AAAC', name: 'lucas' },
-];
-*/
-
-// Converte a hora do formato 24 para 12 AM/PM
-const convertHourToShapeAmPm = () => {
-  const now = new Date();
-  const hour = `${now.getHours()}`;
-  const min = `${now.getMinutes()}`;
-  const seg = `${now.getSeconds()}`;
-
-  if (hour >= 12) { return (`${hour - 12}:${min}:${seg} PM`); }
-    return (`${hour}:${min}:${seg} AM`);
-};
-
-// Converte a data para o formato usado no brasil
-const dateConvertBrasilAMPM = () => {
-  const now = new Date();
-  const str = `${now
-    .getDate()}-${now
-      .getMonth() + 1}-${now
-        .getFullYear()} ${convertHourToShapeAmPm()}`;
-  return str;
-};
+const { dateConvertBrasilAMPM } = require('./dateFunctions.js');
+const { create } = require('../../models/messages/messageModels.js');
 
 // Recupera o nickName da lista de usuários conectados
 const getNickName = (arr, sockedId) => {
@@ -31,10 +7,15 @@ const getNickName = (arr, sockedId) => {
   return nickName.name;
 };
 
-// Cria a mensagem no front-end
-const messageToReturn = (nickName, userMsg) => (
-  `${dateConvertBrasilAMPM()} - ${nickName}: ${userMsg}`
-  );
+// Salvar mensagem no banco de dados
+const saveMessageOnDataBase = (nickName, userMsg) => {
+  const obj = {
+    message: userMsg,
+    nickname: nickName,
+    timestamp: dateConvertBrasilAMPM(),
+  };
+  create(obj);
+};
 
 // Cria o nick aleatório através do socket.id
 const nickGenerator = (str) => str.substring(0, 16);
@@ -58,11 +39,10 @@ const removeUserDisconnected = (arr, id) => {
   return newList; 
 };
 
-// Lista de usuários ativos
-const listActiveUser = (arrayUsers) => {
-  const nickList = arrayUsers.map(nickGenerator);
-  return nickList;
-};
+// Cria a mensagem no front-end
+const messageToReturn = (nickName, userMsg) => (
+  `${dateConvertBrasilAMPM()} - ${nickName}: ${userMsg}`
+  );
 
 // Muda o nickname na lista
 const changenickName = (arr, socketId, nickName) => {
@@ -83,8 +63,8 @@ module.exports = {
   createObjUser,
   messageToReturn,
   nickNameList,
-  listActiveUser,
   removeUserDisconnected,
   addUserConnected,
   changenickName,
+  saveMessageOnDataBase,
  };

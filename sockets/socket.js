@@ -1,8 +1,7 @@
 const {
-  // createObjUser,
   messageToReturn,
   getNickName,
-  // listActiveUser,
+  saveMessageOnDataBase,
   addUserConnected,
   removeUserDisconnected,
   changenickName,
@@ -38,6 +37,7 @@ module.exports = (io) => io.on('connection', (socket) => {
     // const user = getNickName(activeUsers, socket.id);
     // io.emit('message', messageToReturn(user, chatMessage));
     io.emit('message', messageToReturn(nickname, chatMessage));
+    saveMessageOnDataBase(nickname, chatMessage);
   });
 
   // Manda uma mensagem de boas vindas apenas pra quem chegou na sala;

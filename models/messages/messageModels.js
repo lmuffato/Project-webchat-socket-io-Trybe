@@ -23,7 +23,8 @@ const getById = async (id) => {
 };
 
 // Adiciona uma nova mensagem
-const create = async (nickname, message, timestamp) => {
+const create = async (obj) => {
+  const { nickname, message, timestamp } = obj;
   const db = await connection();
   await db.collection(TABLE_NAME)
     .insertOne({ nickname, message, timestamp });

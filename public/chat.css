@@ -1,7 +1,7 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
@@ -9,26 +9,26 @@ body {
 }
 
 form {
-  background: #000;
+  background: black;
+  bottom: 0;
   padding: 3px;
   position: fixed;
-  bottom: 0;
   width: 100%;
 }
 
 form input {
   border: 0;
+  margin-right: 0.5%;
   padding: 10px;
   width: 90%;
-  margin-right: 0.5%;
 }
 
 form button {
-  width: 9%;
   background: rgb(130, 224, 255);
+  cursor: pointer;
   border: none;
   padding: 10px;
-  cursor: pointer;
+  width: 9%;
 }
 
 #mensagem {
@@ -41,26 +41,26 @@ form button {
   padding: 5px 10px;
 }
 
-#mensagem li:nth-child(odd) {
+#mensagem li:nth-child( odd ) {
   background: #eee;
 }
 
 #box-message {
   border: 1px solid #666;
-  width: 80%;
   min-height: 200px;
   overflow-y: auto;
   overflow:auto;
   overflow-x: hidden;
+  width: 80%;
 }
 
 #box-clients {
   border: 1px solid #666;
-  width: 80%;
   min-height: 200px;
   overflow-y: auto;
   overflow:auto;
   overflow-x: hidden;
+  width: 80%;
 }
 
 #clients {
