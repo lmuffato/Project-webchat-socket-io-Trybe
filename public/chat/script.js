@@ -6,6 +6,7 @@ const msgBtn = document.querySelector('.mensagem__btn');
 const nicknameInput = document.querySelector('.nickname__input');
 const nicknameBtn = document.querySelector('.nickname__btn');
 
+const dataTesteId = 'data-testid';
 // Ideia de Marília turma 10 A
 let nick = '';
 
@@ -20,7 +21,7 @@ const sentMsg = (message) => {
   const chatMsgUl = document.querySelector('.webchat__mensagens');
   const li = document.createElement('li');
   li.innerText = message;
-  li.setAttribute('data-testid', 'message');
+  li.setAttribute(dataTesteId, 'message');
   chatMsgUl.appendChild(li);
 };
 
@@ -38,11 +39,24 @@ const nicknameList = (users) => {
   nicknameUlList.innerHTML = '';
   users.forEach((element) => {
     const li = document.createElement('li');
-    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute(dataTesteId, 'online-user');
     li.innerText = element;
     nicknameUlList.appendChild(li);
   });
 };
+
+const renderMsgFromDB = (msgFromDb) => {
+  console.log(msgFromDb, 'dentro da funcao');
+    msgFromDb.forEach(({ timestamp, nickname, chatMessage }) => {
+    const chatMsgUl = document.querySelector('.webchat__mensagens');
+    const li = document.createElement('li');
+    li.innerText = `${timestamp} - ${nickname} : ${chatMessage}`;
+    li.setAttribute(dataTesteId, 'message');
+    chatMsgUl.appendChild(li);
+  });
+};
+
+socket.on('historyMsg', (msgFromDb) => renderMsgFromDB(msgFromDb));
 
 socket.on('message', (chatMessage) => sentMsg(chatMessage));
 
