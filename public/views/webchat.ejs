@@ -60,6 +60,7 @@
     userForm.addEventListener('submit', (event) => {
       event.preventDefault();
       userName = userInput.value;
+      sessionStorage.setItem('name', userName);
       createUser(userName);
       userInput.value = '';
     });
@@ -73,15 +74,6 @@
 
     messageForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      if (messageInput.value && !userInput.value) {
-        userName = socket.id.substr(0, 16);
-        sessionStorage.setItem('name', userName);
-      } 
-      if (userInput.value) {
-        userName = userInput.value
-        sessionStorage.setItem('name', userName);
-      }
-      createUser(userName);
       const message = { chatMessage: messageInput.value, nickname: userName }
       socket.emit('message', message);
       messageInput.value = '';
@@ -90,6 +82,11 @@
     socket.on('message', (message) => {
       console.log('Ouvindo message do front-end ==>', message);
       messageUl.appendChild(createMessage(message));
+    });
+
+    socket.on('nickname', (randomNickname) => {
+        sessionStorage.setItem('name', randomNickname);
+        createUser(randomNickname);
     });
 
     socket.on('messageList', (messages) => {

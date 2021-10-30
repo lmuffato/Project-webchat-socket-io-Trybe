@@ -12,6 +12,7 @@ const io = require('socket.io')(socketIoServer, {
   },
 });
 
+const { random } = require('lodash');
 const MessageController = require('./controllers/message');
 
 const getCurrentDate = () => {
@@ -43,6 +44,10 @@ io.on('connection', async (socket) => {
   socket.on('disconnect', () => {
     console.log(`Desconectou ==> ${socket.id}`);
   });
+
+  const randomNicknam = socket.id.substr(0, 16);
+
+  io.emit('nickname', randomNicknam);
 
   socket.on('message', async (message) => {
     const { nickname, chatMessage } = message;
