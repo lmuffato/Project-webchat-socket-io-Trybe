@@ -2,7 +2,6 @@ const socket = window.io();
 
 const formToChoiceNickname = document.getElementById('formToChoiceNickname');
 const usersLogged = document.getElementById('usersLogged');
-let nickWithNumbers;
 
 socket.emit('initConnection');
 
@@ -21,7 +20,6 @@ const insertNicknameUserLogged = (nickname) => {
 
 socket.on('showNicknamesOfUsersLoggeds', (newNicknName) => {
   insertNicknameUserLogged(newNicknName);
-  nickWithNumbers = newNicknName;
 });
 
 socket.on('listOldUsers', (users) => {
