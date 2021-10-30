@@ -4,6 +4,8 @@ const messageController = require('../controllers/chat');
 const date = moment().format('DD-MM-YYYY HH:mm:ss'); // https://momentjs.com/
 const users = [];
 
+let conta = 0;
+
 const initConnection = (io, socket, newNicknName) => {
   socket.on('initConnection', () => {
     io.emit('showNicknamesOfUsersLoggeds', `${newNicknName}`); 
@@ -13,9 +15,11 @@ const initConnection = (io, socket, newNicknName) => {
 
 const saveUserOnArray = (io, socket) => {
   socket.on('saveUserOnArray', (newUserLogged) => {
-    if (io.engine.clientsCount > users.length) {
+    if (io.engine.clientsCount > users.length ) {
+      conta += 1;
+      console.log('tamanho', io.engine.clientsCount)
+      console.log('contagem', conta);
       users.push(newUserLogged);
-      console.log(users);
     }
   });
 };
@@ -43,4 +47,5 @@ module.exports = (io) => io.on('connection', async (socket) => {
       io.emit('message', newMessage);
       await messageController.saveMessages({ message: chatMessage, nickname, timestamp: date });
     });
+    //socket.disconnect(0);
 });

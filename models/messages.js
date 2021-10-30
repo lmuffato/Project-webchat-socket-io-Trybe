@@ -1,4 +1,3 @@
-// const { ObjectId } = require('mongodb');
 const getConnection = require('./connection');
 
 const formatDataOfDbToSend = (arrayMessages) => arrayMessages.map((message) => {
@@ -22,10 +21,6 @@ const saveMessages = async (dataMessage) => {
     .then((db) => db.collection('messages'));
     
     await usersCollection.insertOne(dataMessage);
-  //   .then((res) => res.ops[0]);
-
-  // if (!inserted.name) return { error: true };
-  // return { recipe: inserted };
 };
 
 module.exports = {
