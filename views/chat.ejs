@@ -19,7 +19,7 @@
     </div>
 
     <div>
-      <ul>
+      <ul id="messagesList">
         <% oldMessages.forEach((oldMessage) => { %>
           <li data-testid="message"><%= oldMessage %></li>
         <% }) %>
@@ -27,9 +27,9 @@
     </div>
 
     <div>
-      <form>
-        <input type="text" placeholder="Messagem" data-testid="message-box">
-        <button type="submit" data-testid="send-button">Enviar</button>
+      <form id="formMessages">
+        <input type="text" placeholder="Messagem" data-testid="message-box" id="messageBox" >
+        <button type="submit" data-testid="send-button" id="sendButton">Enviar</button>
       </form>
     </div>
 

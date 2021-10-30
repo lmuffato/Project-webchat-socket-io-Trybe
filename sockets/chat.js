@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const date = moment().format('DD-MM-YYYY HH:mm:ss A'); // https://momentjs.com/
+const date = moment().format('DD-MM-YYYY HH:mm:ss'); // https://momentjs.com/
 const users = [];
 
 const initConnection = (io, socket, newNicknName) => {
@@ -38,6 +38,7 @@ module.exports = (io) => io.on('connection', async (socket) => {
     changeNickname(io, socket);
     
     socket.on('message', ({ chatMessage, nickname }) => {
-      io.emit('message', `${date} - ${nickname}: ${chatMessage}`);
+      const newMessage = `${date} - ${nickname}: ${chatMessage}`;
+      io.emit('message', newMessage);
     });
 });

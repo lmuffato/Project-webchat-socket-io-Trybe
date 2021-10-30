@@ -2,6 +2,8 @@ const socket = window.io();
 
 const formToChoiceNickname = document.getElementById('formToChoiceNickname');
 const usersLogged = document.getElementById('usersLogged');
+const formMessages = document.getElementById('formMessages');
+const messagesList = document.getElementById('messagesList');
 
 socket.emit('initConnection');
 
@@ -43,4 +45,19 @@ formToChoiceNickname.addEventListener('submit', (e) => {
 socket.on('changeNickname', ({ newNickname, id }) => {
   const nickNameToChange = document.getElementById(id);
   nickNameToChange.innerText = newNickname;
+});
+
+formMessages.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const messageBox = document.getElementById('messageBox');
+  const newMessage = messageBox.value;
+  const currentUser = usersLogged.firstElementChild;
+  socket.emit('message', { chatMessage: newMessage, nickname: currentUser.innerText });
+});
+
+socket.on('message', (msg) => {
+  const newMessage = document.createElement('li');
+  newMessage.setAttribute('data-testid', 'message');
+  newMessage.innerText = msg;
+  messagesList.appendChild(newMessage);
 });
