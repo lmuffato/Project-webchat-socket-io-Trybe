@@ -117,3 +117,24 @@ console.log(userList);
 // };
 
 // console.log(getNickName(activeUsers, '1K1zAslD6JAcOu06AAAD'));
+/*
+let list = ["email","role","type","name"];
+
+const personalizedListMe = (arr, socketId) => {
+  let newList = arr;
+  newList = newList.filter((ele) => ele.id !== socketId);
+  const me = arr.find((ele) => ele.id === socketId);
+  newList = [me, ...newList];
+  return newList;
+};
+
+const personalizedListOthers = (arr, socketId) => {
+  let newList = arr;
+  newList = newList.filter((ele) => ele.id !== socketId);
+  const me = arr.find((ele) => ele.id === socketId);
+  newList = [...newList, me];
+  return newList;
+};
+
+console.log(personalizedList(list, 'role'));
+*/
