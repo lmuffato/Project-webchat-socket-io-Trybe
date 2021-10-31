@@ -1,13 +1,18 @@
 const usersOnline = [];
 
-// eslint-disable-next-line max-lines-per-function
+function disconnect(io, userName) {
+  const loggoutUserIndex = usersOnline.indexOf(userName); // se o socketid n existe aqui, como buscar o index do usuario dentro do array?
+  usersOnline.splice(loggoutUserIndex, 1);
+  io.emit('usersOnline', usersOnline);
+  // 8 aqui, no evento de disconnect, eu atualizo o array , removendo a pessoa que saiu, e mando esse novo array para ser recriado no passo 7
+}
+
 module.exports = (io) =>
   io.on(
     'connection',
     /**
      * @param {import('socket.io').Socket} socket
      */
-    // eslint-disable-next-line max-lines-per-function
     (socket) => {
       let userName;
       socket.on('listUser', (user) => {
@@ -28,11 +33,6 @@ module.exports = (io) =>
         io.emit('changeUserName', [userName, newName]);
         userName = newName;
       });
-      socket.on('disconnect', () => {
-        const loggoutUserIndex = usersOnline.indexOf(userName); // se o socketid n existe aqui, como buscar o index do usuario dentro do array?
-        usersOnline.splice(loggoutUserIndex, 1);
-        io.emit('usersOnline', usersOnline);
-        // 8 aqui, no evento de disconnect, eu atualizo o array , removendo a pessoa que saiu, e mando esse novo array para ser recriado no passo 7
-      });
+      socket.on('disconnect', () => disconnect(io, userName));
     },
   );
