@@ -1,3 +1,5 @@
+const chatController = require('../controllers/chat');
+
 const getCurrentDate = () => {
   const today = new Date();
   const day = today.getDate();
@@ -19,15 +21,16 @@ const createNameFromId = (socketId) => {
 
 module.exports = (io) => io.on('connection', (socket) => {
   io.emit('new-connection', createNameFromId(socket.id));
-
   socket.on('save-user', (nickname) => {
-    teste = nickname;
     io.emit('new-user', nickname);
   });
-
-  socket.on('message', ({ chatMessage, nickname }) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
     const date = getCurrentDate();
-    io.emit('message', `${date} - ${!nickname 
-      ? createNameFromId(socket.id) : nickname}: ${chatMessage}`);
+    let realName;
+    if (!nickname) { realName = createNameFromId(socket.id); } else { realName = nickname; }
+    io.emit('message', `${date} - ${realName}: ${chatMessage}`);
+    await chatController.createMessage({
+      message: chatMessage, nickname: realName, timestamp: date,
+    });
   });
 });

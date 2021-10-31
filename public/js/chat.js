@@ -18,7 +18,7 @@ const createUser = (name) => {
   userList.appendChild(userLi);
 };
 
-const createMessage = (msg) => {
+const createMessage = async (msg) => {
   const messageLi = document.createElement('li');
   messageLi.innerText = msg;
   messageLi.dataset.testid = 'message';
@@ -28,7 +28,6 @@ const createMessage = (msg) => {
 textForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const nickname = savedName;
-  console.log('o socket cliente é', socket.id);
   const chatMessage = chatText.value;
   socket.emit('message', { chatMessage, nickname });
   chatText.value = '';
@@ -46,5 +45,10 @@ socket.on('new-user', (name) => {
   savedName = (name);
   createUser(name);
 });
+
+socket.on('get-messages', (arrayMessages) => {
+  arrayMessages.forEach((message) => createMessage(message));
+});
+
 socket.on('new-connection', (name) => createUser(name));
 socket.on('message', (msg) => createMessage(msg));

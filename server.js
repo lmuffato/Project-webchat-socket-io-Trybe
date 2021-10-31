@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(cors());
 
 require('./sockets/chat.js')(io);
+require('./sockets/messages')(io);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
