@@ -32,8 +32,13 @@ const createMessage = (message) => {
 // função para listar os online Users
 
 const listOnlineUsers = (users) => {
-
-}
+  users.forEach((e) => {
+    const li = document.createElement('li');
+    li.setAttribute('data-testid', 'online-user');
+    li.innerText = e;
+    onlineUsersList.appendChild(li);
+  });
+};
 
 // funções util para setar nickname e id user
 
@@ -45,15 +50,17 @@ const setUser = (user) => {
   header.innerText = `Hello, ${user}!!`;
 };
 
+const removeUser = (users, socketId) => users.filter((user) => user !== socketId);
+
 // add evento no save
 
 nicknameButton.addEventListener('click', (e) => {
+  console.log(e);
   const { value } = nicknameInput;
-  e.preventDefault();
+  socket.emit('newUserName', { nickName: value });
   state.nickname = value;
-  socket.emit('newUserName', { nickName: value, id: state.id });
-  setUser(value);
   sessionStorage.setItem('nickname', value);
+  setUser(value);
 });
 
 // add evento no sendButton
@@ -78,8 +85,13 @@ socket.on('userData', (data) => {
 });
 
 socket.on('usersOnline', (users) => {
-  const arrUsers = Object.values(users);
-  console.log(arrUsers);
+  const saveSocketNick = users[state.id];
+  const usersArr = Object.values(users);
+  const usersArr2 = removeUser(usersArr, saveSocketNick);
+  const renderArr = [saveSocketNick, ...usersArr2];
+  onlineUsersList.innerHTML = '';
+  console.log(renderArr);
+  listOnlineUsers(renderArr);
 });
 
 window.onbeforeunload = () => {
