@@ -1,7 +1,5 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -11,15 +9,12 @@ body {
 
 form {
   background: black;
-  bottom: 0;
   padding: 3px;
   position: fixed;
   width: 100%;
 }
 
 #form-msg input {
-  /* border: 0; */
-  margin-right: 0.5%;
   padding: 10px;
   width: 90%;
 }
@@ -52,8 +47,6 @@ form {
 
 #mensagem li {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
   padding: 5px 10px;
 }
 
