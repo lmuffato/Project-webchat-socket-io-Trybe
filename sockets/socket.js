@@ -1,7 +1,7 @@
 const {
   messageToReturn,
   getNickName,
-  saveMessageOnDataBase,
+  recoveryMsgOnDataBase,
   addUserConnected,
   removeUserDisconnected,
   changenickName,
@@ -10,9 +10,12 @@ const {
 
 let activeUsers = [];
 
-module.exports = (io) => io.on('connection', (socket) => {
+module.exports = (io) => io.on('connection', async (socket) => {
   console.log(`Alguém ${socket.id} se conectou`);
-
+  // const b = await = recoveryMsgOnDataBase();
+  const msgHistoric = await recoveryMsgOnDataBase();
+  socket.emit('msgHistoric', msgHistoric);
+  // console.log(await recoveryMsgOnDataBase());
   // Atualiza a lista quando um usuáiro é conectado
   activeUsers = [...addUserConnected(activeUsers, socket.id)];
 
@@ -33,11 +36,11 @@ module.exports = (io) => io.on('connection', (socket) => {
 
   // Quando a mensagem é enviada pelo front-end
   socket.on('message', ({ chatMessage, nickname }) => {
+    io.emit('message', messageToReturn(nickname, chatMessage));
     // Manda a mensagem de volta para todos os usuários conectados
     // const user = getNickName(activeUsers, socket.id);
     // io.emit('message', messageToReturn(user, chatMessage));
-    saveMessageOnDataBase(nickname, chatMessage);
-    io.emit('message', messageToReturn(nickname, chatMessage));
+    // saveMessageOnDataBase(nickname, chatMessage);
   });
 
   // Manda uma mensagem de boas vindas apenas pra quem chegou na sala;

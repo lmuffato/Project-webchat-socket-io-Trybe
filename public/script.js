@@ -7,6 +7,8 @@ const socket = window.io();
 // const BoxMessageList = document.document.querySelector('#mensagem');
 // const boxClientsList = document.document.querySelector('#box-message');
 
+const dataTestId = 'data-testid';
+
 const clientId = 'client';
 
 let myNickName = '';
@@ -65,10 +67,22 @@ const removeElementById = (id) => {
 const createUserMsgLiElement = (message) => {
   const messageUl = document.querySelector('#mensagem');
   const li = document.createElement('li');
-  li.setAttribute('data-testid', 'message');
+  li.setAttribute(dataTestId, 'message');
   li.innerText = message;
   messageUl.appendChild(li);
   autoScrolling();
+};
+
+// Recurar o histórico de mensagens
+const historyMessages = (arr) => {
+  const messageUl = document.querySelector('#mensagem');
+  arr.forEach((ele) => {
+    const { timestamp, nickname, message } = ele;
+    const li = document.createElement('li');
+    li.setAttribute(dataTestId, 'message');
+    li.innerText = `${timestamp} - ${nickname}: ${message}`;
+    messageUl.appendChild(li);
+  });
 };
 
 // Cria a mensagem no front-end
@@ -86,7 +100,7 @@ const updateClients = (arr, id) => {
   const user = document.querySelector(`#${id}`);
   arr.forEach((ele) => {
     const li = document.createElement('li');
-    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute(dataTestId, 'online-user');
     li.id = clientId;
     li.innerText = ele;
     user.appendChild(li);
@@ -98,6 +112,7 @@ const updateClientsActives = (arr) => {
   updateClients(arr, 'clients');
 };
 
+socket.on('msgHistoric', (arr) => historyMessages(arr));
 socket.on('myNick', (str) => getMyNickName(str));
 socket.on('message', (str) => createUserMsgLiElement(str));
 socket.on('serverMessage', (str) => createServerMsgLiElement(str));

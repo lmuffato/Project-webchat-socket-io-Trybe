@@ -1,5 +1,5 @@
 const { dateConvertBrasilAMPM } = require('./dateFunctions.js');
-const { create, getAll } = require('../../models/messages/messageModels.js');
+const Model = require('../../models/messages/messageModels.js');
 
 // Recupera o nickName da lista de usuários conectados
 const getNickName = (arr, sockedId) => {
@@ -14,12 +14,12 @@ const saveMessageOnDataBase = async (nickName, userMsg) => {
     nickname: nickName,
     timestamp: dateConvertBrasilAMPM(),
   };
-  await create(obj);
+  await Model.create(obj);
 };
 
 // recuperar as mensagens do banco de dados
 const recoveryMsgOnDataBase = async () => {
-  const oldMsg = await getAll();
+  const oldMsg = await Model.getAll();
   return oldMsg;
 };
 
@@ -46,9 +46,11 @@ const removeUserDisconnected = (arr, id) => {
 };
 
 // Cria a mensagem no front-end
-const messageToReturn = (nickName, userMsg) => (
-  `${dateConvertBrasilAMPM()} - ${nickName}: ${userMsg}`
-  );
+const messageToReturn = (nickName, userMsg) => {
+  const timestamp = dateConvertBrasilAMPM();
+  saveMessageOnDataBase(nickName, userMsg);
+ return (`${timestamp} - ${nickName}: ${userMsg}`);
+};
 
 // Muda o nickname na lista
 const changenickName = (arr, socketId, nickName) => {
@@ -72,6 +74,5 @@ module.exports = {
   removeUserDisconnected,
   addUserConnected,
   changenickName,
-  saveMessageOnDataBase,
   recoveryMsgOnDataBase,
  };
