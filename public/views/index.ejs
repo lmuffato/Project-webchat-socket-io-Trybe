@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebChat Socket.io</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="title">
+      <h1>WebChat Socket.io</h1>
+      <img
+        width="50px"
+        src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1-1.png"
+      />
+    </div>
+    <form class="chat">
+      <input
+        type="text"
+        name="nickname"
+        id="nicknameInput"
+        placeholder="Digite seu nickname"
+        data-testid="nickname-box"
+      />
+      <button id="btnSaveNickname" data-testid="nickname-button" type="submit">
+        Salvar
+      </button>
+      <div class="nicknames">
+        <ul id="nicknameList"></ul>
+      </div>
+      <div class="messages">
+        <ul id="messagesList"></ul>
+      </div>
+      <input
+        type="text"
+        name="message"
+        id="messageInput"
+        placeholder="Digite sua mensagem"
+        data-testid="message-box"
+      />
+      <button id="btnSendMessage" data-testid="send-button" type="submit">
+        Enviar
+      </button>
+    </form>
+
+    <script src="../scripts.js"></script>
+  </body>
+</html>

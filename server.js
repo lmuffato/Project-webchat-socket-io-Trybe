@@ -1,37 +1,44 @@
 const express = require('express');
 const path = require('path');
 const moment = require('moment');
-// const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// app.use(cors());
+const timestamp = moment().format('DD-MM-YYYY HH:mm');
 const http = require('http').createServer(app);
 
 const corsOptions = {
   origin: `http://localhost:${PORT}`,
   methods: ['GET', 'POST'],
 };
-// io
 const io = require('socket.io')(http, corsOptions);
 
 app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'public', 'views'));
 
-app.use(express.static(path.join(__dirname, 'views')));
-app.set('views', path.join(__dirname, 'views'));
+const users = {};
+io.on('connection', async (socket) => { 
+  users[socket.id] = socket.id.slice(0, 16);
 
-io.on('connection', (socket) => {
-  console.log(`Usuário conectado: ${socket.id}`);
+  socket.on('message', async ({ chatMessage, nickname }) => {
+    io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
+  });
+  socket.on('newNickname', (nickname) => {
+    users[socket.id] = nickname;
+    io.emit('usersList', Object.values(users));
+  });
 
-  socket.on('message', ({ nickname, chatMessage }) => {
-    const timeStamp = moment().format('DD-MM-YYYY HH:mm');
-    io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
+  io.emit('usersList', Object.values(users));
+
+  socket.on('disconnect', () => {
+    delete users[socket.id];
+    io.emit('usersOnline', Object.values(users));
   });
 });
 
-app.use('/', (_req, res) => {
+app.get('/', (_req, res) => {
   res.render('index.ejs');
 });
 
