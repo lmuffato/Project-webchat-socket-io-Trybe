@@ -17,7 +17,7 @@ form {
   width: 100%;
 }
 
-button.btn-msg {
+.btn-msg {
   background: rgb(130, 224, 255);
   border: none;
   cursor: pointer;
@@ -30,8 +30,18 @@ button.btn-msg {
   padding: 5px 10px;
 }
 
+.mensagem li {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 10px;
+}
+
 .clients li:nth-child( odd ) {
   background: rgb(157, 211, 140);
+}
+
+.mensagem li:nth-child( odd ) {
+  background: rgb(252, 131, 131);
 }
 
 .form-msg input {
@@ -48,17 +58,6 @@ button.btn-msg {
   overflow-x: hidden;
   overflow-y: auto;
   width: 80%;
-}
-
-.mensagem li {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  padding: 5px 10px;
-}
-
-.mensagem li:nth-child( odd ) {
-  background: rgb(252, 131, 131);
 }
 
 .box-message ul {
