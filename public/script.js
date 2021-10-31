@@ -23,7 +23,6 @@ function makeid(length) {
 let nickname = sessionStorage.getItem('nickName') || makeid(16);
 
 socket.emit('listUser', nickname);
-// 1 envio o nickname para o backend
 
 const createUserLi = (user) => {
   const listUser = document.querySelector(USERLIST);
@@ -37,15 +36,11 @@ const createUserLi = (user) => {
 };
 
 socket.on('listUser', createUserLi);
-// 4 com o usuario que eu mandei na linha 26, passando pelo backend, ele me retorna para que eu possa utiliza-lo na função acima - aparentemente é o fim do pingpong do listuser
 
 socket.on('usersOnline', (users) => {
-  // 6 aqui recebemos o array novamente, possivelmente atualizado.
   const listUser = document.querySelector(USERLIST);
   listUser.innerHTML = '';
-  // createUserLi(users);
   users.forEach((user) => createUserLi(user));
-  // 7 aqui, populamos a nossa lista com os novos usuários logados!
 });
 
 function changeNickName() {
@@ -57,7 +52,7 @@ function changeNickName() {
     nickname = nickNameInput.value;
     nickNameInput.value = '';
     socket.emit('changeUserName', nickname);
-  });// 9 Aqui, estamos obtendo o a string que irá substituir o ID aleatório que será criado no passo #1
+  });
 }
 
 changeNickName();
@@ -91,15 +86,6 @@ socket.on('dbMessages', (msgs) => {
   });
   window.scrollTo(0, document.body.scrollHeight);
 });
-
-// aqui eu percebi que é um evento que ouve nada de ninguém, exercendo a mesma função do evento disconnect do backend!
-// socket.on('disconnectUser', (userDisconnected) => {
-//   const userList = document.querySelector(USERLIST).children;
-//   const userLoggedOut = [...userList].find(
-//     (user) => user.textContent === userDisconnected,
-//   );
-//   userLoggedOut.remove();
-// });
 
 socket.on('message', (msg) => {
   const li = document.createElement('li');
