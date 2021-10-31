@@ -17,7 +17,7 @@
 
   <ul id="messages">
     <% chatMessages.forEach((chat)=> { %>
-      <li>
+      <li data-testid="message">
         <%= `${chat.timestamp} - ${chat.nickname}: ${chat.message}` %>
       </li>
       <% }) %>
