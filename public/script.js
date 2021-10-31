@@ -30,6 +30,9 @@ const createUserLi = (user) => {
   const li = document.createElement('li');
   li.textContent = user;
   li.setAttribute(DATATESTID, 'online-user');
+  if (user === nickname) {
+    return listUser.prepend(li);
+  }
   listUser.append(li);
 };
 
@@ -40,6 +43,7 @@ socket.on('usersOnline', (users) => {
   // 6 aqui recebemos o array novamente, possivelmente atualizado.
   const listUser = document.querySelector(USERLIST);
   listUser.innerHTML = '';
+  // createUserLi(users);
   users.forEach((user) => createUserLi(user));
   // 7 aqui, populamos a nossa lista com os novos usuários logados!
 });
