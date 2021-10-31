@@ -1,4 +1,6 @@
 const socket = window.io();
+// let oldNickname = '';
+let storageNickname = '';
 
 const html = {
   nicknameForm: document.querySelector('.nickname-form'),
@@ -14,20 +16,22 @@ html.nicknameForm.addEventListener('submit', (e) => {
 
   const nickname = html.nicknameInput.value;
 
-  sessionStorage.setItem('nickname', nickname);
+  if (nickname.length > 0) {
+    storageNickname = nickname;
 
-  html.onlineUser.innerHTML = nickname;
-
-  const data = { nickname };
-
-  socket.emit('replaceNickname', data);
+    socket.emit('replaceNickname', nickname);
+  
+    sessionStorage.setItem('nickname', nickname);
+    
+    console.log(storageNickname);
+  }
 });
 
 html.messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const chatMessage = html.messageInput.value;
-  const nickname = html.nicknameInput.value;
+  const nickname = storageNickname;
 
   const data = { chatMessage, nickname };
 
@@ -35,9 +39,6 @@ html.messageForm.addEventListener('submit', (e) => {
     socket.emit('message', data);
   }
 });
-
-function addNewUser(_data) {
-}
 
 function handleOnMessage(chatMessage) {
   const message = document.createElement('li');
@@ -47,7 +48,23 @@ function handleOnMessage(chatMessage) {
   html.listMessage.appendChild(message);
 }
 
-function createListUsers(_userArrayList) {
+function createListItem(user) {
+  const listItem = document.createElement('li');
+  listItem.innerHTML = user.nickname;
+  listItem.setAttribute('data-testid', 'online-user');
+
+  console.log(user.nickname, html.nicknameInput.value);
+
+  if (user.nickname === storageNickname) {
+    html.onlineUser.insertBefore(listItem, html.onlineUser.firstChild);
+  } else {
+    html.onlineUser.appendChild(listItem);
+  }
+}
+
+function createListUsers(userArrayList) {
+  html.onlineUser.innerHTML = '';
+  userArrayList.map(createListItem);
 }
 
 function makeRandomUser(length) {
@@ -62,16 +79,24 @@ function makeRandomUser(length) {
 }
 
 function gerateUserID() {
+  const sessionStoragedNickname = sessionStorage.getItem('nickname');
+
+  if (sessionStoragedNickname) {
+    console.log(sessionStoragedNickname);
+    socket.emit('addUser', sessionStoragedNickname);
+  } else {
     const nickname = `user-${makeRandomUser(11)}`;
-  
-    html.nicknameInput.value = nickname;
-    html.onlineUser.innerHTML = nickname;
+    console.log(nickname);
+    storageNickname = nickname;
+
+    socket.emit('addUser', nickname);
+  }
 }
 
-socket.on('addNewUser', addNewUser);
-socket.on('message', handleOnMessage);
-socket.on('refreshList', createListUsers);
+socket.on('refreshListUser', createListUsers);
 socket.on('connect', gerateUserID);
+socket.on('message', handleOnMessage);
+
 socket.on('get-storaged-messages', (data) => {
   html.listMessage.innerHTML = '';
   data.map((message) => handleOnMessage(message.message));
@@ -79,6 +104,6 @@ socket.on('get-storaged-messages', (data) => {
 
 window.onload = () => {
   const nickname = sessionStorage.getItem('nickname');
-  
-  html.nicknameInput.value = nickname;
+
+  storageNickname = nickname;
 };

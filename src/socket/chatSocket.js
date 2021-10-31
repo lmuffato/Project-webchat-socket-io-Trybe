@@ -1,30 +1,85 @@
 const moment = require('moment');
 const { createMessage, getAll } = require('../../models/Messages');
 
-module.exports = (io) => {
-  const usersArray = [];
+let usersArray = [];
 
+function addNewUser(nickname, io, socketId) {
+  const newUser = { nickname, id: socketId };
+
+  console.log('novo usuário -> ', newUser);
+  usersArray.push(newUser);
+
+  console.log('usuários conectados', usersArray);
+  console.log('total de usuários:', usersArray.length);
+  io.emit('refreshListUser', usersArray);
+}
+
+function replaceUserNickName(nickname, io, socketId) {
+  usersArray = usersArray.map((user) => {
+   if (user.id === socketId) {
+     return {
+       id: socketId,
+       nickname,
+     };
+   }
+
+    return user;
+  });
+
+  console.log('usersArray', usersArray);
+  io.emit('refreshListUser', usersArray);
+}
+
+function removeUserFromUserList(socketId, io) {
+  if (usersArray.length === 1) {
+    usersArray = [];
+    io.emit('refreshListUser', []);
+  } else {
+    usersArray = usersArray.reduce((userList, user) => {
+      if (user.id !== socketId) {
+        userList.push(user);
+      }
+  
+      return userList;
+    }, []);
+  
+    io.emit('refreshListUser', usersArray);
+  }
+
+  console.log('usuário desconectado');
+  console.log('usuários conectados', usersArray);
+}
+
+async function handleOnMessage(chatMessage, nickname, io) {
+    const messageDate = new Date();
+
+    const formatedDate = moment(messageDate).format('DD-MM-yyyy HH:mm:ss');
+    const message = `${formatedDate} - ${nickname}: ${chatMessage}`;
+    await createMessage(message);
+
+    io.emit('message', message);
+}
+
+module.exports = (io) => {
   io.on('connection', async (socket) => {
     console.log(`Usuário conectado. ID: ${socket.id} `);
-  
-    usersArray.push(socket.id);
-    io.emit('refreshList', usersArray);
 
     const messages = await getAll();
-    console.log(messages);
     io.emit('get-storaged-messages', messages);
 
-    socket.on('message', async ({ chatMessage, nickname }) => {
-      const messageDate = new Date();
+    io.emit('refreshListUser', usersArray);
 
-      const formatedDate = moment(messageDate).format('DD-MM-yyyy HH:mm:ss');
+    socket.on('addUser', (nickname) => addNewUser(nickname, io, socket.id));
 
-      const message = `${formatedDate} - ${nickname}: ${chatMessage}`;
-      console.log(`${message}`);
+    socket.on('message', 
+    ({ chatMessage, nickname }) => handleOnMessage(chatMessage, nickname, io));
 
-      await createMessage(message);
+    socket.on('replaceNickname', (nickname) => replaceUserNickName(nickname, io, socket.id));
 
-      io.emit('message', message);
+    socket.on('getUserList', () => {
+      io.emit('refreshList', usersArray);
+    });
+
+    socket.on('disconnect', () => removeUserFromUserList(socket.id, io));
   });
-});
 };
