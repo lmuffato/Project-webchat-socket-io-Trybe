@@ -36,8 +36,8 @@ nickBtn.addEventListener('click', () => {
   saveNickname();
   if (nickInput.value) {
     socket.emit('nickname', nickInput.value);
-    nickInput.value = '';
   }
+  nickInput.value = '';
 });
 
 sendMessageBtn.addEventListener('click', (e) => {
@@ -60,3 +60,12 @@ socket.on('showUsers', (users) => {
   listUsers.innerHTML = '';
   users.forEach((user) => createUser(user));
 });
+
+socket.on('getMessages', (messages) => {
+  messages.forEach(({ timeStamp, nickname, chatMessage }) =>
+    createMessage(`${timeStamp} - ${nickname}: ${chatMessage}`));
+});
+
+window.onbeforeunload = () => {
+  socket.disconnect();
+};

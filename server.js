@@ -13,20 +13,46 @@ const io = require('socket.io')(http, {
   },
 });
 
-const Users = [];
+const chatModel = require('./models/chatModel');
 
-io.on('connection', (socket) => {
-  socket.on('message', ({ chatMessage, nickname }) => {
+const Users = {};
+
+const formatMessage = (timeStamp, nickname, chatMessage) =>
+  `${timeStamp} - ${nickname}: ${chatMessage}`;
+
+const renderUsers = (socket) => {
+  socket.broadcast.emit('showUsers', Object.values(Users));
+  socket.emit('showUsers', Object.values(Users).reverse());
+};
+
+const saveMessages = (socket) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
     const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
-    io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
-    console.log(`${timeStamp} - ${nickname}: ${chatMessage}`);
+    await chatModel.saveMessage({ timeStamp, chatMessage, nickname });
+    io.emit('message', formatMessage(timeStamp, nickname, chatMessage));
   });
-  Users.push(socket.id.substring(0, 16));
-  io.emit('showUsers', Users);
+};
+
+io.on('connection', async (socket) => {
+  Users[socket.id] = socket.id.substring(0, 16);
+  renderUsers(socket);
+  saveMessages(socket);
+  io.emit('showUsers', Object.values(Users));
+
+  const getAllMessages = await chatModel.readAllMessages();
+  getAllMessages.map(({ timeStamp, nickname, chatMessage }) =>
+    formatMessage(timeStamp, nickname, chatMessage));
+
+  socket.emit('getMessage', getAllMessages);
+
+  socket.on('nickname', (nickname) => {
+    Users[socket.id] = nickname;
+    io.emit('showUsers', Object.values(Users));
+  });
 
   socket.on('disconnect', () => {
-    Users.pop();
-    io.emit('show_Users', Users);
+    delete Users[socket.id];
+    io.emit('showUsers', Object.values(Users));
   });
 });
 
@@ -34,10 +60,10 @@ app.use(cors());
 app.use(express.static(`${__dirname}/public`));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
-app.use('/', (req, res) => {
+app.use('/', (_req, res) => {
   res.render('index.ejs');
 });
 
-app.get('/', (_req, res) => { res.status(200).render('webChat'); });
+app.get('/', (_req, res) => { res.render('webChat'); });
 
 http.listen(PORT, () => console.log(`Passando na porta ${PORT}`));
