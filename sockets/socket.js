@@ -47,9 +47,8 @@ module.exports = (io) => io.on('connection', async (socket) => {
   });
 
   // # QUANDO UM USUÁRIO ENVIA UMA MENSAGEM #
-  socket.on('message', ({ chatMessage, nickname }) => {
-    return io.emit('message', messageToReturn(nickname, chatMessage));
-  });
+  socket.on('message', ({ chatMessage, nickname }) => io
+    .emit('message', messageToReturn(nickname, chatMessage)));
 
   // # QUANDO UM USUÁRIO É DESCONECTADO #
   socket.on('disconnect', () => {
