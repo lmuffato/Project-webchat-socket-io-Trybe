@@ -6,12 +6,22 @@ let usersArray = [];
 function addNewUser(nickname, io, socketId) {
   const newUser = { nickname, id: socketId };
 
-  console.log('novo usuário -> ', newUser);
-  usersArray.push(newUser);
+  let userOnList = false;
 
-  console.log('usuários conectados', usersArray);
-  console.log('total de usuários:', usersArray.length);
-  io.emit('refreshListUser', usersArray);
+  usersArray.forEach((user) => {
+    if (user.id === socketId) {
+      userOnList = true;
+    }
+  });
+
+  if (!userOnList) {
+    usersArray.push(newUser);
+
+    console.log(usersArray);
+    console.log('total de usuários:', usersArray.length);
+    
+    io.emit('refreshListUser', usersArray);
+  }
 }
 
 function replaceUserNickName(nickname, io, socketId) {
@@ -26,7 +36,6 @@ function replaceUserNickName(nickname, io, socketId) {
     return user;
   });
 
-  console.log('usersArray', usersArray);
   io.emit('refreshListUser', usersArray);
 }
 
@@ -47,7 +56,8 @@ function removeUserFromUserList(socketId, io) {
   }
 
   console.log('usuário desconectado');
-  console.log('usuários conectados', usersArray);
+  console.log('total de usuários:', usersArray.length);
+  console.log('');
 }
 
 async function handleOnMessage(chatMessage, nickname, io) {
@@ -66,20 +76,18 @@ module.exports = (io) => {
 
     const messages = await getAll();
     io.emit('get-storaged-messages', messages);
-
     io.emit('refreshListUser', usersArray);
-
-    socket.on('addUser', (nickname) => addNewUser(nickname, io, socket.id));
-
+    
+    socket.on('add-new-user', (nickname) => { 
+      addNewUser(nickname, io, socket.id); 
+    });
+    
     socket.on('message', 
     ({ chatMessage, nickname }) => handleOnMessage(chatMessage, nickname, io));
-
     socket.on('replaceNickname', (nickname) => replaceUserNickName(nickname, io, socket.id));
-
     socket.on('getUserList', () => {
       io.emit('refreshList', usersArray);
     });
-
     socket.on('disconnect', () => removeUserFromUserList(socket.id, io));
   });
 };

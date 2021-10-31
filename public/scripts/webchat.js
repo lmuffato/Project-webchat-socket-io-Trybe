@@ -1,5 +1,4 @@
 const socket = window.io();
-// let oldNickname = '';
 let storageNickname = '';
 
 const html = {
@@ -8,7 +7,7 @@ const html = {
   messageInput: document.querySelector('.message-input'),
   nicknameInput: document.querySelector('.nickname-input'),
   listMessage: document.querySelector('.list-message'),
-  onlineUser: document.querySelector('.online-user'),
+  onlineUsersList: document.querySelector('.online-user-list'),
 };
 
 html.nicknameForm.addEventListener('submit', (e) => {
@@ -20,10 +19,7 @@ html.nicknameForm.addEventListener('submit', (e) => {
     storageNickname = nickname;
 
     socket.emit('replaceNickname', nickname);
-  
     sessionStorage.setItem('nickname', nickname);
-    
-    console.log(storageNickname);
   }
 });
 
@@ -53,18 +49,22 @@ function createListItem(user) {
   listItem.innerHTML = user.nickname;
   listItem.setAttribute('data-testid', 'online-user');
 
-  console.log(user.nickname, html.nicknameInput.value);
-
   if (user.nickname === storageNickname) {
-    html.onlineUser.insertBefore(listItem, html.onlineUser.firstChild);
+    if (!html.onlineUsersList.firstChild) {
+      html.onlineUsersList.appendChild(listItem);
+    } else {
+      html.onlineUsersList.insertBefore(listItem, html.onlineUsersList.firstChild);
+    }
   } else {
-    html.onlineUser.appendChild(listItem);
+    html.onlineUsersList.appendChild(listItem);
   }
 }
 
 function createListUsers(userArrayList) {
-  html.onlineUser.innerHTML = '';
-  userArrayList.map(createListItem);
+  if (userArrayList.length > 0) {
+    html.onlineUsersList.innerHTML = '';
+    userArrayList.map(createListItem);
+  }
 }
 
 function makeRandomUser(length) {
@@ -72,38 +72,33 @@ function makeRandomUser(length) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;
   for (let i = 0; i < length; i += 1) {
-    result += characters.charAt(Math.floor(Math.random() 
-* charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
  }
  return result;
 }
 
-function gerateUserID() {
-  const sessionStoragedNickname = sessionStorage.getItem('nickname');
+function generateUserNickname() {
+  const nickname = sessionStorage.getItem('nickname') || `user-${makeRandomUser(11)}`;
+  
+  storageNickname = nickname;
 
-  if (sessionStoragedNickname) {
-    console.log(sessionStoragedNickname);
-    socket.emit('addUser', sessionStoragedNickname);
-  } else {
-    const nickname = `user-${makeRandomUser(11)}`;
-    console.log(nickname);
-    storageNickname = nickname;
-
-    socket.emit('addUser', nickname);
-  }
+  socket.emit('add-new-user', nickname);
 }
-
-socket.on('refreshListUser', createListUsers);
-socket.on('connect', gerateUserID);
-socket.on('message', handleOnMessage);
-
-socket.on('get-storaged-messages', (data) => {
-  html.listMessage.innerHTML = '';
-  data.map((message) => handleOnMessage(message.message));
-});
 
 window.onload = () => {
   const nickname = sessionStorage.getItem('nickname');
+  if (nickname) storageNickname = nickname;
 
-  storageNickname = nickname;
+  socket.on('refreshListUser', createListUsers);
+
+  socket.on('message', handleOnMessage);
+
+  socket.on('get-storaged-messages', (data) => {
+    html.listMessage.innerHTML = '';
+    data.map((message) => handleOnMessage(message.message));
+  });
+
+  socket.on('connect', generateUserNickname);
+
+  generateUserNickname();
 };
