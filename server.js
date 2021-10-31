@@ -14,6 +14,7 @@ const io = require('socket.io')(http, {
   },
 });
 
+const chatModel = require('./models/chatModel');
 require('./sockets/chatSocket')(io);
 
 app.use(cors());
@@ -24,8 +25,10 @@ app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.render('index.ejs');
+app.get('/', async (req, res) => {
+  const chatMessages = await chatModel.getAllMessages();
+
+  res.render('index.ejs', { chatMessages });
 });
 
 http.listen(3000, () => {

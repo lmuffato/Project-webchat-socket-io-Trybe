@@ -1,6 +1,12 @@
 const moment = require('moment');
 const connection = require('./connection');
 
+const getAllMessages = async () => {
+  const db = await connection();
+  const chatMessages = await db.collection('messages').find({}).toArray();
+  return chatMessages;
+};
+
 const chatMessages = async (chatInfo) => {
   const { nickname, chatMessage } = chatInfo;
   const timestamp = moment().format('DD-MM-yyyy, HH:mm:ss A');
@@ -14,5 +20,6 @@ const chatMessages = async (chatInfo) => {
 };
 
 module.exports = {
+  getAllMessages,
   chatMessages,
 };

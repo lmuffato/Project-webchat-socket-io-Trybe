@@ -15,7 +15,14 @@
   <button id="nick-name_button" data-testid="nickname-button" type="button">Alterar Nickname</button>
   <ul id='users-list'></ul>
 
-  <ul id="messages"></ul>
+  <ul id="messages">
+    <% chatMessages.forEach((chat)=> { %>
+      <li>
+        <%= `${chat.timestamp} - ${chat.nickname}: ${chat.message}` %>
+      </li>
+      <% }) %>
+
+  </ul>
 
   <form action="">
     <input id="message-input" autocomplete="off" data-testid="message-box" />

@@ -45,9 +45,13 @@ socket.on('message', (message) => {
 socket.on('randomNickname', (randomUser) => {
   userList.textContent = '';
   if (!newListUsers) {
-    newListUsers = randomUser[randomUser.length - 1];
+    newListUsers = randomUser.pop();
   }
   createRandomUser(newListUsers);
-  const listUsers = randomUser.filter((user) => user !== newListUsers);
-  listUsers.forEach((user) => createRandomUser(user));
+  randomUser.filter((user) => user !== newListUsers)
+    .forEach((user) => createRandomUser(user));
 });
+
+// para resolução dos requisitos envolvendo os usuarios 
+// foi realizada consulta no PR da colega Ana Ventura
+// https://github.com/tryber/sd-010-a-project-webchat/blob/anaventura1811-webchat-project/public/js/chat.js
