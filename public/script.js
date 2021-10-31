@@ -95,9 +95,9 @@ const createServerMsgLiElement = (message) => {
 };
 
 // Atualiza a lista de clients
-const updateClients = (arr, id) => {
+const updateClients = (arr) => {
   removeElementById(clientId);
-  const user = document.querySelector(`#${id}`);
+  const user = document.querySelector('#clients');
   arr.forEach((ele) => {
     const li = document.createElement('li');
     li.setAttribute(dataTestId, 'online-user');
@@ -107,16 +107,20 @@ const updateClients = (arr, id) => {
   });
 };
 
-// Cria a lista de clientes ativos
-const updateClientsActives = (arr) => {
-  updateClients(arr, 'clients');
+const activeUserList = (arr) => {
+  let newList = arr;
+  newList = newList.filter((ele) => ele !== myNickName);
+  const me = arr.find((ele) => ele === myNickName);
+  newList = [me, ...newList];
+  updateClients(newList);
+  return null;
 };
 
 socket.on('msgHistoric', (arr) => historyMessages(arr));
 socket.on('myNick', (str) => getMyNickName(str));
 socket.on('message', (str) => createUserMsgLiElement(str));
 socket.on('serverMessage', (str) => createServerMsgLiElement(str));
-socket.on('activeClients', (arr) => updateClientsActives(arr));
+socket.on('activeClients', (arr) => activeUserList(arr));
 
 window.onload = () => {
   eventSendMessage();
