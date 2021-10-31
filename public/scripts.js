@@ -48,6 +48,18 @@ const nicknameList = (users) => {
   });
 };
 
+const renderMsgFromDB = (msgFromDb) => {
+  console.log(msgFromDb, 'dentro da funcao');
+    msgFromDb.forEach(({ timestamp, nickname, chatMessage }) => {
+    const chatMsgUl = document.getElementById('messagesList');
+    const li = document.createElement('li');
+    li.innerText = `${timestamp} - ${nickname} : ${chatMessage}`;
+    li.setAttribute(dataTesteId, 'message');
+    chatMsgUl.appendChild(li);
+  });
+};
+
+socket.on('historyMsg', (msgFromDb) => renderMsgFromDB(msgFromDb));
 socket.on('message', (chatMessage) => sentMsg(chatMessage));
 socket.on('usersList', (users) => nicknameList(users));
 socket.on('usersOnline', (users) => nicknameList(users));

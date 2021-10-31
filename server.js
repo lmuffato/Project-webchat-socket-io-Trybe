@@ -13,6 +13,7 @@ const corsOptions = {
   methods: ['GET', 'POST'],
 };
 const io = require('socket.io')(http, corsOptions);
+const { getAllChatMessages, saveMessage } = require('./models/chat');
 
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,6 +25,7 @@ io.on('connection', async (socket) => {
 
   socket.on('message', async ({ chatMessage, nickname }) => {
     io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
+    await saveMessage({ timestamp, nickname, chatMessage });
   });
   socket.on('newNickname', (nickname) => {
     users[socket.id] = nickname;
@@ -31,6 +33,10 @@ io.on('connection', async (socket) => {
   });
 
   io.emit('usersList', Object.values(users));
+
+  const historyMsg = async () => getAllChatMessages().then((data) => data);
+
+  socket.emit('historyMsg', await historyMsg());
 
   socket.on('disconnect', () => {
     delete users[socket.id];
