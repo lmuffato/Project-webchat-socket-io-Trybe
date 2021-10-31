@@ -11,16 +11,14 @@ const {
 let activeUsers = [];
 
 const personalizedListMe = async (arr, socketId, socket) => {
-  let newList = arr;
-  newList = newList.filter((ele) => ele.id !== socketId);
-  const me = arr.find((ele) => ele.id === socketId);
-  const forMe = [me, ...newList];
-  const forOthers = [...newList, me];
-  await socket.emit('activeClients', await nickNameList(forMe));
-  await socket.broadcast.emit('activeClients', await nickNameList(forOthers));
+    let newList = arr;
+    newList = newList.filter((ele) => ele.id !== socketId);
+    const me = arr.find((ele) => ele.id === socketId);
+    const forMe = [me, ...newList];
+    const forOthers = [...newList, me];
+    await socket.emit('activeClients', await nickNameList(forMe));
+    return socket.broadcast.emit('activeClients', await nickNameList(forOthers));
 };
-
-// eslint-disable-next-line max-lines-per-function
 
 // # QUANDO UM USUÁIRO É CONECTADO #
 module.exports = (io) => io.on('connection', async (socket) => {
@@ -34,10 +32,10 @@ module.exports = (io) => io.on('connection', async (socket) => {
   socket.emit('myNick', getNickName(activeUsers, socket.id));
 
   // Envia uma lista de nomes personalizada
-  await personalizedListMe(activeUsers, socket.id, socket);
+  personalizedListMe(activeUsers, socket.id, socket);
 
   // # QUNADO O USUÁRIO MUDA O NOME DO NICK #
-  socket.on('nickName', async (nickName) => {
+  socket.on('nickName', (nickName) => {
     // Atualzia o nome na lista de usuáiros ativos
     activeUsers = changenickName(activeUsers, socket.id, nickName);
 
@@ -45,21 +43,21 @@ module.exports = (io) => io.on('connection', async (socket) => {
     socket.emit('myNick', getNickName(activeUsers, socket.id));
 
     // Atualiza a lista de nomes a serem exibidos
-    await personalizedListMe(activeUsers, socket.id, socket);
+    return personalizedListMe(activeUsers, socket.id, socket);
   });
 
   // # QUANDO UM USUÁRIO ENVIA UMA MENSAGEM #
   socket.on('message', ({ chatMessage, nickname }) => {
-    io.emit('message', messageToReturn(nickname, chatMessage));
+    return io.emit('message', messageToReturn(nickname, chatMessage));
   });
 
   // # QUANDO UM USUÁRIO É DESCONECTADO #
-  socket.on('disconnect', async () => {
+  socket.on('disconnect', () => {
     // Atualiza a lista de usuários conectados
     activeUsers = removeUserDisconnected(activeUsers, socket.id);
 
     // Atualiza a lista para todos os usuários
     io.emit('activeClients', nickNameList(activeUsers));
-    await personalizedListMe(activeUsers, socket.id, socket);
+    return personalizedListMe(activeUsers, socket.id, socket);
   });
 });
