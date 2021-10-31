@@ -11,22 +11,12 @@ const chatMessages = document.getElementById('message-list');
 
 let savedName;
 
-const getName = () => {
-  const socketId = socket.id;
-  const nameArray = socketId.split('')
-    .splice(socketId.length - 16)
-    .join('');
-  return nameArray;
+const createUser = (name) => {
+  const userLi = document.createElement('li');
+  userLi.innerText = name;
+  userLi.dataset.testid = 'online-user';
+  userList.appendChild(userLi);
 };
-
-textForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const nickname = savedName;
-  const chatMessage = chatText.value.toString();
-  socket.emit('message', { chatMessage, nickname });
-  chatText.value = '';
-  return false;
-});
 
 const createMessage = (msg) => {
   const messageLi = document.createElement('li');
@@ -35,8 +25,14 @@ const createMessage = (msg) => {
   chatMessages.appendChild(messageLi);
 };
 
-socket.on('message', (msg) => {
-  createMessage(msg);
+textForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const nickname = savedName;
+  console.log('o socket cliente é', socket.id);
+  const chatMessage = chatText.value;
+  socket.emit('message', { chatMessage, nickname });
+  chatText.value = '';
+  return false;
 });
 
 userForm.addEventListener('submit', (event) => {
@@ -46,19 +42,9 @@ userForm.addEventListener('submit', (event) => {
   return false;
 });
 
-const createUser = (name) => {
-  const userLi = document.createElement('li');
-  userLi.innerText = name;
-  userLi.dataset.testid = 'online-user';
-  userList.appendChild(userLi);
-};
-
-socket.on('new-connection', (_name) => {
-  savedName = getName();
-  createUser(savedName);
+socket.on('new-user', (name) => {
+  savedName = (name);
+  createUser(name);
 });
-
-socket.on('new-user', (serverReturn) => {
-  savedName = (serverReturn.nickName);
-  createUser(serverReturn.nickName);
-});
+socket.on('new-connection', (name) => createUser(name));
+socket.on('message', (msg) => createMessage(msg));
