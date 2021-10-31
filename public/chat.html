@@ -7,26 +7,39 @@
   </head>
   <body>
 
-    <div id='box-message' >
-      <ul id='mensagem'></ul>
+    <div id='box-message' class='box-message'>
+      <ul id='mensagem' class='mensagem'></ul>
     </div>
 
-    <div id='box-clients' >
-      <ul id='clients'></ul>
+    <div id='box-clients' class='box-clients'>
+      <ul id='clients' class='clients' ></ul>
     </div>
 
         <label> nickName
-      <input id='nickName' autocomplete='off' data-testid="nickname-box">
-      <button id='btn-nickName' data-testid="nickname-button">Salvar Nome</button>
+      <input
+        id='nickName'
+        class='nickName'
+        autocomplete='off'
+        data-testid="nickname-box"
+      >
+      <button
+        id='btn-nickName'
+        class='nickName'
+        data-testid="nickname-button"
+      >
+        Salvar Nome
+      </button>
     </label>
 
-    <form action="" id='form-msg'>
-      <input id='messageInput' autocomplete='off' data-testid="message-box">
-        <button id='btn-msg' data-testid="send-button">Enviar</button>
+    <form action="" id='form-msg' class='form-msg'>
+      <input
+        id='messageInput'
+        class='messageInput'
+        autocomplete='off'
+        data-testid="message-box"
+      >
+    <button id='btn-msg' class='btn-msg' data-testid="send-button">Enviar</button>
     </form>
-
-
-
       <script src='./script.js' ></script>
   </body>
 </html>
