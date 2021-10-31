@@ -5,7 +5,7 @@ const users = {};
 const date = moment().format('DD-MM-YYYY HH:mm:ss A');
 
 module.exports = (io) => io.on('connection', (socket) => {
-  // setando user no onlineList
+  // setando user no onlineLis
   users[socket.id] = socket.id.slice(0, 16);
   socket.emit('userData', { id: socket.id, nickname: socket.id.slice(0, 16) });
   io.emit('usersOnline', users);
