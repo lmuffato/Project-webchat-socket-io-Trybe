@@ -8,18 +8,18 @@ const getNickName = (arr, sockedId) => {
 };
 
 // Salvar mensagem no banco de dados
-const saveMessageOnDataBase = (nickName, userMsg) => {
+const saveMessageOnDataBase = async (nickName, userMsg) => {
   const obj = {
     message: userMsg,
     nickname: nickName,
     timestamp: dateConvertBrasilAMPM(),
   };
-  create(obj);
+  await create(obj);
 };
 
 // recuperar as mensagens do banco de dados
-const recoveryMsgOnDataBase = () => {
-  const oldMsg = getAll();
+const recoveryMsgOnDataBase = async () => {
+  const oldMsg = await getAll();
   return oldMsg;
 };
 

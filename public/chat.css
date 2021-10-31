@@ -17,14 +17,14 @@ form {
   width: 100%;
 }
 
-form input {
+#form-msg input {
   border: 0;
   margin-right: 0.5%;
   padding: 10px;
   width: 90%;
 }
 
-form button {
+#btn-msg {
   background: rgb(130, 224, 255);
   border: none;
   cursor: pointer;
@@ -32,29 +32,16 @@ form button {
   width: 9%;
 }
 
-#mensagem {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 #clients li {
-  padding: 5px 10px;
-}
-
-#mensagem li {
+  list-style-type: none;
   padding: 5px 10px;
 }
 
 #clients li:nth-child( odd ) {
-  background: #eee;
+  background: rgb(157, 211, 140);
 }
 
-#mensagem li:nth-child( odd ) {
-  background: #eee;
-}
-
-#box-message {
+#box-clients ul {
   border: 1px solid #666;
   min-height: 200px;
   overflow: auto;
@@ -63,17 +50,22 @@ form button {
   width: 80%;
 }
 
-#box-clients {
-  border: 1px solid #666;
-  min-height: 200px;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 80%;
-}
-
-#clients {
+#mensagem li {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  padding: 5px 10px;
+}
+
+#mensagem li:nth-child( odd ) {
+  background: rgb(252, 131, 131);
+}
+
+#box-message ul {
+  border: 1px solid rgb(158, 152, 196);
+  min-height: 200px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 80%;
 }
