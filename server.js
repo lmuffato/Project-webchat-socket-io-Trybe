@@ -18,6 +18,8 @@ app.use(cors());
 
 io.on('connection', (socket) => {
   console.log(`O Cliente ${socket.id} se conectou`);
+
+  socket.emit('initialUsername', (socket.id));
 });
 
 app.get('/', chatController.getHistory);
