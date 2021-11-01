@@ -48,4 +48,17 @@ function appendMessage() {
   });
 }
 
+function getHistory() {
+  const { socket } = window;
+  socket.on('show-history', (messagesHistory) => {
+    messagesHistory.forEach(({ nickname, message: chatMessage, timestamp }) => {
+      const time = timestamp.replace(' ', '|');
+      const message = `${time}|${nickname}|${chatMessage}`;
+      const balloon = createMessageBalloon(message);
+      display.appendChild(balloon);
+    });
+  });
+}
+
+getHistory();
 appendMessage();
