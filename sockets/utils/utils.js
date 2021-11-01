@@ -58,7 +58,6 @@ const updateNickName = (socketId, nickName) => {
 // Cria a mensagem no front-end
 const sendMessageFromAllUsers = (io, userMsg, nickName) => {
   const timestamp = dateConvertBrasilAMPM();
-  // saveMessageOnDataBase(nickName, userMsg);
   const msg = `${timestamp} - ${nickName}: ${userMsg}`;
   io.emit('message', msg);
  return msg;
