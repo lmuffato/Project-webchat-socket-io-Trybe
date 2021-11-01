@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Web Chat</title>
+  </head>
+  <body>
+      <ul id="online-users"></ul>
+      <input type="text" data-testid="nickname-box" id="nickname-box" placeholder="Digite um nickname">
+      <button type="button" data-testid="nickname-button" id="nickname-button"> Trocar nickname</button>
+      <input type="text" data-testid="message-box" id="message-box" placeholder="Digite uma mensagem">
+      <button type="button" data-testid="send-button" id="send-button">Enviar Mensagem</button>
+      <ul id="messages"></ul>
+
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="./scripts.js"></script>
+  </body>
+</html>
