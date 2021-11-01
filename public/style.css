@@ -25,12 +25,10 @@ body {
 
 .color:nth-child( even ) {
   background: #ccc;
-  text-align: end;
 }
 
 .color:nth-child( odd ) {
   background: white;
   border: 1px solid #dee2e6;
-  text-align: start;
 }
 
