@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>WebChat</title>
+  </head>
+
+  <body>
+    <h1>WebChat</h1>
+    <main>
+      <h2>Users:</h2>
+      <ul id="users"></ul>
+      <h2>Messages:</h2>
+      <ul id="messages"></ul>
+    </main>
+    <div>
+      <form action="" id="form">
+        <input type="text" name="nickname-box" id="nickname-box" data-testid="nickname-box">
+        <button type="button" id="nickname-button" data-testid="nickname-button">set nickname</button>
+        <input type="text" name="message-box" id="message-box" placeholder="Type your message..."
+          data-testid="message-box">
+        <button data-testid="send-button">send</button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/WebChat.js"></script>
+  </body>
+
+</html>
