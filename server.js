@@ -28,6 +28,8 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`Usuário: ${socket.id} está desconectado!`);
+    delete quemQuerTC[socket.id];
+    io.emit('quemTaON', Object.values(quemQuerTC));
   });
 
   socket.on('message', ({ chatMessage, nickname }) => {
