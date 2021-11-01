@@ -1,4 +1,6 @@
+const moment = require('moment');
 const getCurrentDate = require('../utils/dateTime');
+const { create } = require('../models/message');
 
 /**
  * @param {import('socket.io').Socket} socket
@@ -9,7 +11,11 @@ module.exports = (socket, server) => {
     const currentDate = getCurrentDate().fulldate;
     const currentTime = getCurrentDate().fulltime;
     const message = `${currentDate}|${currentTime}|${nickname}|${chatMessage}`;
-    console.log(message);
+    create({
+      message: chatMessage,
+      nickname,
+      timestamp: moment().format('YYYY-MM-DD hh:mm:ss'),
+    });
     server.emit('message', message);
     socket.emit('author-message', message);
   });
