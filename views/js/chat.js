@@ -8,7 +8,6 @@ document.querySelector('form').addEventListener('submit', (e) => {
   if (nickname.length && message.length) {
     const date = new Date().toLocaleString();
     const actualDate = date.replace(/\//g, '-');
-
     const sendMessage = {
       message,
       nickname,
@@ -16,7 +15,6 @@ document.querySelector('form').addEventListener('submit', (e) => {
     };
 
     socket.emit('message', sendMessage);
-
     message.value = '';
   }
 });
