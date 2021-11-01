@@ -12,5 +12,10 @@ body {
   display: grid;
   grid-template-rows: 1fr auto 121px;
   height: 100vh;
+  overflow-x: hidden;
   padding: 30px;
+}
+
+button {
+  cursor: pointer;
 }

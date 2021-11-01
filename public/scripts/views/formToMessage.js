@@ -34,8 +34,13 @@ document.getElementById('user').textContent = nickname;
 form.nameInput.value = nickname;
 
 form.nameInput.onkeyup = ({ target }) => {
+  const { socket } = window;
   document.getElementById('user').textContent = target.value;
-  if (target.value === '') document.getElementById('user').textContent = nickname;
+  socket.emit('new-user', target.value);
+  if (target.value === '') {
+    document.getElementById('user').textContent = nickname;
+    socket.emit('new-user', nickname);
+  }
 };
 
 function newMessage(event) {
@@ -50,5 +55,11 @@ function newMessage(event) {
     messageInput.value = '';
   }
 }
+
+function newUser() {
+  const { socket } = window;
+  socket.emit('new-user', nickname);
+}
+newUser();
 
 document.forms[0].onsubmit = newMessage;

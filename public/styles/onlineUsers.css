@@ -1,0 +1,83 @@
+@keyframes slideFromRight {
+
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+
+}
+
+@keyframes slideToRight {
+
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+
+}
+
+.btnOnlineUsers {
+  align-items: center;
+  background: #640eaa;
+  border: none;
+  border-radius: 99px;
+  color: white;
+  display: flex;
+  font-weight: 600;
+  padding: 10px 15px;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+}
+
+.btnHideOnlineUsers {
+  background: none;
+  border: none;
+  color: #ffffff50;
+}
+
+.btnOnlineUsers .fa-users , .online-users .btnHideOnlineUsers {
+  font-size: 22px;
+  margin-right: 15px;
+}
+
+.online-users {
+  background: #640eaa;
+  height: 100%;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateX(100%);
+  width: 25%;
+}
+
+.online-users.show {
+  animation: slideFromRight 0.5s forwards;
+}
+
+.online-users.hide {
+  animation: slideToRight 0.2s forwards;
+}
+
+.online-user {
+  align-items: center;
+  color: white;
+  display: flex;
+}
+
+.online-user .fa-circle {
+  color: #3eac3e;
+  font-size: 10px;
+  margin-right: 10px;
+}
+
+.current-user {
+  font-weight: 600;
+}

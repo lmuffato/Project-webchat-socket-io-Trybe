@@ -5,8 +5,10 @@ const { create } = require('../models/message');
 /**
  * @param {import('socket.io').Socket} socket
  * @param {import('socket.io').Server} server
+ * @param {Array} users
  */
-module.exports = (socket, server) => {
+// eslint-disable-next-line max-lines-per-function
+module.exports = (socket, server, users) => {
   socket.on('message', ({ nickname, chatMessage }) => {
     const currentDate = getCurrentDate().fulldate;
     const currentTime = getCurrentDate().fulltime;
@@ -18,5 +20,24 @@ module.exports = (socket, server) => {
     });
     server.emit('message', message);
     socket.emit('author-message', message);
+  });
+
+  socket.on('new-user', (nickname) => {
+    const index = users.findIndex((user) => user.id === socket.id);
+    if (index >= 0) {
+      users.splice(index, 1, { id: socket.id, nickname });
+      console.log('***************************');
+    } else {
+      console.log('///////////////////////////');
+      users.push({ id: socket.id, nickname });
+    }
+    server.emit('show-users', users);
+  });
+
+  socket.on('disconnect', () => {
+    const index = users.findIndex((user) => user.id === socket.id);
+    users.splice(index, 1);
+    server.emit('show-users', users);
+    console.log(socket.id);
   });
 };

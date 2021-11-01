@@ -18,10 +18,13 @@ app.get('/', (req, res) => {
   res.render('./index');
 });
 
+const users = [];
+
 ioServer.on('connection', async (socket) => {
-  console.log('a user connected');
+  // socket.disconnect(0);
+  console.log(socket.id);
   socket.emit('show-history', await get());
-  webchatSocket(socket, ioServer);
+  webchatSocket(socket, ioServer, users);
 });
 
 server.listen(PORT, () => {
