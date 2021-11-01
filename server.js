@@ -29,7 +29,7 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.get('/', (_req, res) => res.render('chat/webChat'));
+app.get('/', (_req, res) => res.render('chat/index'));
 
 // ------------------------------------------------------------------------------------------//
 
