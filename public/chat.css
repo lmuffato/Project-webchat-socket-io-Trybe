@@ -62,8 +62,8 @@ form {
 
 .box-message ul {
   border: 1px solid rgb(158, 152, 196);
-  min-height: 200px;
   max-height: 200px;
+  min-height: 200px;
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
