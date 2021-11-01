@@ -2,11 +2,15 @@ require('dotenv').config();
 
 const { Server } = require('socket.io');
 const express = require('express');
+const moment = require('moment');
+const path = require('path');
 
 const app = express();
 const http = require('http').createServer(app);
 
 // ------------------------------------------------------------------------------------------//
+
+const timestamp = moment().format('DD-MM-YYYY hh:mm:ss');
 
 const io = new Server(http, {
   cors: {
@@ -16,9 +20,17 @@ const io = new Server(http, {
 });
 
 io.on('connection', (socket) => { 
-    console.log(`Usuário conectado. ID: ${socket.id} `);
+  socket.on('message', ({ chatMessage, nickname }) => {
+    io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
+  });
 });
-  
+
+app.use(express.static('./public'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.get('/', (_req, res) => res.render('chat/webChat'));
+
 // ------------------------------------------------------------------------------------------//
 
 const PORT = process.env.PORT || 3000;
