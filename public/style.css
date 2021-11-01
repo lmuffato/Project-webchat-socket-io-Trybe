@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css') ;
+
 html {
   border: 0;
   font: inherit;
@@ -7,11 +9,28 @@ html {
   vertical-align: baseline;
 }
 
-.heigth {
-  height: 510px;
+body {
+  background-color: #ededed;
 }
 
-.color:nth-child( even ) { background: #ccc; }
+.heigth {
+  height: 500px;
+}
 
-.color:nth-child( odd ) { background: white; }
+.scroll {
+  background-image: url('./images/background.jpg');
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.color:nth-child( even ) {
+  background: #ccc;
+  text-align: end;
+}
+
+.color:nth-child( odd ) {
+  background: white;
+  border: 1px solid #dee2e6;
+  text-align: start;
+}
 

@@ -13,38 +13,45 @@ let nick = '';
 
 sendButton.addEventListener('click', (e) => {
   e.preventDefault();
-  const nickname = nick || socket.id.slice(0, 16);
-  socket.emit('message', { chatMessage: inputMessage.value, nickname });
-  inputMessage.value = '';
+  if (inputMessage.value) {
+    const nickname = nick || socket.id.slice(0, 16);
+    socket.emit('message', { chatMessage: inputMessage.value, nickname });
+    inputMessage.value = '';
+  }
 });
 
 saveButton.addEventListener('click', (e) => {
   e.preventDefault();
+  if (inputNickname.value) {
     nick = inputNickname.value;
     socket.emit('newNickname', nick);
     inputNickname.value = '';
+  }
 });
 
 const newMessage = (message) => {
   const messagesUl = document.querySelector('#messages');
-  const li = document.createElement('p');
-  li.setAttribute(DATA_TESTID, 'message');
-  li.setAttribute(CLASS, 'fs-6 fw-lighter color rounded');
-  li.innerText = message;
-  messagesUl.appendChild(li);
+  const par = document.createElement('p');
+  par.setAttribute(DATA_TESTID, 'message');
+  par.setAttribute(CLASS, 'fs-6 fw-lighter color rounded p-2');
+  par.innerText = message;
+  messagesUl.appendChild(par);
 };
 
 socket.on('message', (chatMessage) => newMessage(chatMessage));
 
 const onlineUsers = (user) => {
   const userUl = document.querySelector('#userList');
-  const li = document.createElement('p');
-  li.setAttribute(DATA_TESTID, 'online-user');
-  li.setAttribute(CLASS, 'fs-6 fw-lighter');
-  li.setAttribute(ID, user);
-  li.innerText = user;
-  userUl.appendChild(li);
-  return li;
+  const div = document.createElement('div');
+  const i = document.createElement('i');
+  i.setAttribute(CLASS, 'bi bi-person-circle m-3');
+  div.setAttribute(DATA_TESTID, 'online-user');
+  div.setAttribute(CLASS, 'fs-6 fw-lighter text-end');
+  div.setAttribute(ID, user);
+  div.innerText = user;
+  div.prepend(i);
+  userUl.appendChild(div);
+  return div;
 };
 
 socket.on('userList', (users) => {
