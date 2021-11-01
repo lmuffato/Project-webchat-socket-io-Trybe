@@ -1,3 +1,5 @@
+// Se você está de olho no meu PR, dê uma olhada no arquivo: AGRADECIMENTOS.txt
+
 // Consegui fazer o Req1 durante uma chamada na sala 2 no dia 30/10/2021 com:
 // Rafael Medeiros, Lucas Lara, Vini e Adelino Junior e Murilo Gonçalves.
 

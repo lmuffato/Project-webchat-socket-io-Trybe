@@ -37,13 +37,16 @@ botaoNickName.addEventListener('click', (evento) => {
 });
 
 const quemTaON = (quemQuerTC) => {
-  console.log(quemQuerTC);
+  const nicknameFormatado = socket.id.slice(0, 16);
   const usuarios = document.getElementById('usuariosOnline');
   usuarios.innerHTML = '';
   quemQuerTC.forEach((elemento) => {
     const li = document.createElement('li');
     li.setAttribute(testid, 'online-user');
     li.innerText = elemento;
+    if (elemento === userName || elemento === nicknameFormatado) {
+      return usuarios.prepend(li);
+    }
     usuarios.appendChild(li);
   });
 };
