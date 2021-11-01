@@ -2,10 +2,13 @@
 const express = require('express'); // ok
 const bodyParser = require('body-parser'); // ok
 const path = require('path');
+const { format } = require('date-fns');
 
 require('dotenv').config();
 
 const app = express(); // ok
+
+const time = format(new Date(), 'dd-MM-yyyy HH:mm:ss');
 
 const socketIoServer = require('http').createServer(app);
 const io = require('socket.io')(socketIoServer, {
@@ -18,8 +21,12 @@ const io = require('socket.io')(socketIoServer, {
 const NEW_NOTIFICATION = [];
 
 io.on('connection', (socket) => {
-  socket.emit('chat', NEW_NOTIFICATION); // envia para todos sem repetir p quem já ta on (qndo entra alguem novo)
-  console.log(`novo usuário ${socket.id}  conectado ao socket.io`);
+  console.log(`Usuário conectado. ID: ${socket.id}`);
+  socket.on('message', ({ chatMessage, nickname }) => {
+    io.emit('message', `${time} ${nickname}: ${chatMessage}`);
+  });
+/*   socket.emit('chat', NEW_NOTIFICATION); // envia para todos sem repetir p quem já ta on (qndo entra alguem novo)
+  console.log(`novo usuário ${socket.id}  conectado ao socket.io`); */
 });
 
 app.set('view engine', 'ejs');

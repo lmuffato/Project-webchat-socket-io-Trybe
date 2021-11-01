@@ -15,6 +15,33 @@
       <li><%= notification %></li>
     <% }) %>
   </ul>
+</div>
+<div>
+  <form>
+    <input
+      data-testid="nickname-box"
+      type="text"
+      placeholder="Digite seu nickname"
+      autocomplete="off"
+    />
+    <button data-testid="nickname-button">
+      Salvar nickname
+    </button>
+  </form>
+  <form>
+    <input
+      data-testid="message-box"
+      type="text"
+      name="message-box"
+      placeholder="Digite sua mensagem"
+      autocomplete="off"
+    />
+    <button type="button" data-testid="send-button">
+      Enviar
+    </button>
+  </form>
+
+</div>
 
   <script src='/client.js'>
     
