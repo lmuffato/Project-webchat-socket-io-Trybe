@@ -7,11 +7,30 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
   <script>
     const socket = io();
-  </script>
+    let username;
 
+    const putUsernameOnPage = (username) => {
+      const userContainer = document.querySelector('#user-container');
+      const p = document.createElement('p');
+      p.innerText = username;
+      p.setAttribute('data-testid', 'online-user');
+      userContainer.appendChild(p);
+    };
+
+    socket.on('initialUsername', (socketId) => {
+      const initialUsername = socketId.substring(0, socketId.length - 4);
+      username = initialUsername;
+      putUsernameOnPage(username);
+    });
+  </script>
+  
 </head>
 
 <body>
+
+  <div id="user-container">
+
+  </div>
   
 </body>
 
