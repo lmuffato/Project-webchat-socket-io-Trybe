@@ -10,4 +10,10 @@ module.exports = {
     });
     return messageInserted;
   },
+
+  async get() {
+    const db = await connect();
+    const messages = await db.collection('messages').find({}).toArray();
+    return messages;
+  },
 };
