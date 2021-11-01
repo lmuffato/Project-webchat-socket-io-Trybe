@@ -42,16 +42,16 @@ socket.on('message', (chatMessage) => newMessage(chatMessage));
 
 const onlineUsers = (user) => {
   const userUl = document.querySelector('#userList');
-  const div = document.createElement('div');
+  const par = document.createElement('p');
   const i = document.createElement('i');
   i.setAttribute(CLASS, 'bi bi-person-circle m-3');
-  div.setAttribute(DATA_TESTID, 'online-user');
-  div.setAttribute(CLASS, 'fs-6 fw-lighter text-end');
-  div.setAttribute(ID, user);
-  div.innerText = user;
-  div.prepend(i);
-  userUl.appendChild(div);
-  return div;
+  par.setAttribute(DATA_TESTID, 'online-user');
+  par.setAttribute(CLASS, 'fs-6 fw-lighter text-end');
+  par.setAttribute(ID, user);
+  par.innerText = user;
+  par.prepend(i);
+  userUl.appendChild(par);
+  return par;
 };
 
 socket.on('userList', (users) => {
