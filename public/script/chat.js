@@ -2,8 +2,20 @@ const socket = window.io();
 
 const buttonMessage = document.querySelector('.mensagem__btn');
 const inputMessage = document.querySelector('.mensagem__input');
+const inputNickname = document.querySelector('.nickname__input');
+const buttonNickname = document.querySelector('.nickname__btn');
 
-const nick = '';
+let nick = '';
+
+const saveNickname = () => {
+  nick = inputNickname.value;
+};
+
+buttonNickname.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  saveNickname();
+});
 
 buttonMessage.addEventListener('click', (event) => {
   event.preventDefault();
