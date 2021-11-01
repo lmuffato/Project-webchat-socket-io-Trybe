@@ -57,13 +57,8 @@ socket.on('getMessages', (messages) => {
 });
 
 socket.on('showUsers', (users) => {
-  listUsers.innerHTML = '';
+  listUsers.innerText = '';
   users.forEach((user) => createUser(user));
-});
-
-socket.on('getMessages', (messages) => {
-  messages.forEach(({ timeStamp, nickname, chatMessage }) =>
-    createMessage(`${timeStamp} - ${nickname}: ${chatMessage}`));
 });
 
 window.onbeforeunload = () => {

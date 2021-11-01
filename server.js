@@ -43,7 +43,7 @@ io.on('connection', async (socket) => {
   getAllMessages.map(({ timeStamp, nickname, chatMessage }) =>
     formatMessage(timeStamp, nickname, chatMessage));
 
-  socket.emit('getMessage', getAllMessages);
+  socket.emit('getMessages', getAllMessages);
 
   socket.on('nickname', (nickname) => {
     Users[socket.id] = nickname;
