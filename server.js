@@ -1,5 +1,6 @@
 // Faça seu código aqui
 const express = require('express');
+const path = require('path');
 
 const app = express();
 
@@ -17,3 +18,13 @@ const io = require('socket.io')(http, {
 });
 
 require('./sockets/chat')(io);
+
+app.use(express.static(path.join(__dirname, '/public')));
+
+app.set('view engine', 'ejs');
+
+app.set('views', './views');
+
+const { messagesController } = require('./controllers/messagesController');
+
+app.get('/', messagesController);
