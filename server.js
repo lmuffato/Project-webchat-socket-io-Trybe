@@ -24,11 +24,24 @@ app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '.', 'views'));
 
+const objUsers = {};
+
 io.on('connection', (socket) => {
     console.log(`O cliente ${socket.id} se conectou`);
 
+    socket.on('updateNick', (res) => {
+        objUsers[socket.id] = res;
+        io.emit('users', Object.values(objUsers));
+    });
+
+    socket.on('disconnect', () => {
+      delete objUsers[socket.id];
+      io.emit('users', Object.values(objUsers));
+    });
+
     socket.on('message', async ({ chatMessage, nickname }) => {
-      const formatMessage = `${fullDate} - ${nickname}: ${chatMessage}`;
+        const formatMessage = `${fullDate} - ${nickname}: ${chatMessage}`;
+
             io.emit('message', formatMessage);
             await messageModels.createNewMessageDocument(chatMessage, nickname, fullDate);
     });

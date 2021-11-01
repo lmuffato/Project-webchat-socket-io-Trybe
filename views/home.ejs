@@ -9,8 +9,10 @@
 </head>
 <body>
     <h1>Web Chat</h1>
-    <h3 data-testid="online-user" id="nick"></h3>
 
+    <ul id="nick">
+
+    </ul>
 
     <ul id="messages">
         <% allMessages.forEach(({message, nickname, timestamp}) => { %>
@@ -36,26 +38,54 @@
     const inputName = document.querySelector('#name');
     const ulMessage = document.querySelector('#messages');
     const buttonName = document.querySelector('#nickName');
-    const nick = document.querySelector('#nick');
+    const usersList = document.querySelector('#nick');
 
     const aleatoreNick = () => {
     let nick = '';
     const str = 'abcdefghijklmnopqrstuvwyz';
-   for (let index = 0; index < 16; index += 1) {
-    nick += str[(Math.floor(Math.random() * str.length))];
-   }
-   return nick;
+    for (let index = 0; index < 16; index += 1) {
+      nick += str[(Math.floor(Math.random() * str.length))];
+    }
+    return nick;
+  };
+  
+
+  
+  
+  
+  let nickName = aleatoreNick(); 
+  
+
+  const displayUsers = (connectedUsers) => {
+  usersList.innerHTML = '';
+
+  connectedUsers.forEach((user) => {
+    const currentUser = nickName;
+    const newUser = document.createElement('li');
+
+    newUser.setAttribute('data-testid', 'online-user');
+    // newUser.setAttribute('class', 'online-user');
+    newUser.innerText = user;
+
+    if (currentUser === user) {
+      usersList.prepend(newUser);
+    } else {
+      usersList.appendChild(newUser);
+    }
+  });
 };
+  
+    socket.emit('updateNick', nickName);
+    socket.on('users', (ele) => {
+   displayUsers(ele)
+    })
 
 
-
-
-    let nickName = ''; 
 
     // button nickName
     buttonName.addEventListener('click', (e) => {
         e.preventDefault();
-        nick.innerHTML = inputName.value;
+        socket.emit('updateNick', inputName.value);
         nickName = inputName.value;
     })
 
@@ -81,7 +111,11 @@ socket.on('message', (message) =>  renderLi(message) )
 
 
 
-nick.innerHTML =  aleatoreNick();
+
+
+
+
+
 
 </script>
 
