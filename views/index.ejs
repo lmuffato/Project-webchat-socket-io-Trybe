@@ -1,46 +1,54 @@
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
-<link rel="stylesheet" href="style.css">
-<title>WebChat</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>WebChat</title>
 </head>
 <body>
-<div id="chat" class="chatField">
-  <input
-    type="text"
-    id="nickInput"
-    placeholder="Insert your nickname here"
-    data-testid="nickname-box"
-    autocomplete="off"
-  >
-  <button
-    id="nickBtn"
-    data-testid="nickname-button"
-    class="button"
-  >
-  Submit
-  </button>
-  <ul id="userList">
-  </ul>
-  <ul id="messagesField" class="messagesField">
-  </ul>
-  <input
-    type="text"
-    id="messageInput"
-    name="message-box"
-    data-testid="message-box"
-    placeholder="Type a message"
-    autocomplete="off"
-  />
-  <button
-    name="send-button"
-    data-testid="send-button"
-    id="sendMessageBtn"
-    class="button"
-  >
-    Send
-</div>
-<script src="webChat.js"></script>
+  <div id="chat" class="chatField">
+    <div class="nicknameField">
+      <input
+        type="text"
+        id="nickInput"
+        placeholder="Insert your nickname here"
+        data-testid="nickname-box"
+        autocomplete="off"
+      >
+      <button
+        id="nickBtn"
+        data-testid="nickname-button"
+        class="button"
+      >
+      Submit
+      </button>
+    </div>
+    <ul id="userList" class="userList">
+    </ul>
+    <ul id="messagesField" class="messagesField">
+    </ul>
+    <form>
+      <input
+        type="text"
+        id="messageInput"
+        name="message-box"
+        data-testid="message-box"
+        placeholder="Type a message"
+        autocomplete="off"
+      />
+      <button
+        name="send-button"
+        data-testid="send-button"
+        id="sendMessageBtn"
+        class="button"
+        type="submit"
+      >
+        Send
+    </form>
+  </div>
+  <script src="webChat.js"></script>
 </body>
 </html>

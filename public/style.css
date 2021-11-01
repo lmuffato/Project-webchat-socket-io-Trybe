@@ -1,0 +1,73 @@
+html , body {
+  background-color: rgb(38, 38, 38);
+  font-family: montserrat, sans-serif;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font-size: 1.2rem;
+  list-style: none;
+}
+
+.chatField {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.nicknameField {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.userList {
+  background-color: #ecc01f;
+  border-radius: 0.25rem;
+  box-shadow: inset 0 0 0.5em 0 #ecc01f , 0 0 0.5em 0 #ecc01f;
+  color: #5e5e5e;
+  margin: 1rem;
+  padding: 1em;
+}
+
+input {
+  border-radius: 0.25em;
+  font-size: 1.2em;
+  height: 2.7em;
+  padding: 0 20px;
+  width: 600px;
+}
+
+.button {
+  background-color: #ecc01f;
+  border: #ecc01f 0.125em solid;
+  border-radius: 0.25em;
+  box-shadow: inset 0 0 0.5em 0 #ecc01f , 0 0 0.5em 0 #ecc01f;
+  color: #5e5e5e;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  padding: 0.55em 1em;
+  position: relative;
+  text-decoration: none;
+  width: max-content;
+}
+
+.messagesField {
+  background-color: #a7a7a7;
+  border-radius: 0.25em;
+  height: 400px;
+  margin: 20px 0;
+  padding: 20px;
+  width: 700px;
+}
