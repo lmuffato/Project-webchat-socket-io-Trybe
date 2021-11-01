@@ -1,27 +1,10 @@
-const { dateConvertBrasilAMPM } = require('./dateFunctions.js');
-const Model = require('../../models/messages/messageModels.js');
+const { dateConvertBrasilAMPM } = require('./dateService.js');
+const {
+  saveMessageOnDataBase,
+  retrieveMessageHistory,
+} = require('./dataBaseService.js');
 
-// Recupera o nickName da lista de usuários conectados
-const getNickName = (arr, sockedId) => {
-  const nickName = arr.find((ele) => ele.id === sockedId);
-  return nickName.name;
-};
-
-// Salvar mensagem no banco de dados
-const saveMessageOnDataBase = async (nickName, userMsg) => {
-  const obj = {
-    message: userMsg,
-    nickname: nickName,
-    timestamp: dateConvertBrasilAMPM(),
-  };
-  await Model.create(obj);
-};
-
-// recuperar as mensagens do banco de dados
-const recoveryMsgOnDataBase = async () => {
-  const oldMsg = await Model.getAll();
-  return oldMsg;
-};
+let activeUsers = [];
 
 // Cria o nick aleatório através do socket.id
 const nickGenerator = (str) => str.substring(0, 16);
@@ -33,46 +16,61 @@ const createObjUser = (socketId) => {
 };
 
 // Adiciona novos usuários pelo socket.id
-const addUserConnected = (arr, socketId) => {
-  const newList = [...arr, createObjUser(socketId)];
+const addUserConnected = (socketId) => {
+  const newList = [...activeUsers, createObjUser(socketId)];
+  activeUsers = newList;
   return newList;
 };
 
 // Remove usuários pelo socket.id
-const removeUserDisconnected = (arr, id) => {
-  const newList = arr.filter((ele) => 
-    ele.id.toString() !== id.toString());
+const removeUserDisconnected = (socketId) => {
+  const newList = activeUsers.filter((ele) => 
+    ele.id.toString() !== socketId.toString());
+    activeUsers = newList;
   return newList; 
 };
 
-// Cria a mensagem no front-end
-const messageToReturn = (nickName, userMsg) => {
-  const timestamp = dateConvertBrasilAMPM();
-  saveMessageOnDataBase(nickName, userMsg);
- return (`${timestamp} - ${nickName}: ${userMsg}`);
+// Recupera o nickName da lista de usuários conectados
+const sendUserNickName = (socket, sockedId) => {
+  const nickName = activeUsers.find((ele) => ele.id === sockedId);
+  socket.emit('myNick', nickName.name);
+  return nickName.name;
 };
 
-// Muda o nickname na lista
-const changenickName = (arr, socketId, nickName) => {
-  const newList = arr.map((ele) => {
+const sendNickNameListFromAllUsers = (io) => {
+  const nickNameList = activeUsers.map((ele) => ele.name);
+  io.emit('activeClients', nickNameList);
+};
+
+// Atualiza o nickname na lista de usuários ativos
+const updateNickName = (socketId, nickName) => {
+  const newList = activeUsers.map((ele) => {
     if (ele.id === socketId) {
       const newObject = { ...ele, name: nickName }; // Método não mutável
       return newObject;
     }
     return ele;
   });
+  activeUsers = newList;
   return newList;
 };
 
-const nickNameList = (arr) => arr.map((ele) => ele.name);
+// Cria a mensagem no front-end
+const sendMessageFromAllUsers = (io, userMsg, nickName) => {
+  const timestamp = dateConvertBrasilAMPM();
+  // saveMessageOnDataBase(nickName, userMsg);
+  const msg = `${timestamp} - ${nickName}: ${userMsg}`;
+  io.emit('message', msg);
+ return msg;
+};
 
 module.exports = {
-  getNickName,
-  createObjUser,
-  messageToReturn,
-  nickNameList,
-  removeUserDisconnected,
   addUserConnected,
-  changenickName,
-  recoveryMsgOnDataBase,
+  sendMessageFromAllUsers,
+  sendUserNickName,
+  sendNickNameListFromAllUsers,
+  retrieveMessageHistory,
+  saveMessageOnDataBase,
+  removeUserDisconnected,
+  updateNickName,
  };

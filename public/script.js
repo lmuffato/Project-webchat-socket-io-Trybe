@@ -1,28 +1,25 @@
 const socket = window.io();
 
-// const form = document.querySelector('#form-msg');
-
-// const btnSendMsg = document.document.querySelector('#btn-msg');
-// const btnSavelNickName = document.document.querySelector('#form');
-// const BoxMessageList = document.document.querySelector('#mensagem');
-// const boxClientsList = document.document.querySelector('#box-message');
-
 const dataTestId = 'data-testid';
-
 const clientId = 'client';
 
 let myNickName = '';
+
+const getDocumenById = (id) => document.getElementById(id);
+
+const ulMsgList = getDocumenById('mensagem');
+const ulUserList = getDocumenById('clients');
+const form = getDocumenById('form-msg');
+const btnUpdateNickName = getDocumenById('btn-nickName');
 
 const getMyNickName = (name) => {
   myNickName = name;
 };
 
 const autoScrolling = () => {
-  const textArea = document.getElementById('box-message');
+  const textArea = document.querySelector('ul#mensagem.mensagem');
   textArea.scrollTop = textArea.scrollHeight;
 };
-
-const getDocumenById = (id) => document.getElementById(id);
 
 // Envia a mensagem para o servidor
 const sendMessageToserver = ({ chatMessage, nickname }) => {
@@ -30,13 +27,10 @@ const sendMessageToserver = ({ chatMessage, nickname }) => {
 };
 
 // Altera o nome do usuário
-// Envia a mensagem para o servidor
 const saveNickNameinToserver = () => {
-  const btn = getDocumenById('btn-nickName');
-  btn.addEventListener('click', (event) => {
+  btnUpdateNickName.addEventListener('click', (event) => {
     event.preventDefault();
     const nickName = getDocumenById('nickName').value;
-    console.log(nickName);
     socket.emit('nickName', nickName);
   });
   return null;
@@ -44,12 +38,10 @@ const saveNickNameinToserver = () => {
 
 // Ao clicar no botõa para enviar a mensagem
 const eventSendMessage = () => {
-  const form = getDocumenById('form-msg');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const inputMessage = getDocumenById('messageInput').value;
     const inputNickName = myNickName;
-    // const inputNickName = getDocumenById('nickName').value;
     const message = { chatMessage: inputMessage, nickname: inputNickName };
     getDocumenById('messageInput').value = '';
     sendMessageToserver(message);
@@ -63,47 +55,46 @@ const removeElementById = (id) => {
   arr.forEach((ele) => ele.remove());
 };
 
-// Cria a mensagem no front-end
-const createUserMsgLiElement = (message) => {
-  const messageUl = document.querySelector('#mensagem');
-  const li = document.createElement('li');
-  li.setAttribute(dataTestId, 'message');
-  li.innerText = message;
-  messageUl.appendChild(li);
-  autoScrolling();
-};
-
 // Recurar o histórico de mensagens
 const historyMessages = (arr) => {
-  const messageUl = document.querySelector('#mensagem');
   arr.forEach((ele) => {
     const { timestamp, nickname, message } = ele;
     const li = document.createElement('li');
     li.setAttribute(dataTestId, 'message');
+    li.className = 'liMessage';
     li.innerText = `${timestamp} - ${nickname}: ${message}`;
-    messageUl.appendChild(li);
+    ulMsgList.appendChild(li);
   });
 };
 
 // Cria a mensagem no front-end
+const createUserMsgLiElement = (message) => {
+  const li = document.createElement('li');
+  li.setAttribute(dataTestId, 'message');
+  li.className = 'liMessage';
+  li.innerText = message;
+  ulMsgList.appendChild(li);
+  autoScrolling();
+};
+
+// Cria a mensagem no front-end
 const createServerMsgLiElement = (message) => {
-  const messageUl = document.querySelector('#mensagem');
   const li = document.createElement('li');
   li.innerText = message;
-  messageUl.appendChild(li);
+  ulMsgList.appendChild(li);
   autoScrolling();
 };
 
 // Atualiza a lista de clients
 const updateClients = (arr) => {
   removeElementById(clientId);
-  const user = document.querySelector('#clients');
   arr.forEach((ele) => {
     const li = document.createElement('li');
     li.setAttribute(dataTestId, 'online-user');
     li.id = clientId;
+    li.className = 'liClient';
     li.innerText = ele;
-    user.appendChild(li);
+    ulUserList.appendChild(li);
   });
 };
 
@@ -125,4 +116,5 @@ socket.on('activeClients', (arr) => activeUserList(arr));
 window.onload = () => {
   eventSendMessage();
   saveNickNameinToserver();
+  autoScrolling();
 };

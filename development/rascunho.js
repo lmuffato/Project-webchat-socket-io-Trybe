@@ -138,3 +138,9 @@ const personalizedListOthers = (arr, socketId) => {
 
 console.log(personalizedList(list, 'role'));
 */
+
+// const user = ['lucas', 'tiago'];
+
+// user.concat(['matheus']);
+
+// console.log(user.concat(['matheus']));
