@@ -10,15 +10,19 @@
 </head>
 <body>
  <div class="chat">
-   <ul id="users"></ul>
+   <form>
     <input data-testid="nickname-box" id="username" type="text" autocomplete="off" name="nickname" placeholder="Digite seu usuario">
-    <button id="nickButton" data-testid="nickname-button">Salvar usuario</button>
+    <button type="submit" id="nickButton" data-testid="nickname-button">Salvar</button>
+   </form>
     <div class="messages">
       <ul id="listMessages">
       </ul>
     </div>
-    <input type="text" id="message-teste" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
-    <button id="button-teste" data-testid="send-button" name="send-button">Enviar</button>
+    <form>
+      <input type="text" id="message-teste" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
+      <button type="submit" id="button-teste" data-testid="send-button" name="send-button">Enviar</button>
+    </form>
+    <ul id="users"></ul>
   </div>
   <script src="script.js"></script>
 </body>

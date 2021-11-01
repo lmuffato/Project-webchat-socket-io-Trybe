@@ -9,23 +9,14 @@ const message = document.querySelector('#message-teste');
 
 // Referencia ORLANDO FLORES
 const saveNickname = () => {
-  if (author) {
+  if (author.value) {
     sessionStorage.setItem('nickname', author.value);
   }
-  author.innerText = '';
 };
 
 const getNick = () => {
   const nickname = sessionStorage.getItem('nickname');
   return nickname;
-};
-
-const createMessage = (msg) => {
-  const li = document.createElement('li');
-  li.setAttribute('data-testid', 'message');
-  li.innerText = msg;
-  console.log(ul);
-  ul.appendChild(li);
 };
 
 const newUsers = (id) => {
@@ -35,21 +26,43 @@ const newUsers = (id) => {
   users.appendChild(li);
 };
 
-button.addEventListener('click', () => {
+const createMessage = (msg) => {
+  const li = document.createElement('li');
+  li.setAttribute('data-testid', 'message');
+  li.innerText = msg;
+  ul.appendChild(li);
+};
+
+nickButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  saveNickname();
+  if (author.value) {
+    client.emit('nickname', author.value);
+  }
+  author.value = '';
+});
+
+button.addEventListener('click', (e) => {
+  e.preventDefault();
   const nickname = getNick() || client.id.substring(0, 16);
   const newMsg = {
     chatMessage: message.value,
     nickname,
   };
+  message.value = '';
   client.emit('message', newMsg);
 });
 
-nickButton.addEventListener('click', saveNickname);
-
 client.on('message', (msg) => createMessage(msg));
+
 client.on('newUser', (allUsers) => {
   users.innerText = '';
   allUsers.forEach((id) => newUsers(id));
+});
+
+client.on('getMessages', (messages) => {
+  messages.forEach(({ timeStamp, nickname, chatMessage }) =>
+  createMessage(`${timeStamp} - ${nickname}: ${chatMessage}`));
 });
 
 // Até aqui

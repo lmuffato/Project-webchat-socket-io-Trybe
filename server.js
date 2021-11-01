@@ -14,19 +14,52 @@ const io = require('socket.io')(server, {
   },
 });
 
-const allUsers = [];
+const {
+  saveMessages,
+  getAllMessages,
+} = require('./models/chatModel');
 
-io.on('connection', (socket) => {
-  allUsers.push(socket.id.substring(0, 16));
-  io.emit('newUser', allUsers);
-  socket.on('message', ({ chatMessage, nickname }) => {
+const allUsers = {};
+
+const formatMessage = (timeStamp, nickname, chatMessage) => 
+  `${timeStamp} - ${nickname}: ${chatMessage}`;
+
+const saveMessage = (socket) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
     const timeStamp = moment().format('DD-MM-YYYY HH:mm:ss A');
-    console.log(`${timeStamp} - ${nickname}: ${chatMessage}`);
-    io.emit('message', `${timeStamp} - ${nickname}: ${chatMessage}`);
+    await saveMessages({ chatMessage, nickname, timeStamp });
+    io.emit('message', formatMessage(timeStamp, nickname, chatMessage));
+  });
+};
+
+const renderUser = (socket) => {
+  socket.broadcast.emit('newUser', Object.values(allUsers));
+  socket.emit('newUser', Object.values(allUsers).reverse());
+};
+
+io.on('connection', async (socket) => {
+  allUsers[socket.id] = socket.id.substring(0, 16);
+
+  renderUser(socket);
+  saveMessage(socket);
+
+  io.emit('newUser', Object.values(allUsers));
+
+  const getMessages = await getAllMessages();
+
+  getMessages.map(({ chatMessage, nickname, timeStamp }) => formatMessage({ 
+    timeStamp, nickname, chatMessage,
+  }));
+
+  socket.emit('getMessages', getMessages);
+
+  socket.on('nickname', (nickname) => {
+    allUsers[socket.id] = nickname;
+    io.emit('newUser', Object.values(allUsers));
   });
   socket.on('disconnect', () => {
-    allUsers.pop();
-    io.emit('newUser', allUsers);
+    delete allUsers[socket.id];
+    io.emit('newUser', Object.values(allUsers));
   });
 });
 
