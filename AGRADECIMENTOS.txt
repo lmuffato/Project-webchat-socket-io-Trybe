@@ -1,5 +1,35 @@
-Obrigado a todos que tiveram paciência em me explicar certos assuntos
-que eu não conseguir entender diretamente do course, das aulas gravadas
-e do YouTube! 
+Obrigado a todos que tiveram paciência em me explicar certos
+assuntos que eu não conseguir entender diretamente do course,
+das aulas gravadas e do YouTube!. Ordem alfabética!
 
 A special thanks to:
+Adelino Junior
+Anderson Nascimento
+Guilherme Dornelles
+João Nascimento
+Lucas Lara
+Murilo Gonçalves
+Rafael Medeiros
+Vini
+
+Devo ter esquecido de alguém, mas sintam-se merecedores de um agradecimento!
+
+Agradecer a Trybe também por me proporcionar essa dificuldade e a possibilidade
+de aprender uma coisa nova, ainda que seja difícil memorizar tudo.
+
+FALANDO EM TRYBE... Atenção ao requisito 4:
+COMO ESTÁ: No front-end deve haver uma lista na tela de cada
+cliente que mostra quais clientes estão online em um dado momento.
+
+PARECE UM TRAVA-LÍNGUA!
+
+COMO EU ACHO QUE DEVERIA ESTAR: No front-end, cada cliente deve exibir uma lista
+mostrando os usuários (Nickname) que estão online.
+
+Sobre o nome das constantes, não esqueça que estamos em um ambiente de aprendizado,
+por isso SEMPRE prefiro usar uma linguagem que eu considere fácil, assim eu posso
+construir a minha própria documentação. Deixarei para escrever em inglês, ou da forma
+que for necessária, quando eu estiver em um ambiente de trabalho!
+
+"Os inconformados mudam o mundo!"
+;
