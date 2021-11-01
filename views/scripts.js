@@ -1,10 +1,13 @@
 const socket = window.io();
 
+// Eslint pediu para transformar em constante devido a repetições
+const testid = 'data-testid';
+
 // Buscar os IDs
-const inputNickname = document.querySelector('#input-nickname');
-const botaoNickName = document.querySelector('#botao-nickname');
-const inputMessage = document.querySelector('#input-message');
-const botaoMessage = document.querySelector('#botao-message');
+const inputNickname = document.getElementById('input-nickname');
+const botaoNickName = document.getElementById('botao-nickname');
+const inputMessage = document.getElementById('input-message');
+const botaoMessage = document.getElementById('botao-message');
 
 // Explicação e ajuda do Guilherme Dornelles - Um dia te pago um suco de Bergamota!
 let userName = '';
@@ -20,7 +23,7 @@ const mensagemUsuario = (message) => {
   const mensagem = document.getElementById('mensagensUsuarios');
   const li = document.createElement('li');
   li.innerText = message;
-  li.setAttribute('data-testid', 'message');
+  li.setAttribute(testid, 'message');
   mensagem.appendChild(li);
 };
 
@@ -39,11 +42,23 @@ const quemTaON = (quemQuerTC) => {
   usuarios.innerHTML = '';
   quemQuerTC.forEach((elemento) => {
     const li = document.createElement('li');
-    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute(testid, 'online-user');
     li.innerText = elemento;
     usuarios.appendChild(li);
   });
 };
+
+const mensagensDB = (mensagens) => {
+    mensagens.forEach(({ timeLog, nickname, chatMessage }) => {
+    const mensagem = document.getElementById('mensagensUsuarios');
+    const li = document.createElement('li');
+    li.innerText = `${timeLog} - ${nickname} : ${chatMessage}`;
+    li.setAttribute(testid, 'message');
+    mensagem.appendChild(li);
+  });
+};
+
+socket.on('logDeMensagens', (mensagens) => mensagensDB(mensagens));
 
 socket.on('message', (chatMessage) => mensagemUsuario(chatMessage));
 
