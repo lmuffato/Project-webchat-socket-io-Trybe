@@ -4,12 +4,32 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webchat</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
-  <script>const socket = io()</script>
+  <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+  <title>. : :  Webchat  : : .</title>
 </head>
 <body>
-  <h1>Webchat</h1>
-
+  <h1>Bem vindo ao nosso Webchat!</h1>
+  <form>
+    <div>
+      <label for="nickname">Insira seu nickname:</label>
+      <input type="text" id="input-nickname" data-testid="nickname-box" />
+      <button type="button" id="botao-nickname" data-testid="nickname-button">Salvar</button>
+    </div>
+    <div>
+      <br><label for="listaUsuarios">Usuários Online:</label><br>
+      <ul id="usuariosOnline"></ul>
+    </div>
+    <div>
+      <br><label for="mensagensUsuarios">Mensagens:</label><br>
+      <ul id="mensagensUsuarios"></ul>
+    </div>
+    <div>
+      <label for="message">Mensagem:</label>
+      <input type="text" id="input-message" data-testid="message-box" />
+      <button type="button" id="botao-message" data-testid="send-button">Enviar</button>
+    </div>
+   </form>
+  <ul id='chat'></ul>
+  <script src="./scripts.js"></script>
 </body>
 </html>
