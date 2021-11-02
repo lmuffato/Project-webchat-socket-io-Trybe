@@ -8,7 +8,7 @@
 
   <script src='socket.io/socket.io.js'></script>
 
-  <link rel="stylesheet" href="style.css">
+  <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
   <div>
@@ -24,7 +24,13 @@
     </form>
   </div>
   <div><ul id="nicknames"></ul></div>
-  <di><ul id="messages"></ul></di>
+  <di>
+    <ul id="messages">
+      <% messages.forEach(({ message, nickname, timestamp }) => { %>
+        <li data-testid="message"><%= `${timestamp} - ${nickname}: ${message}` %></li>
+      <% }) %>
+    </ul>
+  </di>
   <div>
     <form>
       <input

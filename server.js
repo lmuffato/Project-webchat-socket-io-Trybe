@@ -1,13 +1,13 @@
-const cors = require('cors');
 const express = require('express');
 const path = require('path');
-
-const app = express();
-const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const EXPRESS_PORT = 3000;
 
+const app = express();
+const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
+
 const io = require('socket.io')(server, {
   cors: {
     origin: `http://localhost:${EXPRESS_PORT}`,
@@ -15,19 +15,15 @@ const io = require('socket.io')(server, {
   },
 });
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const ModelMsg = require('./models/msgModel');
+const controllerMsg = require('./controllers/msgController');
 
+app.use(bodyParser.json());
+
+app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'src')));
 app.set('views', path.join(__dirname, 'src'));
-app.engine('html', require('ejs').renderFile);
-
-app.set('view engine', 'html');
-
-app.use('/', (req, res) => {
-  res.render('index');
-});
+app.set('view engine', 'ejs');
 
 const dataHora = new Date();
 const dataFormat = `${dataHora.getDay()}-${dataHora.getMonth()}-${dataHora.getFullYear()}`;
@@ -40,16 +36,15 @@ io.on('connection', (socket) => { // socket
   const ID_ALEATORIO = socket.id.substring(0, 16);
   io.emit('newUser', ID_ALEATORIO);
 
-  socket.on('message', ({ chatMessage, nickname }) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
     nickName = nickname || ID_ALEATORIO;
 
+    await ModelMsg.create({ chatMessage, nickName, timestamp });
     io.emit('message', `${timestamp} - ${nickName}: ${chatMessage}`);
   });
 });
 
-app.get('/', (_req, res) => {
-  res.render('index.html');
-});
+app.get('/', controllerMsg.getAllMsg);
 
 server.listen(EXPRESS_PORT, () => {
   console.log(`Servidor ouvindo na porta ${EXPRESS_PORT}`);
