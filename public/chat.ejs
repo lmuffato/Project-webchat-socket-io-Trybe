@@ -10,11 +10,19 @@
   <body>
     <ul id="messages"></ul>
     <form action="">
-      <input id="messageInput" autocomplete="off" />
-      <button>Enviar</button>
+      <input
+        autocomplete="off"
+        data-testid="message-box"
+        id="messageInput"
+        name="message-box"
+        placeholder="Digite aqui a sua mensagem"
+        type="text"
+      />
+      <button data-testid="send-button" name="send-button" type="submit">
+        Enviar
+      </button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
   </body>
 </html>
-
