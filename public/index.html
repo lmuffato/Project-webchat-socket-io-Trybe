@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webchat</title>
+  
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+  <script defer src='script.js'></script>
+</head>
+
+<body>
+  <h1>Webchat</h1>
+
+  <div id='message-box' style="border: 1px solid; width: 173px; height: 200px;">
+    <ul id='message-list'></ul>
+  </div>
+
+  <div id='clients-box'>
+    <ul id='clients'></ul>
+  </div>
+
+    <input
+      id='inputnick'
+      data-testid="nickname-box"
+    >
+    <button
+      id='savenick'
+      data-testid="nickname-button"
+    >
+      Salvar
+    </button>
+
+  <form action="" id='form-box'>
+    <input
+      id='inputmessage'
+      data-testid="message-box"
+    >
+
+    <button
+      id='sendmsg'
+      data-testid="send-button"
+    >
+      Enviar
+    </button>
+  </form>
+
+</body>
+</html>
