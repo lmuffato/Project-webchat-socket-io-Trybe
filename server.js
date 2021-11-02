@@ -1,3 +1,4 @@
+// Faça seu código aqui
 const express = require('express');
 const moment = require('moment');
 
@@ -52,6 +53,6 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/', (req, res) => res.render('index', { clients }));
+app.get('/', (_req, res) => res.render('index', { clients }));
 
-http.listen(port, () => console.log('Ouvindo na porta 3000'));
+http.listen(port, () => console.log('Ouvindo na porta 3000')); 

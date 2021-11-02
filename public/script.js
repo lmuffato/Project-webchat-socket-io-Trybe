@@ -44,4 +44,4 @@ socket.on('user', (id) => {
   li.setAttribute('data-testid', 'online-user');
   li.setAttribute('id', id);
   users.appendChild(li);
-});
+}); 
