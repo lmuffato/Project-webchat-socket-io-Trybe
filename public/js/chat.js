@@ -53,5 +53,11 @@ const onlineUsers = () => {
   return false;
 };
 
+const renderHistoryMessages = (messages) => {
+  console.log(messages);
+  messages.forEach((message) => createMessage(message));
+};
+
   socket.on('message', (message) => createMessage(message));
+  socket.on('messageHistory', (messages) => renderHistoryMessages(messages));
   window.onload(onlineUsers());
