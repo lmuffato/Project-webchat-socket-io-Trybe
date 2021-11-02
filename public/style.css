@@ -11,8 +11,8 @@ html , body {
 
 h1 {
   color: rgb(6, 204, 194);
-  text-align: center;
   font-style: italic;
+  text-align: center;
 }
 
 .chat {
@@ -32,7 +32,7 @@ input {
   width: 600px;
 }
 
-#nickButton {
+.nickButton {
   background: rgb(18, 133, 117);
   color: rgb(252, 255, 251);
   height: 50px;
@@ -41,7 +41,7 @@ input {
   width: 100px;
 }
 
-#buttonMessage {
+.buttonMessage {
   background: rgb(18, 133, 117);
   color: rgb(252, 255, 251);
   height: 50px;
@@ -50,21 +50,21 @@ input {
   width: 100px;
 }
 
-#nickForm {
+.nickForm {
   align-items: center;
   display: flex;
   flex-flow: row wrap;
 }
 
 .messages {
-  border: 1px solid rgb(18, 133, 117);;
+  border: 1px solid rgb(18, 133, 117);
   height: 400px;
   margin: 20px 0;
   padding: 20px;
   width: 600px;
 }
 
-#usersContainer {
+.usersContainer {
   border: 1px solid rgb(18, 133, 117);
   border-radius: 5%;
   height: 200px;
@@ -73,11 +73,11 @@ input {
   width: 400px;
 }
 
-#users {
+.users {
   margin-top: 20px;
 }
 
-#messages {
+.messagesContainer {
   overflow: scroll;
   overflow-x: hidden;
 }
