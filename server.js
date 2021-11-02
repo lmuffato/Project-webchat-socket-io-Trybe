@@ -9,8 +9,9 @@ const corsOptions = {
   origin: `http://localhost:${expressPort}`,
   methods: ['GET', 'POST'],
 };
+const { Server } = require('socket.io');
 
-const io = require('socket.io')(httpServer, {
+const io = new Server(httpServer, {
   cors: {
     corsOptions,
   },
