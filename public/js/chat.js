@@ -14,6 +14,7 @@ let savedName;
 const createUser = (name) => {
   const userLi = document.createElement('li');
   userLi.innerText = name;
+  userLi.className = 'user-li';
   userLi.dataset.testid = 'online-user';
   userList.appendChild(userLi);
 };
@@ -51,4 +52,5 @@ socket.on('get-messages', (arrayMessages) => {
 });
 
 socket.on('new-connection', (name) => createUser(name));
+
 socket.on('message', (msg) => createMessage(msg));

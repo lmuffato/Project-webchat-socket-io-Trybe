@@ -13,24 +13,27 @@ const getCurrentDate = () => {
 };
 
 const createNameFromId = (socketId) => {
-  const nameArray = socketId.split('')
+  const name = socketId.split('')
     .splice(socketId.length - 16)
     .join('');
-  return nameArray;
+  return name;
+};
+
+let realName;
+
+const createText = (nickname, socketId, chatMessage) => {
+  const date = getCurrentDate();
+  if (!nickname) { realName = createNameFromId(socketId); } else { realName = nickname; }
+  return (`${date} - ${realName}: ${chatMessage}`);
 };
 
 module.exports = (io) => io.on('connection', (socket) => {
   io.emit('new-connection', createNameFromId(socket.id));
-  socket.on('save-user', (nickname) => {
-    io.emit('new-user', nickname);
-  });
+  socket.on('save-user', (nickname) => io.emit('new-user', nickname));
   socket.on('message', async ({ chatMessage, nickname }) => {
-    const date = getCurrentDate();
-    let realName;
-    if (!nickname) { realName = createNameFromId(socket.id); } else { realName = nickname; }
-    io.emit('message', `${date} - ${realName}: ${chatMessage}`);
+    io.emit('message', createText(nickname, socket.id, chatMessage));
     await chatController.createMessage({
-      message: chatMessage, nickname: realName, timestamp: date,
+      message: chatMessage, nickname: realName, timestamp: getCurrentDate(),
     });
   });
 });
