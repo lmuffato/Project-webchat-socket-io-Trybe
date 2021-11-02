@@ -42,6 +42,7 @@ const saveNickNameinToserver = () => {
   btnUpdateNickName.addEventListener('click', (event) => {
     event.preventDefault();
     const nickName = getDocumenById('nickName').value;
+    if (!nickName || nickName === '') return null;
     socket.emit('nickName', nickName);
     changeColorUserNick();
     document.querySelector('.nickName').value = '';
@@ -54,6 +55,7 @@ const eventSendMessage = () => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const inputMessage = getDocumenById('messageInput').value;
+    if (!inputMessage || inputMessage === '') return null;
     const inputNickName = myNickName;
     const message = { chatMessage: inputMessage, nickname: inputNickName };
     getDocumenById('messageInput').value = '';

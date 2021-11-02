@@ -4,7 +4,7 @@
 }
 
 *::-webkit-scrollbar {
-  width: 12px;
+  width: 15px;
 }
 
 *::-webkit-scrollbar-track {
@@ -21,6 +21,11 @@ body {
   background-color: #2d0922;
   font-family: monospace;
   height: 100%;
+  margin-left: 10px;
+}
+
+.chat-title {
+  margin-bottom: 10px;
 }
 
 .title1 , .title2 , .usersCount {
