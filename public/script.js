@@ -36,9 +36,7 @@ const createUser = (id) => {
 };
 
 const changeNickname = (nickname, id) => {
-  console.log({ id });
   const nickName = document.querySelector(`#${id}`);
-  console.log('nickName', nickName);
   nickName.innerText = nickname;
   currentNickname = nickname;
 };

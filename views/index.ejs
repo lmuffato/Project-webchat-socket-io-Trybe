@@ -8,7 +8,11 @@
 <body>
   <!-- Lista de mensagens -->
   <h3>Mensagens</h3>
-  <ul id="messageList"></ul>
+  <ul id='messageList'>
+    <% messages.forEach(({ id, message, nickname, timestamp }) => { %>
+      <li data-testid="message"><%= message %></li>
+    <% }) %>
+  </ul>
 
   <input type="text" id="inputMsg" data-testid="message-box">
   <button id="sendMsgButton" data-testid="send-button">Enviar</button>

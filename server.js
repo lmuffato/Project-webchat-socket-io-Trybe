@@ -3,21 +3,10 @@ require('dotenv/config');
 const express = require('express');
 const moment = require('moment');
 
-// const middlewares = require('./middlewares');
-
 const app = express();
 const http = require('http').createServer(app);
 
-const onlineClients = [];
-
 const PORT = 3000;
-
-app.set('view engine', 'ejs');
-
-app.set('views', './views');
-
-app.use(express.static(`${__dirname}/public`));
-
 const options = {
   cors: {
     origin: `http://localhost:${PORT}`,
@@ -25,13 +14,23 @@ const options = {
   },
 };
 
+const getNick = (nickCode) => nickCode.slice(0, 16);
+
 const io = require('socket.io')(http, options);
 
-const getNick = (nickCode) => nickCode.slice(0, 16);
+const messagesController = require('./controllers/MessagesController');
+
+const onlineClients = [];
+
+app.set('view engine', 'ejs');
+
+app.set('views', './views');
+
+app.use(express.static(`${__dirname}/public`));
 
 io.on('connection', (socket) => {
   const nick = getNick(socket.id);
-  const currentClient = { id: nick, nickname: '' };
+  const currentClient = { id: getNick(socket.id), nickname: '' };
 
   socket.emit('user', nick);
 
@@ -40,15 +39,14 @@ io.on('connection', (socket) => {
   socket.on('message', ({ chatMessage, nickname }) => {
     const currentNickname = getNick(nickname);
     const timeStamp = moment(Date.now()).format('DD-MM-yyyy HH:mm:ss');
-    io.emit('message', `${timeStamp} - ${currentNickname}: ${chatMessage}`);
+    const fullMessage = `${timeStamp} - ${currentNickname}: ${chatMessage}`;
+    io.emit('message', fullMessage);
+
+    messagesController.createMessage(socket.id, fullMessage, currentNickname, timeStamp);
   });
 
   socket.on('nickname', (data) => {
-    console.log({ data });
-
-    const nickname = getNick(data.id);
-
-    const clientPosition = onlineClients.findIndex((client) => client.id === nickname);
+    const clientPosition = onlineClients.findIndex((client) => client.id === nick);
     // Fonte: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/splice (sim, até hoje kkk)
     onlineClients.splice(clientPosition, 1);
 
@@ -57,9 +55,10 @@ io.on('connection', (socket) => {
   });
 });
 
-// app.get('/', (req, res) => res.render('index'));
-app.get('/', (req, res) => res.render('index', { onlineClients }));
-// app.use(middlewares.error);
+app.get('/', async (_req, res) => {
+  const messages = await messagesController.getAllMessages();
+  res.render('index', { onlineClients, messages });
+});
 
 http.listen(PORT, () => {
   console.log(`Ouvindo na porta ${PORT}`);
