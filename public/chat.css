@@ -5,7 +5,6 @@
 
 body {
   background-color: #2d0922;
-  font: 13px;
   font-family: monospace;
 }
 
@@ -28,7 +27,6 @@ body {
 
 .label-nickname1 , .label-nickname2 , .label-nickname3 , .label-nickname4 {
   display: inline;
-  font-size: 20px;
   font-weight: 900;
 }
 
