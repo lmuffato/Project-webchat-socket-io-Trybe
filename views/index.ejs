@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trybe - Webchat</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <!-- Lista de mensagens -->
+  <h3>Mensagens</h3>
+  <ul id="messageList"></ul>
+
+  <input type="text" id="inputMsg" data-testid="message-box">
+  <button id="sendMsgButton" data-testid="send-button">Enviar</button>
+
+  <!-- Lista de clientes online -->
+  <h3>Clientes online</h3>
+  <ul id="clientsList">
+    <% onlineClients.forEach(({ id, nickname }) => { %>
+      <li id="<%= id %>" data-testid="online-user"><%= nickname || id %></li>
+    <% }) %>
+  </ul>
+  
+  <input type="text" id="inputNickname" data-testid="nickname-box">
+  <button id="sendNickButton" data-testid="nickname-button">Trocar nickname</button>
+
+  <script src="/script.js"></script>
+</body>
+</html> 
