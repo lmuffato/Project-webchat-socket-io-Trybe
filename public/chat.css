@@ -1,5 +1,4 @@
 * {
-  /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
 }
@@ -10,10 +9,10 @@ body {
   font-family: monospace;
 }
 
-.title1,
-.title2,
+.title1, 
+.title2, 
 .usersCount {
-  display:inline;
+  display: inline;
   font-weight: bold;
 }
 
@@ -29,13 +28,13 @@ body {
   color: #4b890a;
 }
 
-.label-nickname1,
-.label-nickname2,
-.label-nickname3,
+.label-nickname1, 
+.label-nickname2, 
+.label-nickname3, 
 .label-nickname4 {
-  display:inline;
-  font-weight: bold;
+  display: inline;
   font-size: 20px;
+  font-weight: bold;
 }
 
 .label-nickname1 {
