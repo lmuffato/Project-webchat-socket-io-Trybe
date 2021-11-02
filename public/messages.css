@@ -6,13 +6,13 @@
   width: 100%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ( max-width : 600px ) {
   .container-box-message {
     max-height: 250px;
   }
 }
 
-@media screen and (max-height: 600px) {
+@media screen and ( max-height : 600px ) {
   .container-box-message {
     max-height: 200px;
   }
@@ -70,13 +70,14 @@
   border: 0;
   border-style: none;
   color: white;
+  margin-bottom: 10px;
   outline: none;
   width: 45%;
-  margin-bottom: 10px;
 }
 
-@media screen and (max-width: 600px) {
-  .liMessage , .btn-msg , .btn-input1 , .btn-input2 , .btn-input3 , .btn-input4 , .messageInput {
+@media screen and ( max-width : 600px ) {
+  .liMessage , .btn-msg , .btn-input1 , .btn-input2 , .btn-input3 , .btn-input4 , .messageInput
+  {
     font-size: 10px;
   }
 }
