@@ -1,3 +1,14 @@
+### Agradecimentos
+Agradeço demais aos meus amigos da Trybe que ajudaram muito nesse projeto:
+
+Adelino
+https://github.com/AdelinoJnr
+
+Murilo 
+https://github.com/MuriloGon
+
+Gabriel
+https://github.com/Gbl97
 ### Termos e acordos
 
 Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
