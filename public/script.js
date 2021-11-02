@@ -1,5 +1,6 @@
 const socket = window.io();
 const button = document.querySelector('.sendButton');
+console.log(button);
 
 button.addEventListener('click', () => {
   const input = document.querySelector('#message-input');
