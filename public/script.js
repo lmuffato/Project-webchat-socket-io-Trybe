@@ -5,6 +5,17 @@ const clientId = 'client';
 
 let myNickName = '';
 
+const countUserOnline = (usersCount) => {
+  document.querySelector('.usersCount').innerText = usersCount;
+};
+
+const changeColorUserNick = () => {
+  const myNick = document.getElementsByClassName('liClient')[0];
+  myNick.style.color = '#bd9b04';
+  // document.querySelector('.nickName').placeholder = myNickName;
+  document.querySelector('#btn-user').innerText = myNickName;
+};
+
 const getDocumenById = (id) => document.getElementById(id);
 
 const ulMsgList = getDocumenById('mensagem');
@@ -32,6 +43,8 @@ const saveNickNameinToserver = () => {
     event.preventDefault();
     const nickName = getDocumenById('nickName').value;
     socket.emit('nickName', nickName);
+    changeColorUserNick();
+    document.querySelector('.nickName').value = '';
   });
   return null;
 };
@@ -95,7 +108,10 @@ const updateClients = (arr) => {
     li.className = 'liClient';
     li.innerText = ele;
     ulUserList.appendChild(li);
+    console.log(arr.length);
+    countUserOnline(arr.length);
   });
+  changeColorUserNick();
 };
 
 const activeUserList = (arr) => {

@@ -1,0 +1,97 @@
+.container-box-message {
+  /* height: 200px; */
+  padding: 5px;
+  font-size: 15px;
+  max-height: 450px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.liMessage {
+  width:80%;
+  border: none;
+  color: white;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 50px;
+  overflow-wrap: break-word;
+}
+
+.btn-msg {
+  margin-left: 10px;
+  background: #2d0922;
+  color:#335e8d;
+  font-family: monospace;
+  border-bottom-style: none;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  color: #4b890a;
+  /* font-weight: bold; */
+  color: '#bd9b04';
+  font-size: 20px;
+  display:inline;
+}
+
+.messageInput {
+  border-style: none;
+  display:inline;
+  color: white;
+  background-color: #2d0922;
+  border: 0px solid #2d0922;
+  font-family: monospace;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 15px;
+  outline: none;
+  width: 45%;
+  border: 0;
+}
+
+.btn-msg p {
+  display: inline;
+}
+
+.btn-input1 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 15px;
+  color: #335a9e;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-input2 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 15px;
+  color: #4b890a;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-input3 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 15px;
+  color: white;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-input4 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 15px;
+  color: #335a9e;
+  margin: 0 0 0 0;
+  padding: 0;
+}

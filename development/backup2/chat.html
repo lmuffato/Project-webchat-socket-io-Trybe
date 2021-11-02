@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO - trybe</title>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <link rel="stylesheet" href="./chat.css">
+  </head>
+  <body>
+    <div class='chat-title'>
+      <spam class='title1'>WEB CHAT:</spam><spam class='title2'>CONNECTED</spam>
+      </div>
+    <div id='box-clients' class='box-clients'>
+      <ul id='clients' class='clients' ></ul>
+    </div>
+
+    <div>
+        <label>
+        <p class='label-nickname1'>nickName</p><p
+        class='label-nickname2'>:</p><p
+        class='label-nickname3'>~</P><p
+        class='label-nickname4'>$</P>
+      <input
+        id='nickName'
+        class='nickName'
+        class='input-nickName'
+        autocomplete='off'
+        data-testid="nickname-box"
+      >
+      <button
+        id='btn-nickName'
+        class='btn-nickName'
+        data-testid="nickname-button"
+      >
+        /SaveNick
+      </button>
+    </label>
+    </div>
+
+    <div id='box-message' class='box-message'>
+      <ul id='mensagem' class='mensagem'></ul>
+    </div>
+
+    <form action="" id='form-msg' class='form-msg'>
+      <input
+        id='messageInput'
+        class='messageInput'
+        autocomplete='off'
+        data-testid="message-box"
+      >
+    <button id='btn-msg' class='btn-msg' data-testid="send-button">Enviar</button>
+    </form>
+
+      <script src='./script.js' ></script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+.header {
+  width: 100%;
+  height: fit-content;
+}
+
+.clients{
+  font-size: 15px;
+  max-height: 110px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+};
+
+.btn-txt1 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+  color: #4b890a;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-txt2 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+  color: white;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-txt3 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+  color: #335a9e;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.btn-txt4 {
+  display:inline-block;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+  color: white;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.liClient {
+  font-weight: bold;
+  list-style-type: none;
+  padding: 5px;
+  width: 30%;
+  display: inline-block; /*necessary*/
+  width: 180px;
+  border: none;
+  color: #4b890a;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  border-radius: 50px;
+}
+
+.btn-nickName {
+  background: #2d0922;
+  color:#335e8d;
+  font-family: monospace;
+  border-bottom-style: none;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  color: #4b890a;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+}
+
+::placeholder {
+  color: #335a9e;
+  opacity: 1; /* Firefox */
+}
+
+.nickName {
+  border-style: none;
+  display:inline-block;
+  color: #335a9e;
+  background-color: #2d0922;
+  border: 0px solid #2d0922;
+  font-family: monospace;
+  font-weight: bold;
+  color: '#bd9b04';
+  font-size: 20px;
+  outline: none;
+  width: fit-content;
+}
