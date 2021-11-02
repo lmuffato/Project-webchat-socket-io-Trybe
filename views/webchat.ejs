@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <title>Webchat</title>
+</head>
+
+<body>
+    <h1> Webchat</h1>
+    <h2 id="online-user" data-testid="online-user">Username</h2>
+    <form>
+        <input id="input-nickname" type="text" data-testid="nickname-box" placeholder="Enter a nickname">
+        <button id="btn-save-nickname" type="text" data-testid="nickname-button">Salvar apelido</button>
+    </form>
+    <div style="display:flex;">
+
+        <ul id="messages" style="border: 1px solid; width: 40%; height: 200px;">
+
+        </ul>
+    </div>
+    <form>
+        <input type="text" placeholder="Enter a message" data-testid="message-box" id="input-message">
+        <button data-testid="send-button" id="btn-send-message">Enviar</button>
+    </form>
+    <script>
+        const socket = io('http://localhost:3000');
+        const btnSaveNickname = document.querySelector('#btn-save-nickname');
+        const inputNickname = document.querySelector('#input-nickname');
+        const btnSendMessage = document.querySelector('#btn-send-message');
+        const inputMessage = document.querySelector('#input-message');
+        const ulMessages = document.querySelector('#messages');
+        const onlineUser = document.querySelector('#online-user');
+
+        const createLi = (data, dataTestId, parent) => {
+            const li = document.createElement('li');
+            li.setAttribute('data-testid', dataTestId);
+            const liText = document.createTextNode(data);
+            li.appendChild(liText);
+            parent.appendChild(li);
+        };
+
+        socket.on('userConnected', (id) => {
+            const nicknameWith16caracteres = id.substring(0, 16);
+            onlineUser.innerText = nicknameWith16caracteres;
+        });
+
+        socket.on('messages', (messages) => {
+            messages.forEach(({ message, nickname, timestamp }) => {
+                const string = `${timestamp} - ${nickname}: ${message}`;
+                createLi(string, "message", ulMessages);
+            });
+        });
+
+        socket.on('message', (data) => {
+            createLi(data, "message", ulMessages);
+        });
+
+        const saveNickname = (e) => {
+            e.preventDefault();
+            onlineUser.innerText = inputNickname.value;
+        }
+
+        const sendMessage = (e) => {
+            e.preventDefault();
+            const chatMessage = inputMessage.value;
+            const nickname = onlineUser.innerText;
+            socket.emit('message', { chatMessage, nickname });
+        };
+
+        btnSaveNickname.addEventListener("click", saveNickname);
+        btnSendMessage.addEventListener("click", sendMessage);
+    </script>
+
+</body>
+
+</html>
