@@ -9,9 +9,7 @@ body {
   font-family: monospace;
 }
 
-.title1, 
-.title2, 
-.usersCount {
+.title1, .title2, .usersCount {
   display: inline;
   font-weight: bold;
 }
@@ -28,10 +26,7 @@ body {
   color: #4b890a;
 }
 
-.label-nickname1, 
-.label-nickname2, 
-.label-nickname3, 
-.label-nickname4 {
+.label-nickname1, .label-nickname2, .label-nickname3, .label-nickname4 {
   display: inline;
   font-size: 20px;
   font-weight: bold;
