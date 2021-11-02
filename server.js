@@ -20,10 +20,9 @@ const Users = {};
 const formatMessage = (timeStamp, nickname, chatMessage) =>
   `${timeStamp} - ${nickname}: ${chatMessage}`;
 
-const renderUsers = (socket) => {
-  socket.broadcast.emit('showUsers', Object.values(Users));
-  socket.emit('showUsers', Object.values(Users).reverse());
-};
+/* const renderUsers = (socket) => {
+  io.emit('showUsers', Object.values(Users));
+}; */
 
 const saveMessages = (socket) => {
   socket.on('message', async ({ chatMessage, nickname }) => {
@@ -35,9 +34,10 @@ const saveMessages = (socket) => {
 
 io.on('connection', async (socket) => {
   Users[socket.id] = socket.id.substring(0, 16);
-  renderUsers(socket);
+  /* renderUsers(socket); */
   saveMessages(socket);
-  io.emit('showUsers', Object.values(Users));
+  socket.emit('sendSocketID', socket.id);
+  io.emit('showUsers', Users);
 
   const getAllMessages = await chatModel.readAllMessages();
   getAllMessages.map(({ timeStamp, nickname, chatMessage }) =>
@@ -47,11 +47,11 @@ io.on('connection', async (socket) => {
 
   socket.on('nickname', (nickname) => {
     Users[socket.id] = nickname;
-    io.emit('showUsers', Object.values(Users));
+    io.emit('showUsers', Users);
   });
   socket.on('disconnect', () => {
     delete Users[socket.id];
-    io.emit('showUsers', Object.values(Users));
+    io.emit('showUsers', Users);
   });
 });
 

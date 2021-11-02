@@ -23,6 +23,7 @@ const createUser = (id) => {
   li.setAttribute('data-testid', 'online-user');
   li.innerText = id;
   listUsers.appendChild(li);
+  return li;
 };
 
 const createMessage = (message) => {
@@ -56,9 +57,20 @@ socket.on('getMessages', (messages) => {
     createMessage(`${timeStamp} - ${nickname}: ${chatMessage}`));
 });
 
+let socketId = '';
+
+socket.on('sendSocketID', (id) => {
+  socketId = id;
+});
+
 socket.on('showUsers', (users) => {
-  listUsers.innerText = '';
-  users.forEach((user) => createUser(user));
+  listUsers.innerHTML = '';
+  /* if (!nick) nick = users[socketId]; */
+  const allUsers = [users[socketId], ...Object.entries(users)
+    .filter((u) => u[0] !== socketId).map((u) => u[1])];
+  console.log(allUsers);
+  console.log(socketId);
+  allUsers.forEach((user) => listUsers.appendChild(createUser(user)));
 });
 
 window.onbeforeunload = () => {
