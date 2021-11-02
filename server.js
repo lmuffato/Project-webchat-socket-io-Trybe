@@ -32,21 +32,15 @@ const saveMessage = (socket) => {
   });
 };
 
-const renderUser = (socket) => {
-  socket.broadcast.emit('newUser', Object.values(allUsers));
-  socket.emit('newUser', Object.values(allUsers).reverse());
-};
-
 io.on('connection', async (socket) => {
   allUsers[socket.id] = socket.id.substring(0, 16);
-
-  renderUser(socket);
   saveMessage(socket);
 
-  io.emit('newUser', Object.values(allUsers));
+  socket.emit('sendSocketID', socket.id);
+
+  io.emit('newUser', allUsers);
 
   const getMessages = await getAllMessages();
-
   getMessages.map(({ chatMessage, nickname, timeStamp }) => formatMessage({ 
     timeStamp, nickname, chatMessage,
   }));
@@ -55,11 +49,11 @@ io.on('connection', async (socket) => {
 
   socket.on('nickname', (nickname) => {
     allUsers[socket.id] = nickname;
-    io.emit('newUser', Object.values(allUsers));
+    io.emit('newUser', allUsers);
   });
   socket.on('disconnect', () => {
     delete allUsers[socket.id];
-    io.emit('newUser', Object.values(allUsers));
+    io.emit('newUser', allUsers);
   });
 });
 

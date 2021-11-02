@@ -1,11 +1,11 @@
 const client = window.io();
 
-const button = document.querySelector('#button-teste');
+const button = document.querySelector('#buttonMessage');
 const nickButton = document.querySelector('#nickButton');
 const users = document.querySelector('#users');
 const ul = document.querySelector('#listMessages');
 const author = document.querySelector('#username');
-const message = document.querySelector('#message-teste');
+const message = document.querySelector('#messageInput');
 
 // Referencia ORLANDO FLORES
 const saveNickname = () => {
@@ -24,6 +24,7 @@ const newUsers = (id) => {
   li.setAttribute('data-testid', 'online-user');
   li.innerText = id;
   users.appendChild(li);
+  return li;
 };
 
 const createMessage = (msg) => {
@@ -53,11 +54,19 @@ button.addEventListener('click', (e) => {
   client.emit('message', newMsg);
 });
 
+let socketID = '';
+
 client.on('message', (msg) => createMessage(msg));
+
+client.on('sendSocketID', (id) => {
+  socketID = id;
+});
 
 client.on('newUser', (allUsers) => {
   users.innerText = '';
-  allUsers.forEach((id) => newUsers(id));
+  const filterUsers = [allUsers[socketID], ...Object.entries(allUsers)
+    .filter((u) => u[0] !== socketID).map((u) => u[1])];
+  filterUsers.forEach((user) => users.appendChild(newUsers(user)));
 });
 
 client.on('getMessages', (messages) => {

@@ -9,8 +9,9 @@
   <title>Webchat</title>
 </head>
 <body>
+  <h1>Projeto WebChat</h1>
  <div class="chat">
-   <form>
+   <form id="nickForm">
     <input data-testid="nickname-box" id="username" type="text" autocomplete="off" name="nickname" placeholder="Digite seu usuario">
     <button type="submit" id="nickButton" data-testid="nickname-button">Salvar</button>
    </form>
@@ -19,10 +20,13 @@
       </ul>
     </div>
     <form>
-      <input type="text" id="message-teste" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
-      <button type="submit" id="button-teste" data-testid="send-button" name="send-button">Enviar</button>
+      <input type="text" id="messageInput" data-testid="message-box" name="message-box" placeholder="Digite sua mensagem aqui"/>
+      <button type="submit" id="buttonMessage" data-testid="send-button" name="send-button">Enviar</button>
     </form>
-    <ul id="users"></ul>
+    <div id="usersContainer">
+      <h2>Usuarios conectados</h2>
+      <ul id="users"></ul>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

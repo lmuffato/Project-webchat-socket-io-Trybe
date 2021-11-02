@@ -9,6 +9,12 @@ html , body {
   padding: 0;
 }
 
+h1 {
+  color: rgb(6, 204, 194);
+  text-align: center;
+  font-style: italic;
+}
+
 .chat {
   align-items: center;
   color: rgb(206, 206, 206);
@@ -26,22 +32,54 @@ input {
   width: 600px;
 }
 
-button {
-  background: #069;
-  color: white;
+#nickButton {
+  background: rgb(18, 133, 117);
+  color: rgb(252, 255, 251);
   height: 50px;
-  line-height: 50px;
-  margin-top: 10px;
+  margin-left: 10px;
   text-align: center;
-  width: 60px;
+  width: 100px;
+}
+
+#buttonMessage {
+  background: rgb(18, 133, 117);
+  color: rgb(252, 255, 251);
+  height: 50px;
+  margin-left: 5px;
+  text-align: center;
+  width: 100px;
+}
+
+#nickForm {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .messages {
-  border: 1px solid rgb(61, 84, 209);
+  border: 1px solid rgb(18, 133, 117);;
   height: 400px;
   margin: 20px 0;
   padding: 20px;
   width: 600px;
+}
+
+#usersContainer {
+  border: 1px solid rgb(18, 133, 117);
+  border-radius: 5%;
+  height: 200px;
+  margin-top: 20px;
+  text-align: center;
+  width: 400px;
+}
+
+#users {
+  margin-top: 20px;
+}
+
+#messages {
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 li {
