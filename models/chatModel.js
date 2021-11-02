@@ -1,4 +1,4 @@
-// const { ObjectID } = require('mongodb');
+const { ObjectID } = require('mongodb');
 const connection = require('./connection');
 
 const COLLECTION_NAME = 'messages';
@@ -25,7 +25,20 @@ const createMessage = async (data, timestamp) => {
   return newChatMessage;
 };
 
+const excludeMessage = async (id) => {
+  if (!ObjectID.isValid(id)) {
+    return null;
+  }
+
+  const removeMessage = await connection().then((db) => db
+  .collection(COLLECTION_NAME).deleteOne({ _id: ObjectID(id) }))
+  .catch((err) => console.log(err));
+
+  return removeMessage;
+};
+
 module.exports = {
   getAllMessages,
   createMessage,
+  excludeMessage,
 };
