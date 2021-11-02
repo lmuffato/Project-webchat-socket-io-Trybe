@@ -29,20 +29,24 @@ const createText = (nickname, socketId, chatMessage) => {
 };
 
 module.exports = (io) => io.on('connection', (socket) => {
+  console.log('alguem conectou');
   usersOnline[socket.id] = createNameFromId(socket.id);
   io.emit('new-connection', Object.values(usersOnline), createNameFromId(socket.id));
+
   socket.on('save-user', (nickname) => {
     usersOnline[socket.id] = nickname;
     io.emit('new-user', Object.values(usersOnline), nickname);
   });
+
   socket.on('message', async ({ chatMessage, nickname }) => {
     io.emit('message', createText(nickname, socket.id, chatMessage));
     await chatController.createMessage({
       message: chatMessage, nickname: realName, timestamp: getCurrentDate(),
     });
   });
+
   socket.on('disconnect', () => {
     delete usersOnline[socket.id];
-    io.emit('disconnected', Object.values(usersOnline));
+    io.emit('disconnected', Object.values(usersOnline), createNameFromId(socket.id));
   });
 });

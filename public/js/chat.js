@@ -12,6 +12,7 @@ const chatMessages = document.getElementById('message-list');
 let savedName;
 
 const createUser = (allUsers, current) => {
+  console.log(allUsers, current, savedName);
   userList.innerHTML = '';
   allUsers.forEach((user) => {
     const userLi = document.createElement('li');
@@ -56,6 +57,6 @@ socket.on('get-messages', (arrayMessages) => {
 });
 
 socket.on('new-connection', (name, currentUser) => createUser(name, currentUser));
-socket.on('disconnected', (name) => createUser(name));
+socket.on('disconnected', (name, current) => createUser(name, current));
 
 socket.on('message', (msg) => createMessage(msg));
