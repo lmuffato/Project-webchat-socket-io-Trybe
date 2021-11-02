@@ -1,7 +1,7 @@
 .header {
   height: fit-content;
   margin: 10px 0 0 10px;
-  width: 100%;  
+  width: 100%;
 }
 
 .liClient {
@@ -10,12 +10,12 @@
   color: #4b890a;
   display: inline-block;
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 900;
   list-style-type: none;
   margin: 4px 2px;
-  width: 180px;
   text-align: center;
   text-decoration: none;
+  width: 180px;
 }
 
 .clients{
@@ -43,12 +43,11 @@
   color: white;
 }
 
-.btn-txt1, .btn-txt2, .btn-txt3, .btn-txt4, .btn-nickName, .nickName
-{
+.btn-txt1 , .btn-txt2 , .btn-txt3 , .btn-txt4 , .btn-nickName , .nickName {
   display:inline;
-  font-size: 15px;
   font-family: monospace;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 900;
 }
 
 ::placeholder {
