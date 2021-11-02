@@ -1,9 +1,21 @@
 .container-box-message {
-  max-height: 450px;
+  max-height: 350px;
   overflow: auto;
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .container-box-message {
+    max-height: 250px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .container-box-message {
+    max-height: 200px;
+  }
 }
 
 .liMessage {
@@ -59,5 +71,12 @@
   border-style: none;
   color: white;
   outline: none;
-  width: 45%; 
+  width: 45%;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .liMessage , .btn-msg , .btn-input1 , .btn-input2 , .btn-input3 , .btn-input4 , .messageInput {
+    font-size: 10px;
+  }
 }
