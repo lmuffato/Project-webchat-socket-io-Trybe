@@ -77,9 +77,8 @@ input {
   margin-top: 20px;
 }
 
-.messagesContainer {
-  overflow: scroll;
-  overflow-x: hidden;
+.messageLi {
+  color: white;
 }
 
 li {

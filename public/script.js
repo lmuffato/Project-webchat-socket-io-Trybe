@@ -1,8 +1,8 @@
 const client = window.io();
 
-const button = document.querySelector('#buttonMessage');
-const nickButton = document.querySelector('#nickButton');
-const users = document.querySelector('#users');
+const button = document.querySelector('.buttonMessage');
+const nickButton = document.querySelector('.nickButton');
+const users = document.querySelector('.users');
 const ul = document.querySelector('#listMessages');
 const author = document.querySelector('#username');
 const message = document.querySelector('#messageInput');
@@ -30,6 +30,7 @@ const newUsers = (id) => {
 const createMessage = (msg) => {
   const li = document.createElement('li');
   li.setAttribute('data-testid', 'message');
+  li.setAttribute('class', 'messageLi');
   li.innerText = msg;
   ul.appendChild(li);
 };
