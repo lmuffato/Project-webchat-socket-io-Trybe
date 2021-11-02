@@ -11,6 +11,9 @@ const http = require('http').createServer(app);
 // ------------------------------------------------------------------------------------------//
 
 const timestamp = moment().format('DD-MM-YYYY hh:mm:ss');
+app.use(express.static('./public'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 const io = new Server(http, {
   cors: {
@@ -19,15 +22,22 @@ const io = new Server(http, {
   },
 });
 
+// para novo usuário
+const users = {};
+
+// conecta o front, o server e o socket
 io.on('connection', (socket) => { 
+  users[socket.id] = socket.id.slice(1, 17);
   socket.on('message', ({ chatMessage, nickname }) => {
     io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
   });
+  socket.on('newUser', (nickname) => {
+    users[socket.id] = nickname;
+    io.emit('allUsers', Object.values(users));
+  });
 });
 
-app.use(express.static('./public'));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+io.emit('allUsers', Object.values(users));
 
 app.get('/', (_req, res) => res.render('chat/index'));
 
@@ -39,6 +49,6 @@ http.listen(PORT, () => {
   console.log(`Socket online na ${PORT}, acessar: http://localhost:3000`);
 });
 
-// http: cria o servidor
+// http: cria o servidor, poder usar na mesma porta o back e o front
 // createServer(app): conecta o client e o servidor para trabalharem juntos
-// cors: conexão e métodos
+// cors: conexão e método

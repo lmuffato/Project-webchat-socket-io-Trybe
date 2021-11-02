@@ -18,12 +18,14 @@
     <input 
       type="text" 
       placeholder="Insira o seu nickname"
+      class="nick__name"
+      data-testid="nickname-box"
     >
-    <button type="button">Salvar</button>
+    <button type="button" data-testid="nickname-button" class="nick__btn">Salvar</button>
 </div>
 
 <div>
-  <ul>
+  <ul class="nick__box">
   </ul>
 </div>
 
@@ -36,9 +38,10 @@
   <input
     type="text"
     class="msg__input"
+    data-testid="message-box"
     placeholder="Digite uma nova mensagem aqui"
   >
-  <button type="button" class="send__btn">Enviar</button>
+  <button type="button" class="send__btn" data-testid="send-button">Enviar</button>
 </div>
 
 <script src="./chat/webChat.js"></script>
