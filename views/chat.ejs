@@ -93,8 +93,17 @@
         newNickname = document.getElementById('nickname-box').value;
         socket.emit('changeNickname', newNickname);
       });
+
+      const InsertHistory = (history) => {
+        
+        history.forEach((oldMessage) => {
+          const { message, nickname, timestamps } = oldMessage;
+          insertMessage(`${timestamps} - ${nickname}: ${message}`);
+        });
+      };
       
       socket.on('userOnline', (userId) => insertOnlineUser(userId));
+      socket.on('chatHistory', (history) => InsertHistory(history));
       socket.on('message', (message) => insertMessage(message));
       
       </script>

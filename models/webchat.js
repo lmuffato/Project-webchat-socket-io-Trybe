@@ -9,10 +9,10 @@ const getAll = async () => {
 };
 
 const create = async (doc) => {
-  const { message, nickname, timestamp } = doc;
   const db = await connection();
-  const result = await db.collection(MESSAGES).insertOne({ message, nickname, timestamp });
-  return result;
+  const { ops } = await db.collection(MESSAGES)
+    .insertOne({ message: doc.chat, nickname: doc.name, timestamps: doc.timestamp });
+  return ops[0];
 };
 
 module.exports = {
