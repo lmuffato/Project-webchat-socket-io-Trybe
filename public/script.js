@@ -28,12 +28,13 @@ const getMyNickName = (name) => {
 };
 
 const autoScrolling = () => {
-  const textArea = document.querySelector('ul#mensagem.mensagem');
+  const textArea = document.querySelector('.container-box-message');
   textArea.scrollTop = textArea.scrollHeight;
 };
 
 // Envia a mensagem para o servidor
 const sendMessageToserver = ({ chatMessage, nickname }) => {
+  autoScrolling();
   socket.emit('message', { chatMessage, nickname });
 };
 
@@ -60,6 +61,7 @@ const eventSendMessage = () => {
     const message = { chatMessage: inputMessage, nickname: inputNickName };
     getDocumenById('messageInput').value = '';
     sendMessageToserver(message);
+    autoScrolling();
     return message;
   });
 };
@@ -80,6 +82,7 @@ const historyMessages = (arr) => {
     li.innerText = `${timestamp} - ${nickname}: ${message}`;
     ulMsgList.appendChild(li);
   });
+  autoScrolling();
 };
 
 // Cria a mensagem no front-end
@@ -102,7 +105,6 @@ const updateClients = (arr) => {
     li.className = 'liClient';
     li.innerText = ele;
     ulUserList.appendChild(li);
-    console.log(arr.length);
     countUserOnline(arr.length);
   });
   changeColorUserNick();
