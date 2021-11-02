@@ -76,9 +76,11 @@
   width: fit-content;
 }
 
-@media screen and ( max-width : 600px ) {
-  
-  .liClient , .clients , .btn-txt1 , .btn-txt2 , .btn-txt3 , .btn-txt4 , .btn-nickName , .nickName {
+@media screen and (
+  max-width : 600px
+  ) {
+  .liClient , .clients , .btn-txt1 , .btn-txt2 ,
+   .btn-txt3 , .btn-txt4 , .btn-nickName , .nickName {
     font-size: 10px;
   }
 }
