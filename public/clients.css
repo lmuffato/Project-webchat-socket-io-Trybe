@@ -18,7 +18,7 @@
   width: 180px;
 }
 
-.clients{
+.clients {
   font-size: 15px;
   max-height: 110px;
   overflow: auto;
@@ -44,7 +44,7 @@
 }
 
 .btn-txt1 , .btn-txt2 , .btn-txt3 , .btn-txt4 , .btn-nickName , .nickName {
-  display:inline;
+  display: inline;
   font-family: monospace;
   font-size: 15px;
   font-weight: 900;
