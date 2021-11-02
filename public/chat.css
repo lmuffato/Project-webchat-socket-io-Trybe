@@ -1,70 +1,55 @@
 * {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
 }
 
 body {
-  font: 13px;
   background-color: #2d0922;
+  font: 13px;
   font-family: monospace;
 }
 
-.title1 {
-  font-weight: bold;
-  color: white;
+.title1,
+.title2,
+.usersCount {
   display:inline;
+  font-weight: bold;
+}
 
+.title1 {
+  color: white;
 }
 
 .title2 {
   color: #4b890a;
-  font-weight: bold;
-  display:inline;
 }
 
 .usersCount {
   color: #4b890a;
-  font-weight: bold;
+}
+
+.label-nickname1,
+.label-nickname2,
+.label-nickname3,
+.label-nickname4 {
   display:inline;
+  font-weight: bold;
+  font-size: 20px;
 }
 
-p.label-nickname1 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
+.label-nickname1 {
   color: #4b890a;
-  margin: 0 0 0 0;
-  padding: 0;
 }
 
-p.label-nickname2 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
+.label-nickname2 {
   color: white;
-  margin: 0 0 0 0;
-  padding: 0;
 }
 
-p.label-nickname3 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
+.label-nickname3 {
   color: #335a9e;
-  margin: 0 0 0 0;
-  padding: 0;
 }
 
-p.label-nickname4 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
+.label-nickname4 {
   color: white;
-  margin: 0 0 0 0;
-  padding: 0;
 }
