@@ -1,94 +1,141 @@
-/* * {
+/* referência do grid:
+https://www.youtube.com/watch?v=HN1UjzRSdBk&ab_channel=Rocketseat */
+
+/* referência do estilo dos botões: https://codepen.io/angeloalf/pen/gpywvm */
+html , body {
+  background: #d8e3db;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-} */
-
-aside {
-  float: left;
-  margin: 15px;
-  text-align: center;
-  width: 20%;
 }
 
-aside input {
-  margin-right: 9px;
-}
 
-.list {
-  display: block;
-  float: left;
-  margin-top: 7px;
-  padding: 8px;
-  width: 100%;
-}
-
-.list li {
-  list-style-type: none;
-}
-
-main {
-  margin: 10px;
-  padding: 5px;
+.container {
+  display: grid;
+  grid-template-areas: 'header header' 'aside main' 'section section';
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 20vh 70vh 10vh; /* stylelint-disable */
 }
 
 header {
-  padding: 15px;
-  text-align: center;
+  background: #cfc;
+  grid-area: header;
 }
 
-.messages {
-  list-style-type: none;
-  margin-left: 280px;
-  margin-right: 280px;
+aside {
+  grid-area: aside;
+}
+
+main {
+  background: white;
+  grid-area: main;
+  width: 1500px;
+}
+
+section {
+  background: #d8e3db;
+  grid-area: section;
+}
+
+.title-container {
+  align-content: center;
+  display: grid;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.nickname-container {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.nickname-container input {
+  border: none;
+  padding: 10px;
+  width: 60%;
+}
+
+.nickname-container button {
+  border: 1px solid #25692A;
+  border-radius: 4px;
+  border-color:#46a7f5;
+  background: linear-gradient(to bottom,  #86c6f8 5%, #46a7f5 100%);
+  box-shadow:inset 0px 1px 0px 0px #d7ecfd;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 6px 10px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #528009;
+  width: 30%;
+}
+
+.nickname-container button:hover {
+  background: linear-gradient(to bottom, #46a7f5 5%, #86c6f8 100%);
+}
+
+.list-container {
+  background-color: #f7fff7;
+  height: 585px;
+}
+
+.list-users {
+  list-style: none;
+  margin-left: -30px;
+  padding-top: 10px;
+}
+
+.list-messages {
+  list-style: none;
+  margin: 0;
   padding: 0;
-  text-align: center;
 }
 
-.messages li {
+.list-messages li {
   padding: 5px 10px;
 }
 
-footer {
-  margin-top: 250px;
-  text-align: center;
-
-  /* padding: 3px; */
+.list-messages li:nth-child( odd ) {
+  background: #eee;
+  display: grid;
+  justify-content: flex-end;
 }
 
-footer input {
-  margin-right: 9px;
-  width: 200px;
+.chat-container {
+  background: chocolate;
 }
 
-/* h1 {
-  margin: 50px;
-  text-align: center;
-} */
+.form-container {
+  background: #d8e3db;
+  margin-top: 35px;
+}
 
-/* form {
-  background: #000;
-  padding: 3px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-} */
-
-/* form input {
+.form-container input {
   border: 0;
+  margin-right: 0.5%;
   padding: 10px;
   width: 90%;
-  margin-right: 0.5%;
 }
 
-form button {
-  width: 9%;
-  background: rgb(130, 224, 255);
+.form-container button {
+  border:1px solid #25692A;
+  border-radius:4px;
+  border-color:#46a7f5;
+  background: linear-gradient(to bottom, #86c6f8 5%, #46a7f5 100%);
+  box-shadow:inset 0px 1px 0px 0px #d7ecfd;
   border: none;
-  padding: 10px;
+  color:#fff;
   cursor: pointer;
+  font-weight:bold;
+  font-size:13px;
+  padding: 6px 10px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #528009;
+  width: 8%;
 }
 
-#messages li:nth-child(odd) {
-  background: #eee;
-} */
+.form-container button:hover {
+  background:linear-gradient(to bottom, #46a7f5 5%, #86c6f8 100%);
+}

@@ -19,7 +19,7 @@ btnMessage.addEventListener('click', (e) => {
 const createMessage = (message) => {
   const li = document.createElement('li');
   li.setAttribute('data-testid', 'message');
-  const messagesUl = document.querySelector('.messages');
+  const messagesUl = document.querySelector('.list-messages');
   li.innerText = message;
   messagesUl.appendChild(li);
 };

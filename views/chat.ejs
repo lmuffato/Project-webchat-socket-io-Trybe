@@ -9,31 +9,42 @@
   <title>Web-chat Trybe</title>
 </head>
 <body>
-  <main>
+  <div class="container">
     <header>
-      <h1>Tryber Chat</h1>
+      <div class="title-container">
+        <h1>Trybe Chat</h1>
+      </div>
     </header>
     <aside>
-      <form action="">
-        <input id="nick-input" data-testid="nickname-box" placeholder="Insira aqui seu nickname" /><button id="btn-nick" data-testid="nickname-button">Salvar</button>
-      </form>
+      <div class="nickname-container">
+        <form>
+          <input id="nick-input" data-testid="nickname-box" placeholder="Insira aqui seu nickname">
+          <button id="btn-nick" data-testid="nickname-button">Salvar</button>
+        </form>
+      </div>
+
+      <div class="list-container">
+        <ul class="list-users"></ul>
+      </div>
     </aside>
-    <div class="list-users">
-      <ul></ul>
-    </div>
-    <div class="chat">
-      <ul class="messages">
-        <% messages.forEach(m => { %>
-          <li data-testid="message"><%= `${m.timestamp} - ${m.nickname}: ${m.message}`%></li>
-        <% }) %>
-      </ul>
-    </div>
-    <footer>
-      <form action="">
-        <input data-testid="message-box" id="msg-input" placeholder="Digite um nova mensagem aqui"/><button data-testid="send-button" id="btn-send">Enviar</button>
-      </form>
-    </footer>
-  </main>
+    <main>
+      <div class="messages-container">
+        <ul class="list-messages">
+          <% messages.forEach(m => { %>
+            <li data-testid="message"><%= `${m.timestamp} - ${m.nickname}: ${m.message}`%></li>
+          <% }) %>
+        </ul>
+      </div>
+    </main>
+    <section>
+      <div class="chat-container">
+        <form class="form-container">
+          <input id="msg-input" data-testid="message-box" placeholder="Digite um nova mensagem aqui">
+          <button id="btn-send" data-testid="send-button">Enviar</button>
+        </form>
+      </div>
+    </section>
+  </div>
   <script src="http://localhost:3000/assets/client.js"></script>
 </body>
 </html>
