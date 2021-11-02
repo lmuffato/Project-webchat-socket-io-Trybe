@@ -5,7 +5,7 @@
 }
 
 body {
-  font: Helvetica, Arial;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
 }
 
@@ -19,8 +19,8 @@ form {
 
 form input {
   border: 0;
-  padding: 10px;
   margin-right: 0.5%;
+  padding: 10px;
   width: 90%;
 }
 
@@ -34,12 +34,10 @@ form button {
 
 #messages {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
 }
 
 #messages li {
-  padding: 0px 5px 0px;
+  padding: 5px;
 }
 
 #messages li:nth-child(odd) {
