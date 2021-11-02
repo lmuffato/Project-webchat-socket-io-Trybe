@@ -30,7 +30,6 @@ buttonChangeNickname.addEventListener('click', () => {
     alert('o campo nickName não pode ser vazio');
     return;
   }
-  console.log('test');
   const { id } = JSON.parse(sessionStorage.getItem('clientInfo'));
   socket.emit('changeNickname', { newNickname: nicknameInput.value, id });
   nicknameInput.value = '';
@@ -59,26 +58,12 @@ const appendMessage = (message) => {
   messageList.appendChild(listItem);
 };
 
-const renderMessages = (messages) => {
-  console.log(messages);
-  const messageList = document.getElementById('messages');
-  messages.forEach((message) => {
-    const listItem = document.createElement('li');
-    listItem.setAttribute(DATA_TESTID, 'message');
-    listItem.innerText = message;
-    messageList.appendChild(listItem);
-  });
-};
-
 socket.on('clientInfo', (client) => {
   sessionStorage.setItem('clientInfo', JSON.stringify(client));
 });
 
 socket.on('online-users', (users) => {
-  console.log(users);
   appendOnlineUsers(users);
 });
-
-socket.on('messageHistory', renderMessages);
 
 socket.on('message', appendMessage);
