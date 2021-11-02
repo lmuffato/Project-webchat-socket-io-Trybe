@@ -5,33 +5,59 @@
 
   <title>Webchat</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-  <script>
-    const socket = io();
-    let username;
 
-    const putUsernameOnPage = (username) => {
-      const userContainer = document.querySelector('#user-container');
-      const p = document.createElement('p');
-      p.innerText = username;
-      p.setAttribute('data-testid', 'online-user');
-      userContainer.appendChild(p);
-    };
-
-    socket.on('initialUsername', (socketId) => {
-      const initialUsername = socketId.substring(0, socketId.length - 4);
-      username = initialUsername;
-      putUsernameOnPage(username);
-    });
-  </script>
-  
 </head>
 
 <body>
 
   <div id="user-container">
-
+    <p id="online-user" data-testid="online-user"> <%= nickname %> </p>
+    <form id="nickname-form">
+      <input
+        required
+        minlength="3"
+        maxlength="16"
+        type="text"
+        id="nickname-box"
+        data-testid="nickname-box"
+        placeholder="Insert your Nickname"
+      />
+      <button type="submit" id="nickname-button" data-testid="nickname-button">CONFIRM</button>
+    </form>
   </div>
+
+  <ul id="chat-box"></ul>
   
+  <form>
+  </form>
+
+  <script>
+    const socket = io();
+    const nicknameForm = document.querySelector('#nickname-form');
+    let nickname = 'nickname';
+
+    const updateNickname = (nickname) => {
+      const nicknameElement = document.querySelector('#online-user');
+      nicknameElement.innerText = nickname;
+    };
+
+    const handleNicknameChange = (e) => {
+      e.preventDefault();
+      const nicknameBox = document.querySelector('#nickname-box');
+      nickname = nicknameBox.value;
+      nicknameBox.value = '';
+      updateNickname(nickname);
+    };
+
+    nicknameForm.addEventListener('submit', handleNicknameChange);
+
+    socket.on('initialNickname', (socketId) => {
+      const initialNickname = socketId.substring(0, socketId.length - 4);
+      nickname = initialNickname;
+      updateNickname(nickname);
+    });
+  </script>
+
 </body>
 
 </html>
