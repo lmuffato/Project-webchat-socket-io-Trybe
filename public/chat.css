@@ -10,11 +10,6 @@ body {
   font-family: monospace;
 }
 
-.header {
-  /* margin-top: 10px; */
-  padding: 10px 10px 10px 10px;
-}
-
 .title1 {
   font-weight: bold;
   color: white;

@@ -30,7 +30,7 @@ const removeUserDisconnected = (socketId) => {
   return newList; 
 };
 
-// Recupera o nickName da lista de usuários conectados
+// Recupera o nickName da lista de usuários conectados e envia ao front-end
 const sendUserNickName = (socket, sockedId) => {
   const nickName = activeUsers.find((ele) => ele.id === sockedId);
   socket.emit('myNick', nickName.name);

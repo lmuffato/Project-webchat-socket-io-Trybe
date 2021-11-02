@@ -90,14 +90,6 @@ const createUserMsgLiElement = (message) => {
   autoScrolling();
 };
 
-// Cria a mensagem no front-end
-const createServerMsgLiElement = (message) => {
-  const li = document.createElement('li');
-  li.innerText = message;
-  ulMsgList.appendChild(li);
-  autoScrolling();
-};
-
 // Atualiza a lista de clients
 const updateClients = (arr) => {
   removeElementById(clientId);
@@ -126,7 +118,6 @@ const activeUserList = (arr) => {
 socket.on('msgHistoric', (arr) => historyMessages(arr));
 socket.on('myNick', (str) => getMyNickName(str));
 socket.on('message', (str) => createUserMsgLiElement(str));
-socket.on('serverMessage', (str) => createServerMsgLiElement(str));
 socket.on('activeClients', (arr) => activeUserList(arr));
 
 window.onload = () => {

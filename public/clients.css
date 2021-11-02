@@ -1,61 +1,14 @@
 .header {
   width: 100%;
   height: fit-content;
-}
-
-.clients{
-  font-size: 15px;
-  max-height: 110px;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 100%;
-};
-
-.btn-txt1 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
-  color: #4b890a;
-  margin: 0 0 0 0;
-  padding: 0;
-}
-
-.btn-txt2 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
-  color: white;
-  margin: 0 0 0 0;
-  padding: 0;
-}
-
-.btn-txt3 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
-  color: #335a9e;
-  margin: 0 0 0 0;
-  padding: 0;
-}
-
-.btn-txt4 {
-  display:inline-block;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
-  color: white;
-  margin: 0 0 0 0;
-  padding: 0;
+  margin: 10px 0px 0px 10px;
+  /* margin-left: 10px; */
 }
 
 .liClient {
   font-weight: bold;
   list-style-type: none;
-  padding: 5px;
+  /* padding: 5px; */
   width: 30%;
   display: inline-block; /*necessary*/
   width: 180px;
@@ -69,35 +22,61 @@
   border-radius: 50px;
 }
 
-.btn-nickName {
-  background: #2d0922;
-  color:#335e8d;
-  font-family: monospace;
-  border-bottom-style: none;
-  border: none;
-  cursor: pointer;
-  width: fit-content;
+.clients{
+  font-size: 15px;
+  max-height: 110px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.btn-txt1 {
   color: #4b890a;
+}
+
+.btn-txt2 {
+  color: white;
+}
+
+.btn-txt3 {
+  color: #335a9e;
+}
+
+.btn-txt4 {
+  color: white;
+}
+
+.btn-txt1, .btn-txt2, .btn-txt3, .btn-txt4, .btn-nickName, .nickName
+{
+  font-family: monospace;
+  display:inline;
   font-weight: bold;
   color: '#bd9b04';
-  font-size: 20px;
+  font-size: 15px;
+  margin: 0 0 0 0;
+  padding: 0;
 }
 
 ::placeholder {
   color: #335a9e;
-  opacity: 1; /* Firefox */
+  opacity: 1;
 }
 
 .nickName {
-  border-style: none;
-  display:inline-block;
-  color: #335a9e;
   background-color: #2d0922;
   border: 0px solid #2d0922;
-  font-family: monospace;
-  font-weight: bold;
-  color: '#bd9b04';
-  font-size: 20px;
+  border-style: none;
+  color: white;
   outline: none;
+  width: fit-content;
+}
+
+.btn-nickName {
+  background: #2d0922;
+  border-bottom-style: none;
+  border: none;
+  cursor: pointer;
+  color: #4b890a;
   width: fit-content;
 }

@@ -17,10 +17,10 @@ module.exports = (io) => io.on('connection', async (socket) => {
   sendNickNameListFromAllUsers(io);
 
   /* QUNADO O USUÁRIO MUDA O NOME DO NICK */
-  socket.on('nickName', async (nickName) => {
-    await updateNickName(socket.id, nickName);
-    await sendUserNickName(socket, socket.id);
-    await sendNickNameListFromAllUsers(io);
+  socket.on('nickName', (nickName) => {
+    updateNickName(socket.id, nickName);
+    sendUserNickName(socket, socket.id);
+    sendNickNameListFromAllUsers(io);
   });
 
   /* QUANDO UM USUÁRIO ENVIA UMA MENSAGEM */
