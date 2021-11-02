@@ -1,7 +1,10 @@
 const express = require('express');
 const moment = require('moment');
+
 const app = express();
+
 const http = require('http').createServer(app);
+
 moment.locale();
 const port = 3000;
 app.set('view engine', 'ejs');
