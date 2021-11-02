@@ -11,11 +11,14 @@
 
 <body>
     <h1> Webchat</h1>
-    <h2 id="online-user" data-testid="online-user">Username</h2>
+    <h2 class="online-user"></h2>
     <form>
         <input id="input-nickname" type="text" data-testid="nickname-box" placeholder="Enter a nickname">
         <button id="btn-save-nickname" type="text" data-testid="nickname-button">Salvar apelido</button>
     </form>
+    <ul id="online-users" style="border: 1px solid; width: 40%; height: 200px;">
+
+    </ul>
     <div style="display:flex;">
 
         <ul id="messages" style="border: 1px solid; width: 40%; height: 200px;">
@@ -34,6 +37,8 @@
         const inputMessage = document.querySelector('#input-message');
         const ulMessages = document.querySelector('#messages');
         const onlineUser = document.querySelector('#online-user');
+        const onlineUsers = document.querySelector('#online-users');
+        const h2OnlineUser = document.querySelector('.online-user');
 
         const createLi = (data, dataTestId, parent) => {
             const li = document.createElement('li');
@@ -45,13 +50,12 @@
 
         socket.on('userConnected', (id) => {
             const nicknameWith16caracteres = id.substring(0, 16);
-            onlineUser.innerText = nicknameWith16caracteres;
+            h2OnlineUser.innerText = nicknameWith16caracteres;
         });
 
         socket.on('messages', (messages) => {
-            messages.forEach(({ message, nickname, timestamp }) => {
-                const string = `${timestamp} - ${nickname}: ${message}`;
-                createLi(string, "message", ulMessages);
+            messages.forEach((message) => {
+                createLi(message, "message", ulMessages);
             });
         });
 
@@ -59,15 +63,31 @@
             createLi(data, "message", ulMessages);
         });
 
+        socket.on('users', (users) => {
+            onlineUsers.textContent = '';
+            const actualUser = h2OnlineUser.textContent;
+            createLi(actualUser, "online-user", onlineUsers);
+            users.forEach((user) => {
+                if (user.nickname !== actualUser) {
+                    createLi(user.nickname, "online-user", onlineUsers);
+                }
+            });
+        });
+
+        window.onbeforeunload = () => {
+            socket.disconnect();
+        };
+
         const saveNickname = (e) => {
             e.preventDefault();
-            onlineUser.innerText = inputNickname.value;
+            h2OnlineUser.innerHTML = inputNickname.value;
+            socket.emit('saveNickname', inputNickname.value);
         }
 
         const sendMessage = (e) => {
             e.preventDefault();
             const chatMessage = inputMessage.value;
-            const nickname = onlineUser.innerText;
+            const nickname = h2OnlineUser.innerText;
             socket.emit('message', { chatMessage, nickname });
         };
 
