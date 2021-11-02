@@ -79,7 +79,7 @@
 
 @media screen and ( max-width : 600px ) {
 
-  .liMessage , .btn-msg , .btn-input1 , .btn-input2 , .btn-input3 , 
+  .liMessage , .btn-msg , .btn-input1 , .btn-input2 , .btn-input3
   .btn-input4 , .messageInput {
     font-size: 10px;
   }
