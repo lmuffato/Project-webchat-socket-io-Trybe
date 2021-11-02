@@ -32,7 +32,7 @@ form button {
   width: 9%;
 }
 
-#messages {
+/* #messages {
   list-style-type: none;
 }
 
@@ -42,4 +42,4 @@ form button {
 
 #messages li:nth-child( odd ) {
   background: #eee;
-}
+} */
