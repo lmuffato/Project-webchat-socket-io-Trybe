@@ -11,12 +11,16 @@ const chatMessages = document.getElementById('message-list');
 
 let savedName;
 
-const createUser = (name) => {
-  const userLi = document.createElement('li');
-  userLi.innerText = name;
-  userLi.className = 'user-li';
-  userLi.dataset.testid = 'online-user';
-  userList.appendChild(userLi);
+const createUser = (allUsers, current) => {
+  userList.innerHTML = '';
+  allUsers.forEach((user) => {
+    const userLi = document.createElement('li');
+    userLi.innerText = user;
+    userLi.dataset.testid = 'online-user';
+      if (current && (user === current)) {
+        userList.prepend(userLi);
+      } else { userList.appendChild(userLi); }
+  });
 };
 
 const createMessage = async (msg) => {
@@ -42,15 +46,16 @@ userForm.addEventListener('submit', (event) => {
   return false;
 });
 
-socket.on('new-user', (name) => {
+socket.on('new-user', (name, current) => {
   savedName = (name);
-  createUser(name);
+  createUser(name, current);
 });
 
 socket.on('get-messages', (arrayMessages) => {
   arrayMessages.forEach((message) => createMessage(message));
 });
 
-socket.on('new-connection', (name) => createUser(name));
+socket.on('new-connection', (name, currentUser) => createUser(name, currentUser));
+socket.on('disconnected', (name) => createUser(name));
 
 socket.on('message', (msg) => createMessage(msg));
