@@ -20,6 +20,10 @@ io.on('connection', (socket) => {
   console.log(`O Cliente ${socket.id} se conectou`);
 
   socket.emit('initialNickname', (socket.id));
+
+  socket.on('message', ({ chatMessage, nickname }) => {
+    io.emit('sendMessage', { chatMessage, nickname });
+  });
 });
 
 app.get('/', chatController.getHistory);
