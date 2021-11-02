@@ -6,9 +6,23 @@
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <ul class='messages'></ul>
-  <input type="text" id="message-input">
-  <button class='sendButton'>Enviar</button>
+  <section>Usuários online:
+    <ul id="online-users">
+      <% clients.forEach(({ id, nickname }) => { %>
+        <li id="<%= id %>" data-testid="online-user"><%= nickname || id %></li>
+      <% }) %>
+    </ul>
+    <input type="text" id="nickname-input" data-testid="nickname-box">
+    <button id='nickname-button' data-testid="nickname-button">Mudar</button>
+  </section>
+  <section>Mensagens
+    <ul id='messages'></ul>
+    <input type="text" id="message-input" data-testid="message-box" >
+    <button id='send-button' data-testid="send-button">Enviar</button>
+  </section>
   <script src="/script.js"></script>
 </body>
 </html> 
+
+
+<!-- https://www.treinaweb.com.br/blog/utilizando-template-engine-ejs-com-node-js -->
