@@ -63,7 +63,8 @@ body {
 
 @media screen and ( max-width : 600px ) {
 
-  .liClient , .title1 , .title2 , .usersCount , .label-nickname1 , .label-nickname2 , .label-nickname3 , .label-nickname4 {
+  .liClient , .title1 , .title2 , .usersCount , .label-nickname1 ,
+    .label-nickname2 , .label-nickname3 , .label-nickname4 {
     font-size: 10px;
   }
 }
