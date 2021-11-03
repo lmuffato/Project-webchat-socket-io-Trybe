@@ -27,7 +27,7 @@ const users = {};
 
 // conecta o front, o server e o socket
 io.on('connection', (socket) => { 
-  users[socket.id] = socket.id.slice(1, 17);
+  users[socket.id] = socket.id.slice(0, 16);
   socket.on('message', ({ chatMessage, nickname }) => {
     io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
   });
@@ -35,9 +35,8 @@ io.on('connection', (socket) => {
     users[socket.id] = nickname;
     io.emit('allUsers', Object.values(users));
   });
+  io.emit('allUsers', Object.values(users));
 });
-
-io.emit('allUsers', Object.values(users));
 
 app.get('/', (_req, res) => res.render('chat/index'));
 

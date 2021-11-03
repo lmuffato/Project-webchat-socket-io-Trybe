@@ -6,7 +6,7 @@ const chatMsgUl = document.querySelector('.msg__list');
 const dataTestId = 'data-testid';
 const nickName = document.querySelector('.nick__name');
 const nickBtn = document.querySelector('.nick__btn');
-const nickBox = document.querySelector('nick__box');
+const nickBox = document.querySelector('.nick__box');
 let NICK = '';
 
 const listMsg = (msg) => {
@@ -18,7 +18,7 @@ const listMsg = (msg) => {
 
 sendMsg.addEventListener('click', (event) => {
   event.preventDefault();
-  const nickname = NICK || socket.id.slice(1, 17);
+  const nickname = NICK || socket.id.slice(0, 16);
   socket.emit('message', { chatMessage: msgInput.value, nickname });
   msgInput.value = '';
 });
@@ -36,18 +36,18 @@ nickBtn.addEventListener('click', (event) => {
 });
 
 const usersList = (users) => {
+  console.log(users);
   nickBox.innerHTML = '';
   users.forEach((user) => {
     const li = document.createElement('li');
-    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute(dataTestId, 'online-user');
     li.innerText = user;
     nickBox.appendChild(li);
   });
 };
 
-socket.on('allUsers', (users) => usersList(users));
-
 socket.on('message', (chatMessage) => listMsg(chatMessage));
+socket.on('allUsers', (users) => usersList(users));
 
 // window.io - serve para chamar o io dentro do script
 // os arquivos públicos servem para que todos os clients tenham acesso ao chat
