@@ -6,9 +6,14 @@
   </head>
   <body>
     <h1>Public Chat</h1>
+    <span id="socketId" data-testid="online-user"></span>
+    <form>
+      <input id="nicknameInput" type="text" autocomplete="off" placeholder=" altere o seu nickname aqui" data-testid="nickname-box"/>
+      <button id="changeNickname" type="submit" data-testid="nickname-button">Trocar</button>
+    </form>
     <form id='form'>
-      <input id="messageInput" autocomplete="off" placeholder="Insira a sua mensagem aqui" />
-      <button type="button" class="messageInput">Enviar</button>
+      <input id="messageInput" type="text" autocomplete="off" placeholder="Insira a sua mensagem aqui" data-testid="message-box" />
+      <button type="submit" class="messageInput" data-testid="send-button">Enviar</button>
     </form>
     <ul id="messages"></ul>
     <script src='/chat.js'></script>
