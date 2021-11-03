@@ -46,8 +46,18 @@ const usersList = (users) => {
   });
 };
 
+const renderMessageDB = (mongo) => {
+  mongo.forEach(({ timestamp, nickname, chatMessage }) => {
+  const li = document.createElement('li');
+  li.innerText = `${timestamp} - ${nickname} : ${chatMessage}`;
+  li.setAttribute(dataTestId, 'message');
+  chatMsgUl.appendChild(li);
+});
+};
+
 socket.on('message', (chatMessage) => listMsg(chatMessage));
 socket.on('allUsers', (users) => usersList(users));
+socket.on('memoryMsg', (mongo) => renderMessageDB(mongo));
 
 // window.io - serve para chamar o io dentro do script
 // os arquivos públicos servem para que todos os clients tenham acesso ao chat

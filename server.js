@@ -7,6 +7,7 @@ const path = require('path');
 
 const app = express();
 const http = require('http').createServer(app);
+const { getMessage, getAllMessages } = require('./models/chat');
 
 // ------------------------------------------------------------------------------------------//
 
@@ -26,20 +27,22 @@ const io = new Server(http, {
 const users = {};
 
 // conecta o front, o server e o socket
-io.on('connection', (socket) => { 
+io.on('connection', async (socket) => { 
   users[socket.id] = socket.id.slice(0, 16);
-  socket.on('message', ({ chatMessage, nickname }) => {
+  socket.on('message', async ({ chatMessage, nickname }) => {
     io.emit('message', `${timestamp} - ${nickname} : ${chatMessage}`);
+    await getMessage({ timestamp, nickname, chatMessage });
   });
   socket.on('newUser', (nickname) => {
     users[socket.id] = nickname;
     io.emit('allUsers', Object.values(users));
   });
   io.emit('allUsers', Object.values(users));
+  
+  io.emit('memoryMsg', await getAllMessages());
 });
 
 app.get('/', (_req, res) => res.render('chat/index'));
-
 // ------------------------------------------------------------------------------------------//
 
 const PORT = process.env.PORT || 3000;
