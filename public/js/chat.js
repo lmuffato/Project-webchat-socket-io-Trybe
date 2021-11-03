@@ -1,5 +1,12 @@
 const socket = window.io();
 
+const createNameFromId = (socketId) => {
+  const name = socketId.split('')
+    .splice(socketId.length - 16)
+    .join('');
+  return name;
+};
+
 const userForm = document.getElementById('new-user-form');
 const userInput = document.getElementById('new-user-input');
 const userList = document.getElementById('users-list');
@@ -11,14 +18,14 @@ const chatMessages = document.getElementById('message-list');
 
 let savedName;
 
-const createUser = (allUsers, current) => {
-  console.log(allUsers, current, savedName);
+const createUser = (allUsers) => {
   userList.innerHTML = '';
+  const current = (savedName || createNameFromId(socket.id));
   allUsers.forEach((user) => {
     const userLi = document.createElement('li');
     userLi.innerText = user;
     userLi.dataset.testid = 'online-user';
-      if (current && (user === current)) {
+      if (user === current) { 
         userList.prepend(userLi);
       } else { userList.appendChild(userLi); }
   });
@@ -33,6 +40,7 @@ const createMessage = async (msg) => {
 
 textForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  console.log(savedName);
   const nickname = savedName;
   const chatMessage = chatText.value;
   socket.emit('message', { chatMessage, nickname });
@@ -42,21 +50,19 @@ textForm.addEventListener('submit', (event) => {
 
 userForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  savedName = userInput.value;
   socket.emit('save-user', userInput.value);
   userInput.value = '';
   return false;
 });
 
-socket.on('new-user', (name, current) => {
-  savedName = (name);
-  createUser(name, current);
-});
+socket.on('new-user', (name) => createUser(name));
 
 socket.on('get-messages', (arrayMessages) => {
   arrayMessages.forEach((message) => createMessage(message));
 });
 
-socket.on('new-connection', (name, currentUser) => createUser(name, currentUser));
-socket.on('disconnected', (name, current) => createUser(name, current));
+socket.on('new-connection', (name) => createUser(name));
+socket.on('disconnected', (name) => createUser(name));
 
 socket.on('message', (msg) => createMessage(msg));
