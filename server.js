@@ -13,22 +13,26 @@ const io = require('socket.io')(http, {
     methods: ['GET', 'POST'],
   },
 });
+ const histController = require('./controller/histController');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.use(express.static(path.join(__dirname, 'chat')));
+
 app.get('/', (req, res) => {
-  res.status(200).render('chat');
+  res.render('chat');
 });
 
-const timeNow = moment().format('DD-MM-YYYY hh:mm:ss');
 io.on('connection', (socket) => {
   console.log('ihhh foi conectado');
+  socket.emit('onlineUser', socket.id.slice(0, 16));
   socket.on('message', ({ chatMessage, nickname }) => {
+    const timeNow = moment().format('DD-MM-YYYY hh:mm:ss');
     io.emit('message', `${timeNow} - ${nickname} - ${chatMessage}`);
   });
 });
 
-app.use(express.static(path.join(__dirname, 'chat')));
+app.get('/hist', histController.getAll);
 
 http.listen(port, () => console.log(`Example app listening on ${port}!`));
