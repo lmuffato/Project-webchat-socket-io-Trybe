@@ -36,12 +36,15 @@ nickBtn.addEventListener('click', (event) => {
 });
 
 const usersList = (users) => {
-  console.log(users);
+  const firstNick = socket.id.slice(0, 16);
   nickBox.innerHTML = '';
   users.forEach((user) => {
     const li = document.createElement('li');
     li.setAttribute(dataTestId, 'online-user');
     li.innerText = user;
+    if (user === NICK || user === firstNick) {
+      return nickBox.prepend(li);
+    }
     nickBox.appendChild(li);
   });
 };
@@ -58,6 +61,7 @@ const renderMessageDB = (mongo) => {
 socket.on('message', (chatMessage) => listMsg(chatMessage));
 socket.on('allUsers', (users) => usersList(users));
 socket.on('memoryMsg', (mongo) => renderMessageDB(mongo));
+socket.on('nickon', (users) => usersList(users));
 
 // window.io - serve para chamar o io dentro do script
 // os arquivos públicos servem para que todos os clients tenham acesso ao chat

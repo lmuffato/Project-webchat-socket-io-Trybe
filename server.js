@@ -40,6 +40,11 @@ io.on('connection', async (socket) => {
   io.emit('allUsers', Object.values(users));
   
   io.emit('memoryMsg', await getAllMessages());
+
+  socket.on('disconnect', () => {
+    delete users[socket.id];
+    io.emit('nickon', Object.values(users));
+  });
 });
 
 app.get('/', (_req, res) => res.render('chat/index'));
@@ -54,3 +59,5 @@ http.listen(PORT, () => {
 // http: cria o servidor, poder usar na mesma porta o back e o front
 // createServer(app): conecta o client e o servidor para trabalharem juntos
 // cors: conexão e método
+
+// IMPORTANTE: esse projeto foi realizado com o auxílio dos maravilhosos Guilherme Dronelles e Anderson Nascimento  🤍  
