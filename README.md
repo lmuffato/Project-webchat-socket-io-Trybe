@@ -1,3 +1,15 @@
+### Update: Aplicação pronta e personalizada - Lucas Muffato
+
+<div>
+<img src='./web-chat-terminal-animated.gif' height='500px'>
+</div>
+
+### Link para o respositório personalizado
+https://github.com/lmuffato/web-chat-terminal-ubunto
+
+### Link para a aplicação online
+https://webchat-terminal.herokuapp.com
+
 ### Termos e acordos
 
 Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
